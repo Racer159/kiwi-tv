@@ -1,4 +1,5 @@
-﻿using Kiwi_TV.Models;
+﻿using Kiwi_TV.Logic;
+using Kiwi_TV.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,7 +47,7 @@ namespace Kiwi_TV.Views
 
             if (e.Parameter is bool)
             {
-                ChannelList = await Library.LoadChannels((bool)e.Parameter);
+                ChannelList = await FileManager.LoadChannels((bool)e.Parameter);
                 ChannelList.Sort();
                 if ((bool)e.Parameter)
                 {
@@ -118,7 +119,7 @@ namespace Kiwi_TV.Views
         {
             if (sender is CheckBox)
             {
-                List<Channel> TempList = await Library.LoadChannels(false);
+                List<Channel> TempList = await FileManager.LoadChannels(false);
                 
                 foreach (Channel c in TempList)
                 {
@@ -128,7 +129,7 @@ namespace Kiwi_TV.Views
                     }
                 }
 
-                await Library.SaveChannels(TempList);
+                await FileManager.SaveChannels(TempList);
             }
         }
 

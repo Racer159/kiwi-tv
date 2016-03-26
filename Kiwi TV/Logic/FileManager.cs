@@ -1,14 +1,12 @@
 ﻿using Kiwi_TV.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Kiwi_TV
+namespace Kiwi_TV.Logic
 {
-    class Library
+    class FileManager
     {
         public async static Task<List<Channel>> LoadChannels(bool favorite)
         {

@@ -98,12 +98,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Library.cs" />
-    <Compile Include="Mailer.cs" />
+    <Compile Include="Logic\FileManager.cs" />
+    <Compile Include="Logic\Mailer.cs" />
+    <Compile Include="Logic\TwitchAPI.cs" />
+    <Compile Include="Logic\WebserviceHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\TwitchAPI\AccessToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Channels.xaml.cs">
       <DependentUpon>Channels.xaml</DependentUpon>

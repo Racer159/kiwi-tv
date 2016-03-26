@@ -1,4 +1,6 @@
-﻿using Kiwi_TV.Models;
+﻿using Kiwi_TV.Logic;
+using Kiwi_TV.Models;
+using Kiwi_TV.Models.TwitchAPI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,15 +41,20 @@ namespace Kiwi_TV.Views
             // ABC MainPlayer.Source = new Uri("http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8?sd=10&b=1200&rebase=on");
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is Channel)
             {
-                MainPlayer.Source = ((Channel)e.Parameter).Source;
-            }
-            else
-            {
-                MainPlayer.Source = new Uri("http://tvegolf-i.akamaihd.net/hls/live/218225/golfx/2596k/prog.m3u8"); // DO NOT USE IN FINAL APP
+                Channel c = (Channel)e.Parameter;
+                if (c.Type == "twitch")
+                {
+                    AccessToken token = await TwitchAPI.RetireveAccessToken(TwitchAPI.GetChannelNameFromURL(c.Source.AbsolutePath));
+                    MainPlayer.Source = new Uri(c.Source, "?allow_source=true&token=" + Uri.EscapeDataString(token.Token.Replace("\\", "")) + "&sig=" + Uri.EscapeDataString(token.Signature));
+                }
+                else
+                {
+                    MainPlayer.Source = c.Source;
+                }
             }
 
             MainPlayer.Play();

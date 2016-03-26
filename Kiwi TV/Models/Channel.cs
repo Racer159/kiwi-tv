@@ -20,15 +20,18 @@ namespace Kiwi_TV.Models
         public bool Favorite { get { return _favorite; } set { _favorite = value; } }
         public string _genre;
         public string Genre { get { return _genre; } }
+        public string _type;
+        public string Type { get { return _type; } }
 
-        public Channel(string name, string icon, string source, List<String> languages, bool favorite, string genre)
+        public Channel(string name, string icon, string source, List<String> languages, bool favorite, string genre, string type)
         {
             this._name = name;
             this._icon = icon;
             this._source = new Uri(source);
-            this._languages = new List<String>();
+            this._languages = languages;
             this._favorite = favorite;
             this._genre = genre;
+            this._type = type;
         }
 
         public Channel(string name, string source)
@@ -39,6 +42,7 @@ namespace Kiwi_TV.Models
             this._languages = new List<String>();
             this._favorite = false;
             this._genre = "Other";
+            this._type = "iptv";
         }
 
         public int CompareTo(Channel other)

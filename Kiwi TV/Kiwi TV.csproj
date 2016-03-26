@@ -131,12 +131,13 @@
     <Content Include="Data\ChannelIcons\dwamerika.png" />
     <Content Include="Data\ChannelIcons\dwarabia.png" />
     <Content Include="Data\ChannelIcons\dwdeutsch.png" />
-    <Content Include="Data\ChannelIcons\dwlatinomerica.png" />
+    <Content Include="Data\ChannelIcons\dwlatinoamerica.png" />
     <Content Include="Data\ChannelIcons\euronews.png" />
     <Content Include="Data\ChannelIcons\jupiterbroadcasting.png" />
     <Content Include="Data\ChannelIcons\nasatv.png" />
     <Content Include="Data\ChannelIcons\russianmusicbox.png" />
     <Content Include="Data\ChannelIcons\russiatoday.png" />
+    <Content Include="Data\ChannelIcons\test.png" />
     <Content Include="Data\channels.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

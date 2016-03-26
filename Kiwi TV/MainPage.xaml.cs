@@ -56,9 +56,6 @@ namespace Kiwi_TV
 
         private void ContentView_Navigated(object sender, NavigationEventArgs e)
         {
-            AddChannelButton.Visibility = Visibility.Collapsed;
-            LanguagesBox.Visibility = Visibility.Collapsed;
-            SearchBox.Visibility = Visibility.Collapsed;
             NavPane.DisplayMode = SplitViewDisplayMode.CompactOverlay;
             NavPane.IsPaneOpen = false;
 
@@ -81,7 +78,6 @@ namespace Kiwi_TV
             }
             else if (e.SourcePageType == typeof(Views.Channels))
             {
-                SearchBox.Visibility = Visibility.Visible;
                 if (e.Parameter is bool && (bool)e.Parameter)
                 {
                     TitleText.Text = "Favorites";
@@ -89,8 +85,6 @@ namespace Kiwi_TV
                 else
                 {
                     TitleText.Text = "All Channels";
-                    AddChannelButton.Visibility = Visibility.Visible;
-                    LanguagesBox.Visibility = Visibility.Visible;
                 }
             }
             else if (e.SourcePageType == typeof(Views.Feedback))
@@ -101,11 +95,6 @@ namespace Kiwi_TV
             {
                 TitleText.Text = "Settings";
             }
-        }
-
-        private void AddChannelButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

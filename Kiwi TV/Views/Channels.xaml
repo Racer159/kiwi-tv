@@ -8,6 +8,24 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0">
+            <ComboBox x:Name="LanguagesBox" Height="32" Margin="0,8,5,0" Width="140" SelectionChanged="LanguagesBox_SelectionChanged">
+                <ComboBoxItem IsSelected="True">All Languages</ComboBoxItem>
+                <ComboBoxItem>English</ComboBoxItem>
+                <ComboBoxItem>French</ComboBoxItem>
+                <ComboBoxItem>Spanish</ComboBoxItem>
+                <ComboBoxItem>German</ComboBoxItem>
+                <ComboBoxItem>Russian</ComboBoxItem>
+                <ComboBoxItem>Arabic</ComboBoxItem>
+            </ComboBox>
+            <TextBox x:Name="SearchBox" Height="32" Margin="0,8,5,0" Width="150" PlaceholderText="Search" VerticalAlignment="Top" TextAlignment="Left" TextChanged="SearchBox_TextChanged"></TextBox>
+            <AppBarButton Name="AddChannelButton" FontFamily="Segoe MDL2 Assets" Click="AddChannelButton_Click" Width="48" Height="48" FontSize="16">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE710;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
         <ScrollViewer Grid.Row="1" Margin="20" BorderThickness="0">
             <StackPanel>
                 <TextBlock Name="NoContentHeader" Text="No favorites found, try adding some from the channel list to get started." Visibility="Collapsed"/>
@@ -15,9 +33,9 @@
                 <GridView Name="NewsChannelsListView" SelectionChanged="ChannelsListView_SelectionChanged" Visibility="Collapsed">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="100" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                <Image Source="{Binding Icon}" Width="100" Height="100" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" Margin="72,0,0,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
+                            <Grid MinWidth="100" MinHeight="100" MaxWidth="200" MaxHeight="200" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-95,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -26,9 +44,9 @@
                 <GridView Name="SciTechChannelsListView" SelectionChanged="ChannelsListView_SelectionChanged" Visibility="Collapsed">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="100" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                <Image Source="{Binding Icon}" Width="100" Height="100" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" Margin="72,0,0,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
+                            <Grid MinWidth="100" MinHeight="100" MaxWidth="200" MaxHeight="200" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-95,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -37,9 +55,9 @@
                 <GridView Name="SportsChannelsListView" SelectionChanged="ChannelsListView_SelectionChanged" Visibility="Collapsed">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="100" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                <Image Source="{Binding Icon}" Width="100" Height="100" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" Margin="72,0,0,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
+                            <Grid MinWidth="100" MinHeight="100" MaxWidth="200" MaxHeight="200" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-95,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -48,9 +66,9 @@
                 <GridView Name="EntertainmentChannelsListView" SelectionChanged="ChannelsListView_SelectionChanged" Visibility="Collapsed">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="100" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                <Image Source="{Binding Icon}" Width="100" Height="100" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" Margin="72,0,0,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
+                            <Grid MinWidth="100" MinHeight="100" MaxWidth="200" MaxHeight="200" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-95,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -59,9 +77,9 @@
                 <GridView Name="KidsChannelsListView" SelectionChanged="ChannelsListView_SelectionChanged" Visibility="Collapsed">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="100" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                <Image Source="{Binding Icon}" Width="100" Height="100" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" Margin="72,0,0,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
+                            <Grid MinWidth="100" MinHeight="100" MaxWidth="200" MaxHeight="200" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-95,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -70,9 +88,9 @@
                 <GridView Name="OtherChannelsListView" SelectionChanged="ChannelsListView_SelectionChanged" Visibility="Collapsed">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="100" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                <Image Source="{Binding Icon}" Width="100" Height="100" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" Margin="72,0,0,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
+                            <Grid MinWidth="100" MinHeight="100" MaxWidth="200" MaxHeight="200" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-95,0" Click="FavoriteCheckBox_Checked" Tag="{Binding Name}"></CheckBox>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>

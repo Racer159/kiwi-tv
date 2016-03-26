@@ -18,7 +18,7 @@ namespace Kiwi_TV
             IStorageItem channelsItem = await currentFolder.TryGetItemAsync("channels.txt");
             StorageFile channelsFile;
 
-            if (true) //channelsItem == null || !(channelsItem is StorageFile))
+            if (true)//channelsItem == null || !(channelsItem is StorageFile))
             {
                 channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteLinesAsync(channelsFile, System.IO.File.ReadAllLines("Data/channels.txt"));
@@ -35,19 +35,19 @@ namespace Kiwi_TV
                 {
                     if (lines[i].StartsWith("#EXTINF:"))
                     {
-                        string[] data = lines[i].Split(',')[1].Trim().Split('|');
-                        if (data.Length == 5)
+                        string[] data = lines[i].Split(',');
+                        if (data.Length == 7)
                         {
                             List<String> langs = new List<String>();
-                            langs.AddRange(data[1].Split('-'));
-                            if (!favorite || data[3] == "y")
+                            langs.AddRange(data[2].Trim().Split('-'));
+                            if (!favorite || data[4] == "y")
                             {
-                                allChannels.Add(new Channel(data[0], data[2], lines[i + 1].Trim(), langs, data[3] == "y", data[4]));
+                                allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), data[6].Trim()));
                             }
                         }
                         else if (data.Length > 0)
                         {
-                            allChannels.Add(new Channel(data[0], lines[i + 1].Trim()));
+                            allChannels.Add(new Channel(data[1].Trim(), lines[i + 1].Trim()));
                         }
                     }
                 }
@@ -64,7 +64,7 @@ namespace Kiwi_TV
             foreach (Channel c in channels)
             {
                 //Name
-                file += "#EXTINF:0, " + c.Name + "|";
+                file += "#EXTINF:0, " + c.Name + ", ";
                 //Languages
                 for (int i = 0; i < c.Languages.Count; i++)
                 {
@@ -72,11 +72,13 @@ namespace Kiwi_TV
                     if (i < c.Languages.Count - 1) { file += "-"; }
                 }
                 //Icon
-                file += "|" + c.Icon + "|";
+                file += ", " + c.Icon + ", ";
                 //Favorite
                 if (c.Favorite) { file += "y";  } else { file += "n"; }
                 //Genre
-                file += "|" + c.Genre + "\n";
+                file += ", " + c.Genre + ", ";
+                //Type
+                file += c.Type + "\n";
                 //Source
                 file += c.Source + "\n\n";
             }

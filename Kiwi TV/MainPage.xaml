@@ -17,7 +17,7 @@
 
     <Grid>
         <Grid>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Background="{ThemeResource AppBarBackgroundThemeBrush}">
                 <AppBarButton Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Click="HamburgerButton_Click" Width="48" Height="48"
                           Style="{StaticResource HamburgerButtonStyle}"
                           HorizontalAlignment="Left" VerticalAlignment="Top" >
@@ -31,7 +31,7 @@
 
         <SplitView x:Name="NavPane" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                 CompactPaneLength="48" OpenPaneLength="200" Margin="0,48,0,0" 
-                PaneBackground="{ThemeResource NavPaneBackgroundBrush}">
+                PaneBackground="{ThemeResource NavPaneBackgroundBrush}" Background="{StaticResource ApplicationFrameBackgroundBrush}">
             <SplitView.Pane>
                 <Grid>
                     <StackPanel VerticalAlignment="Top">

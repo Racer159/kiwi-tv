@@ -11,11 +11,25 @@ namespace Kiwi_TV.Logic
 {
     class TwitchAPI
     {
-        public async static Task<AccessToken> RetireveAccessToken(string channelName)
+        public async static Task<TwitchAccessToken> RetireveAccessToken(string channelName)
         {
-            object response = await WebserviceHelper.MakeRequest("http://api.twitch.tv/api/channels/" + channelName + "/access_token");
-            AccessToken token = response as AccessToken;
+            object response = await WebserviceHelper.MakeRequest("http://api.twitch.tv/api/channels/" + channelName + "/access_token", typeof(TwitchAccessToken));
+            TwitchAccessToken token = response as TwitchAccessToken;
             return token;
+        }
+
+        public async static Task<TwitchStreamDesc> RetreiveStreamDescription(string channelName)
+        {
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/streams/" + channelName, typeof(TwitchStreamDesc));
+            TwitchStreamDesc streamDesc = response as TwitchStreamDesc;
+            return streamDesc;
+        }
+
+        public async static Task<TwitchChannel> RetreiveChannelDescription(string channelName)
+        {
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/channels/" + channelName, typeof(TwitchChannel));
+            TwitchChannel channelDesc = response as TwitchChannel;
+            return channelDesc;
         }
 
         public static string GetChannelNameFromURL(string videoUrl)

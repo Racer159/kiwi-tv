@@ -45,6 +45,17 @@ namespace Kiwi_TV.Models
             this._type = "iptv";
         }
 
+        public Channel()
+        {
+            this._name = "";
+            this._icon = "";
+            this._source = null;
+            this._languages = new List<String>();
+            this._favorite = false;
+            this._genre = "";
+            this._type = "";
+        }
+
         public int CompareTo(Channel other)
         {
             return this.Name.CompareTo(other.Name);

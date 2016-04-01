@@ -1,6 +1,6 @@
 ﻿#EXTM3U
 
-#EXTINF:0, NASA TV, English, ms-appx:///Data/ChannelIcons/nasatv.png, n, Sci/Tech, iptv
+#EXTINF:0, NASA TV, English, ms-appx:///Data/ChannelIcons/nasatv.png, n, Science/Technology, iptv
 http://nasatv-lh.akamaihd.net/i/NASA_101@319270/index_1000_av-p.m3u8
 
 #EXTINF:0, Russia Today, English, ms-appx:///Data/ChannelIcons/russiatoday.png, n, News, iptv
@@ -9,7 +9,7 @@ https://rt-a.akamaihd.net/ch_01@325605/320p.m3u8
 #EXTINF:0, Bloomberg, English, ms-appx:///Data/ChannelIcons/bloomberg.png, n, News, iptv
 http://cdn3.videos.bloomberg.com/btv/us/master.m3u8
 
-#EXTINF:0, Jupiter Broadcasting, English, ms-appx:///Data/ChannelIcons/jupiterbroadcasting.png, n, Sci/Tech, iptv
+#EXTINF:0, Jupiter Broadcasting, English, ms-appx:///Data/ChannelIcons/jupiterbroadcasting.png, n, Science/Technology, iptv
 http://jblive.videocdn.scaleengine.net/jb-live/play/jblive.stream/playlist.m3u8
 
 #EXTINF:0, Euro News, French, ms-appx:///Data/ChannelIcons/euronews.png, n, News, iptv
@@ -34,7 +34,7 @@ http://dwstream6-lh.akamaihd.net/i/dwstream6_live@123962/master.m3u8
 http://msk3.peers.tv/streaming/musboxru/16/tvrec/playlist.m3u8
 
 #EXTINF:0, Twitch Test, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, twitch
-http://usher.ttvnw.net/api/channel/hls/arteezy.m3u8
+http://usher.ttvnw.net/api/channel/hls/cryaotic.m3u8
 
 //#EXTINF:0, UStream Test, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, ustream
 //http://iphone-streaming.ustream.tv/uhls/4424524/streams/live/iphone/playlist.m3u8

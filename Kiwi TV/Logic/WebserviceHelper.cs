@@ -11,7 +11,7 @@ namespace Kiwi_TV.Logic
 {
     class WebserviceHelper
     {
-        public async static Task<object> MakeRequest(string requestUrl)
+        public async static Task<object> MakeRequest(string requestUrl, Type responseType)
         {
             try
             {
@@ -22,16 +22,14 @@ namespace Kiwi_TV.Logic
                     {
                         throw new Exception(String.Format("Server error (HTTP {0}: {1}).", response.StatusCode, response.StatusDescription));
                     }
-                    DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(AccessToken));
+                    DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(responseType);
                     object objResponse = jsonSerializer.ReadObject(response.GetResponseStream());
                     
-                    //Response jsonResponse = objResponse as Response;
                     return objResponse;
                 }
             }
-            catch (Exception e)
+            catch
             {
-                //Console.WriteLine(e.Message);
                 return null;
             }
         }

@@ -7,7 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../KiwiTVStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0">
+            <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" Height="32" Width="32" Margin="0,8,-40,0"  Click="FavoriteCheckBox_Click" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
+            <CheckBox x:Name="LiveCheckBox" IsChecked="False" VerticalAlignment="Top" Height="32" Width="32" Margin="0,8,-40,0"  Click="LiveCheckBox_Click" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
+        </StackPanel>
         <MediaElement x:Name="MainPlayer"></MediaElement>
     </Grid>
 </Page>

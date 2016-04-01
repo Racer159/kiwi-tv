@@ -16,7 +16,7 @@ namespace Kiwi_TV.Logic
             IStorageItem channelsItem = await currentFolder.TryGetItemAsync("channels.txt");
             StorageFile channelsFile;
 
-            if (true)//channelsItem == null || !(channelsItem is StorageFile))
+            if (channelsItem == null || !(channelsItem is StorageFile))
             {
                 channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteLinesAsync(channelsFile, System.IO.File.ReadAllLines("Data/channels.txt"));
@@ -38,7 +38,7 @@ namespace Kiwi_TV.Logic
                         {
                             List<String> langs = new List<String>();
                             langs.AddRange(data[2].Trim().Split('-'));
-                            if (!favorite || data[4] == "y")
+                            if (!favorite || data[4].Trim() == "y")
                             {
                                 allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), data[6].Trim()));
                             }
@@ -54,7 +54,7 @@ namespace Kiwi_TV.Logic
             return allChannels;
         }
 
-        public async static Task SaveChannels(List<Channel> channels)
+        private async static Task SaveChannels(List<Channel> channels)
         {
             StorageFolder currentFolder = ApplicationData.Current.LocalFolder;
             String file = "#EXTM3U\n\n";
@@ -83,6 +83,43 @@ namespace Kiwi_TV.Logic
 
             StorageFile channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
             await FileIO.WriteTextAsync(channelsFile, file);
+        }
+
+        public async static Task SaveFavorite(string channelName, bool favorited)
+        {
+            List<Channel> TempList = await LoadChannels(false);
+
+            foreach (Channel c in TempList)
+            {
+                if (c.Name == channelName)
+                {
+                    c.Favorite = favorited;
+                }
+            }
+
+            await FileManager.SaveChannels(TempList);
+        }
+
+        public static List<Category> LoadCategories(List<Channel> channels)
+        {
+            List<Category> categories = new List<Category>();
+
+            foreach (Channel c in channels)
+            {
+                Category cat = new Category(c.Genre);
+                int i = categories.BinarySearch(cat);
+                if (i < 0)
+                {
+                    cat.Channels.Add(c);
+                    categories.Add(cat);
+                }
+                else
+                {
+                    categories[i].Channels.Add(c);
+                }
+            }
+
+            return categories;
         }
     }
 }

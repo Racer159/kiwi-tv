@@ -95,6 +95,14 @@ namespace Kiwi_TV
             {
                 TitleText.Text = "Settings";
             }
+            else if (e.SourcePageType == typeof(Views.AddChannel))
+            {
+                TitleText.Text = "Add Channel";
+            }
+            else
+            {
+                TitleText.Text = "";
+            }
         }
     }
 }

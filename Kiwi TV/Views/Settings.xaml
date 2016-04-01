@@ -7,7 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Grid MaxWidth="750" HorizontalAlignment="Stretch">
+        <StackPanel Margin="5">
+            <!--TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" ></>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+            <TextBox x:Name="FeedbackBox" Height="200" Margin="10" PlaceholderText="Feedback..."></TextBox>
+            <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10"></Button-->
+            <TextBlock Text="Work in progress" />
+        </StackPanel>
     </Grid>
 </Page>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Kiwi_TV.Models.TwitchAPI
 {
     [DataContract]
-    class AccessToken
+    class TwitchAccessToken
     {
         [DataMember(Name = "token")]
         public string Token { get; set; }

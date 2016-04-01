@@ -5,6 +5,7 @@
 
     <SolidColorBrush x:Key="NavPaneBackgroundBrush" Color="#ff2b2b2b" />
     <SolidColorBrush x:Key="NavPaneForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ApplicationFrameBackgroundBrush" Color="#ffe6e6e6" />
 
     <SolidColorBrush x:Key="HamburgerBackgroundBrush" Color="#ffff6a00" />
     <SolidColorBrush x:Key="HamburgerPressedBackgroundBrush" Color="#ffff9042" />
@@ -263,6 +264,59 @@
                         		ContentTransitions="{TemplateBinding ContentTransitions}" />
                         </Grid>
                     </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FavoriteCheckBox" TargetType="CheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.5"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CheckFontIcon" Duration="0">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Color>Gray</Color>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CheckFontIcon" Duration="0">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Color>White</Color>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CheckFontIcon" Duration="0">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Color>Gold</Color>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <FontIcon Glyph="&#59189;" x:Name="CheckFontIcon" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" FontFamily="Segoe MDL2 Assets" Foreground="White" FontWeight="ExtraLight"/>
+                        <FontIcon Glyph="&#59188;" x:Name="CheckBackIcon" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" FontFamily="Segoe MDL2 Assets"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

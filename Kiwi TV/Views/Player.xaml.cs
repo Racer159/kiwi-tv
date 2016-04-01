@@ -26,39 +26,61 @@ namespace Kiwi_TV.Views
     /// </summary>
     public sealed partial class Player : Page
     {
+        Channel nowPlaying = new Channel();
+
         public Player()
         {
             this.InitializeComponent();
             
             MainPlayer.AreTransportControlsEnabled = true;
             MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/bars.png"));
-
-            // DW MainPlayer.Source = new Uri("http://dwstream4-lh.akamaihd.net/i/dwstream4_live@131329/master.m3u8");
-            // DW (Latinoamerica) MainPlayer.Source = new Uri("http://dwstream3-lh.akamaihd.net/i/dwstream3_live@124409/master.m3u8");
-            // DW (Arabia) MainPlayer.Source = new Uri("http://dwstream2-lh.akamaihd.net/i/dwstream2_live@124400/master.m3u8");
-            // DW (Amerika) MainPlayer.Source = new Uri("http://dwstream5-lh.akamaihd.net/i/dwstream5_live@124540/master.m3u8");
-            // DW (Deutsch) MainPlayer.Source = new Uri("http://dwstream6-lh.akamaihd.net/i/dwstream6_live@123962/master.m3u8");
+            
             // ABC MainPlayer.Source = new Uri("http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8?sd=10&b=1200&rebase=on");
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is Channel)
+            if (e.Parameter is Tuple<Channel, object>)
             {
-                Channel c = (Channel)e.Parameter;
-                if (c.Type == "twitch")
+                Tuple<Channel, object> parameter = (Tuple<Channel, object>)e.Parameter;
+                nowPlaying = parameter.Item1;
+                if (nowPlaying.Type == "twitch")
                 {
-                    AccessToken token = await TwitchAPI.RetireveAccessToken(TwitchAPI.GetChannelNameFromURL(c.Source.AbsolutePath));
-                    MainPlayer.Source = new Uri(c.Source, "?allow_source=true&token=" + Uri.EscapeDataString(token.Token.Replace("\\", "")) + "&sig=" + Uri.EscapeDataString(token.Signature));
+                    TwitchAccessToken token = await TwitchAPI.RetireveAccessToken(TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath));
+                    TwitchStreamDesc streamDesc = await TwitchAPI.RetreiveStreamDescription(TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath));
+                    if (streamDesc.Stream != null)
+                    {
+                        MainPlayer.Source = new Uri(nowPlaying.Source, "?allow_source=true&token=" + Uri.EscapeDataString(token.Token.Replace("\\", "")) + "&sig=" + Uri.EscapeDataString(token.Signature));
+                    }
+                    else
+                    {
+                        TwitchChannel channelDesc = await TwitchAPI.RetreiveChannelDescription(TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath));
+                        MainPlayer.PosterSource = new BitmapImage(new Uri(channelDesc.VideoBanner));
+                    }
                 }
                 else
                 {
-                    MainPlayer.Source = c.Source;
+                    MainPlayer.Source = nowPlaying.Source;
                 }
+
+                FavoriteCheckBox.IsChecked = nowPlaying.Favorite;
             }
 
             MainPlayer.Play();
             base.OnNavigatedTo(e);
+        }
+
+        private async void FavoriteCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox)
+            {
+                await FileManager.SaveFavorite(nowPlaying.Name, (bool)((CheckBox)sender).IsChecked);
+            }
+        }
+
+        private void LiveCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -83,6 +83,7 @@ namespace Kiwi_TV.Views
 
         private void RefreshChannelList(List<Channel> channelList, string search, string language)
         {
+            CategoryList.Clear();
             channelList = channelList.FindAll(delegate (Channel c) { return c.Name.ToLower().Contains(search); });
             if (!(language == "All Languages" || language == ""))
             {

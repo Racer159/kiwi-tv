@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kiwi_TV.Logic;
+using Kiwi_TV.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +27,14 @@ namespace Kiwi_TV.Views
         public AddChannel()
         {
             this.InitializeComponent();
+        }
+
+        private async void AddCustomButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> languages = new List<string>();
+            languages.Add((string)((ComboBoxItem)CustomCategory.SelectedItem).Content);
+            Channel newChannel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, (string)((ComboBoxItem)CustomCategory.SelectedItem).Content, "iptv", true);
+            await FileManager.AddChannel(newChannel);
         }
     }
 }

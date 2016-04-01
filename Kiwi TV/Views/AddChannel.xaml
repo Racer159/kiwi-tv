@@ -6,10 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../KiwiTVStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid MaxWidth="750" HorizontalAlignment="Stretch">
-        <StackPanel Margin="5">
-            <!--TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" ></>
+        <Pivot Name="MainPivot">
+            <PivotItem Header="Custom" Name="CustomPivotItem">
+            <StackPanel Margin="5">
+                <!--TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" ></>
             <StackPanel Orientation="Horizontal" Margin="10">
                 <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True"/>
                 <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -17,7 +27,50 @@
             </StackPanel>
             <TextBox x:Name="FeedbackBox" Height="200" Margin="10" PlaceholderText="Feedback..."></TextBox>
             <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10"></Button-->
-            <TextBlock Text="Work in progress" />
-        </StackPanel>
+                    <TextBlock Text="Add a channel from a custom source.  This can be any freely available .m3u8 or .mp4 stream on the internet." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
+                    <TextBlock Text="Preview:" FontWeight="Bold"/>
+                    <Grid Width="150" Height="150" Background="White" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                        <Image Name="CustomImage" Source="{Binding ElementName=CustomImageURL, Path=Text}"/>
+                        <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
+                        <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="CustomName" Margin="10" PlaceholderText="Channel Name"></TextBox>
+                        <ComboBox x:Name="CustomCategory" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="32">
+                            <ComboBoxItem IsSelected="True">Other</ComboBoxItem>
+                            <ComboBoxItem>News</ComboBoxItem>
+                            <ComboBoxItem>Science/Technology</ComboBoxItem>
+                            <ComboBoxItem>Sports</ComboBoxItem>
+                            <ComboBoxItem>Kids</ComboBoxItem>
+                            <ComboBoxItem>Gaming</ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox x:Name="CustomLanguage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="32">
+                            <ComboBoxItem IsSelected="True">English</ComboBoxItem>
+                            <ComboBoxItem>French</ComboBoxItem>
+                            <ComboBoxItem>Spanish</ComboBoxItem>
+                            <ComboBoxItem>German</ComboBoxItem>
+                            <ComboBoxItem>Russian</ComboBoxItem>
+                            <ComboBoxItem>Arabic</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <TextBox x:Name="CustomSourceURL" Margin="10" PlaceholderText="Video Source URL"></TextBox>
+                    <TextBox x:Name="CustomImageURL" Margin="10" PlaceholderText="Channel Logo URL"></TextBox>
+                    <Button x:Name="AddCustomButton" Content="Add Channel" HorizontalAlignment="Right" Margin="10" Click="AddCustomButton_Click"/>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Twitch" Name="TwitchPivotItem">
+                <StackPanel Margin="5">
+                    <!--TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" ></>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+            <TextBox x:Name="FeedbackBox" Height="200" Margin="10" PlaceholderText="Feedback..."></TextBox>
+            <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10"></Button-->
+                    <TextBlock Text="Add a channel from Twitch." />
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

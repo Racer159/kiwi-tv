@@ -102,6 +102,15 @@ namespace Kiwi_TV.Logic
             await FileManager.SaveChannels(TempList);
         }
 
+        public async static Task AddChannel(Channel channel)
+        {
+            List<Channel> TempList = await LoadChannels(false);
+
+            TempList.Add(channel);
+
+            await FileManager.SaveChannels(TempList);
+        }
+
         public static void LoadCategories(List<Channel> channels, ObservableCollection<Category> categoryList)
         {
 

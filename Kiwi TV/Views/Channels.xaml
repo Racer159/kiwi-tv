@@ -42,13 +42,14 @@
                         <DataTemplate>
                             <StackPanel>
                             <TextBlock Name="CategoryHeader" Text="{Binding Name}"/>
-                            <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Channels}">
+                                <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid MinWidth="100" MinHeight="100" MaxWidth="150" MaxHeight="150" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
                                             <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                            <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
-                                        </Grid>
+                                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
+                                                <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+                                            </Grid>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>

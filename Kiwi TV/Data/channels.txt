@@ -24,17 +24,20 @@ http://dwstream3-lh.akamaihd.net/i/dwstream3_live@124409/master.m3u8
 #EXTINF:0, DW (Arabia), Arabic, ms-appx:///Data/ChannelIcons/dwarabia.png, n, News, iptv
 http://dwstream2-lh.akamaihd.net/i/dwstream2_live@124400/master.m3u8
 
-#EXTINF:0, DW (Amerika), English, ms-appx:///Data/ChannelIcons/dwamerika.png, n, News, iptv
-http://dwstream5-lh.akamaihd.net/i/dwstream5_live@124540/master.m3u8
+//#EXTINF:0, DW (Amerika), English, ms-appx:///Data/ChannelIcons/dwamerika.png, n, News, iptv
+//http://dwstream5-lh.akamaihd.net/i/dwstream5_live@124540/master.m3u8
 
-#EXTINF:0, DW (Deutsch), German, ms-appx:///Data/ChannelIcons/dwdeutsch.png, n, News, iptv
-http://dwstream6-lh.akamaihd.net/i/dwstream6_live@123962/master.m3u8
+//#EXTINF:0, DW (Deutsch), German, ms-appx:///Data/ChannelIcons/dwdeutsch.png, n, News, iptv
+//http://dwstream6-lh.akamaihd.net/i/dwstream6_live@123962/master.m3u8
 
 #EXTINF:0, Russian Music Box, Russian, ms-appx:///Data/ChannelIcons/russianmusicbox.png, n, Entertainment, iptv
 http://msk3.peers.tv/streaming/musboxru/16/tvrec/playlist.m3u8
 
-#EXTINF:0, Twitch Test, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, twitch
+#EXTINF:0, Twitch Test1, English, ms-appx:///Data/ChannelIcons/test.png, n, Gaming, twitch
 http://usher.ttvnw.net/api/channel/hls/cryaotic.m3u8
+
+#EXTINF:0, Twitch Test2, English, ms-appx:///Data/ChannelIcons/test.png, n, Gaming, twitch
+http://usher.ttvnw.net/api/channel/hls/mlg.m3u8
 
 //#EXTINF:0, UStream Test, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, ustream
 //http://iphone-streaming.ustream.tv/uhls/4424524/streams/live/iphone/playlist.m3u8

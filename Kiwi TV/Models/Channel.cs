@@ -22,8 +22,10 @@ namespace Kiwi_TV.Models
         public string Genre { get { return _genre; } }
         public string _type;
         public string Type { get { return _type; } }
+        public bool _live;
+        public bool Live { get { return _live; } set { _live = value; } }
 
-        public Channel(string name, string icon, string source, List<String> languages, bool favorite, string genre, string type)
+        public Channel(string name, string icon, string source, List<String> languages, bool favorite, string genre, string type, bool live)
         {
             this._name = name;
             this._icon = icon;
@@ -32,6 +34,7 @@ namespace Kiwi_TV.Models
             this._favorite = favorite;
             this._genre = genre;
             this._type = type;
+            this._live = live;
         }
 
         public Channel(string name, string source)
@@ -43,6 +46,7 @@ namespace Kiwi_TV.Models
             this._favorite = false;
             this._genre = "Other";
             this._type = "iptv";
+            this._live = true;
         }
 
         public Channel()
@@ -54,6 +58,7 @@ namespace Kiwi_TV.Models
             this._favorite = false;
             this._genre = "";
             this._type = "";
+            this._live = true;
         }
 
         public int CompareTo(Channel other)

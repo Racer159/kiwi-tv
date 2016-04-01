@@ -32,6 +32,12 @@ namespace Kiwi_TV.Logic
             return channelDesc;
         }
 
+        public async static Task<bool> IsLive(string channelName)
+        {
+            TwitchStreamDesc streamDesc = await RetreiveStreamDescription(channelName);
+            return !(streamDesc.Stream == null);
+        }
+
         public static string GetChannelNameFromURL(string videoUrl)
         {
             return videoUrl.Split('/').Last().Split('.').First();

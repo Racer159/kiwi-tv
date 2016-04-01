@@ -68,9 +68,9 @@ namespace Kiwi_TV
                 FeedbackButton.IsChecked = false;
                 SettingsButton.IsChecked = false;
 
-                if (e.Parameter is Channel)
+                if (e.Parameter is Tuple<Channel,object>)
                 {
-                    TitleText.Text = ((Channel)e.Parameter).Name;
+                    TitleText.Text = ((Tuple<Channel, object>)e.Parameter).Item1.Name;
                 } else
                 {
                     TitleText.Text = "Now Playing";
@@ -97,6 +97,10 @@ namespace Kiwi_TV
             }
             else if (e.SourcePageType == typeof(Views.AddChannel))
             {
+                ChannelsButton.IsChecked = false;
+                FavoritesButton.IsChecked = false;
+                FeedbackButton.IsChecked = false;
+                SettingsButton.IsChecked = false;
                 TitleText.Text = "Add Channel";
             }
             else

@@ -1,6 +1,7 @@
 ﻿using Kiwi_TV.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -40,7 +41,8 @@ namespace Kiwi_TV.Logic
                             langs.AddRange(data[2].Trim().Split('-'));
                             if (!favorite || data[4].Trim() == "y")
                             {
-                                allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), data[6].Trim()));
+                                string type = data[6].Trim();
+                                allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), type, false));
                             }
                         }
                         else if (data.Length > 0)
@@ -100,26 +102,52 @@ namespace Kiwi_TV.Logic
             await FileManager.SaveChannels(TempList);
         }
 
-        public static List<Category> LoadCategories(List<Channel> channels)
+        public static void LoadCategories(List<Channel> channels, ObservableCollection<Category> categoryList)
         {
-            List<Category> categories = new List<Category>();
 
             foreach (Channel c in channels)
             {
-                Category cat = new Category(c.Genre);
-                int i = categories.BinarySearch(cat);
+                int i = -1;
+
+                for (int j = 0; j < categoryList.Count; j++)
+                {
+                    if (categoryList[j].Name == c.Genre)
+                    {
+                        i = j;
+                    }
+                }
+
                 if (i < 0)
                 {
+                    Category cat = new Category(c.Genre);
                     cat.Channels.Add(c);
-                    categories.Add(cat);
+                    categoryList.Add(cat);
                 }
                 else
                 {
-                    categories[i].Channels.Add(c);
+                    categoryList[i].Channels.Add(c);
+                }
+            }
+        }
+
+        public async static Task<List<Channel>> SetLive(List<Channel> channels)
+        {
+            foreach (Channel c in channels)
+            {
+                switch (c.Type)
+                {
+                    case "iptv":
+                        c.Live = true;
+                        break;
+                    case "twitch":
+                        c.Live = await TwitchAPI.IsLive(TwitchAPI.GetChannelNameFromURL(c.Source.AbsolutePath));
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            return categories;
+            return channels;
         }
     }
 }

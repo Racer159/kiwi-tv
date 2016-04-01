@@ -44,26 +44,30 @@ namespace Kiwi_TV.Views
             {
                 Tuple<Channel, object> parameter = (Tuple<Channel, object>)e.Parameter;
                 nowPlaying = parameter.Item1;
+
+                FavoriteCheckBox.IsChecked = nowPlaying.Favorite;
+
                 if (nowPlaying.Type == "twitch")
                 {
-                    TwitchAccessToken token = await TwitchAPI.RetireveAccessToken(TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath));
-                    TwitchStreamDesc streamDesc = await TwitchAPI.RetreiveStreamDescription(TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath));
-                    if (streamDesc.Stream != null)
+                    string channelName = TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath);
+                    TwitchAccessToken token = await TwitchAPI.RetireveAccessToken(channelName);
+                    if (await TwitchAPI.IsLive(channelName))
                     {
                         MainPlayer.Source = new Uri(nowPlaying.Source, "?allow_source=true&token=" + Uri.EscapeDataString(token.Token.Replace("\\", "")) + "&sig=" + Uri.EscapeDataString(token.Signature));
+                        SetLiveCheckBoxValue(true);
                     }
                     else
                     {
-                        TwitchChannel channelDesc = await TwitchAPI.RetreiveChannelDescription(TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath));
+                        TwitchChannel channelDesc = await TwitchAPI.RetreiveChannelDescription(channelName);
                         MainPlayer.PosterSource = new BitmapImage(new Uri(channelDesc.VideoBanner));
+                        SetLiveCheckBoxValue(false);
                     }
                 }
                 else
                 {
                     MainPlayer.Source = nowPlaying.Source;
+                    SetLiveCheckBoxValue(true);
                 }
-
-                FavoriteCheckBox.IsChecked = nowPlaying.Favorite;
             }
 
             MainPlayer.Play();
@@ -78,9 +82,17 @@ namespace Kiwi_TV.Views
             }
         }
 
-        private void LiveCheckBox_Click(object sender, RoutedEventArgs e)
+        private void SetLiveCheckBoxValue(bool live)
         {
-
+            LiveCheckBox.IsChecked = live;
+            if (live)
+            {
+                ToolTipService.SetToolTip(LiveCheckBox, "Live Now");
+            }
+            else
+            {
+                ToolTipService.SetToolTip(LiveCheckBox, "Offline");
+            }
         }
     }
 }

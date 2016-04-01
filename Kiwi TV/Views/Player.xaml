@@ -17,8 +17,8 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0">
-            <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" Height="32" Width="32" Margin="0,8,-40,0"  Click="FavoriteCheckBox_Click" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
-            <CheckBox x:Name="LiveCheckBox" IsChecked="False" VerticalAlignment="Top" Height="32" Width="32" Margin="0,8,-40,0"  Click="LiveCheckBox_Click" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
+            <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Top" Height="32" Width="32" Margin="0,8,-85,0"  IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+            <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" Height="32" Width="32" Margin="0,7,-35,0"  Click="FavoriteCheckBox_Click" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
         </StackPanel>
         <MediaElement x:Name="MainPlayer"></MediaElement>
     </Grid>

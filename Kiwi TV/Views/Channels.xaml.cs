@@ -27,11 +27,12 @@ namespace Kiwi_TV.Views
     public sealed partial class Channels : Page
     {
         List<Channel> ChannelList = new List<Channel>();
-        List<Category> CategoryList = new List<Category>();
+        ObservableCollection<Category> CategoryList = new ObservableCollection<Category>();
 
         public Channels()
         {
             this.InitializeComponent();
+            CategoriesItemsControl.ItemsSource = CategoryList;
         }
 
         private void ChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -57,6 +58,27 @@ namespace Kiwi_TV.Views
 
             RefreshChannelList(ChannelList, "", "All Languages");
             base.OnNavigatedTo(e);
+            RefreshLiveStatus(await FileManager.SetLive(ChannelList));
+        }
+
+        private void RefreshLiveStatus(List<Channel> channelList)
+        {
+            for (int i = 0; i < CategoryList.Count; i++)
+            {
+                for(int j = 0; j < CategoryList[i].Channels.Count; j++)
+                {
+                    for (int k = 0; k < channelList.Count; k++)
+                    {
+                        if (CategoryList[i].Channels[j].Name == channelList[k].Name)
+                        {
+                            Channel updated = CategoryList[i].Channels[j];
+                            updated.Live = channelList[k].Live;
+                            CategoryList[i].Channels.RemoveAt(j);
+                            CategoryList[i].Channels.Insert(j, updated);
+                        }
+                    }
+                }
+            }
         }
 
         private void RefreshChannelList(List<Channel> channelList, string search, string language)
@@ -76,8 +98,7 @@ namespace Kiwi_TV.Views
                 NoContentHeader.Visibility = Visibility.Collapsed;
             }
 
-            CategoryList = FileManager.LoadCategories(channelList);
-            CategoriesItemsControl.ItemsSource = CategoryList;
+            FileManager.LoadCategories(channelList, CategoryList);
         }
 
         private async void FavoriteCheckBox_Checked(object sender, RoutedEventArgs e)

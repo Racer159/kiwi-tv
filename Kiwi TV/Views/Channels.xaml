@@ -28,7 +28,7 @@
             </ComboBox>
             <TextBox x:Name="SearchBox" Height="32" Margin="0,8,5,0" Width="150" PlaceholderText="Search" VerticalAlignment="Top" TextAlignment="Left" TextChanged="SearchBox_TextChanged"></TextBox>
         </StackPanel>
-        <ScrollViewer Grid.Row="1" Margin="20" BorderThickness="0">
+        <ScrollViewer Grid.Row="1" Margin="20" BorderThickness="0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Name="NoContentHeader" Text="No favorites found, try adding some from the channel list to get started." Visibility="Collapsed"/>
                 <ItemsControl Name="CategoriesItemsControl">

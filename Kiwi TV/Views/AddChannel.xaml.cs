@@ -1,20 +1,11 @@
-﻿using Kiwi_TV.Logic;
+﻿using Kiwi_TV.Helpers;
 using Kiwi_TV.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,10 +28,19 @@ namespace Kiwi_TV.Views
 
         private async void AddCustomButton_Click(object sender, RoutedEventArgs e)
         {
-            List<string> languages = new List<string>();
-            languages.Add(CustomLanguage.Text);
-            Channel newChannel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
-            await FileManager.AddChannel(newChannel);
+            Uri source;
+            Uri.TryCreate(CustomSourceURL.Text, UriKind.RelativeOrAbsolute, out source);
+            if (source.IsAbsoluteUri)
+            {
+                List<string> languages = new List<string>();
+                languages.Add(CustomLanguage.Text);
+                Channel newChannel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
+                await ChannelManager.AddChannel(newChannel);
+            }
+            else
+            {
+                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot add that channel because the specified video URL is invalid.").ShowAsync();
+            }
         }
 
         private void CustomCategory_GotFocus(object sender, RoutedEventArgs e)
@@ -88,7 +88,7 @@ namespace Kiwi_TV.Views
                 }
                 else
                 {
-                    await new Windows.UI.Popups.MessageDialog("I'm sorry, but the specified video URL was invalid.").ShowAsync();
+                    await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot load that channel because the specified video URL is invalid.").ShowAsync();
                 }
             }
         }

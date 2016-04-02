@@ -1,17 +1,8 @@
-﻿using Kiwi_TV.Models;
+﻿using Kiwi_TV.Helpers;
+using Kiwi_TV.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -23,9 +14,12 @@ namespace Kiwi_TV
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        DeviceFormFactorType DeviceType;
+
         public MainPage()
         {
             this.InitializeComponent();
+            DeviceType = UWPHelper.GetDeviceFormFactorType();
             FavoritesButton.IsChecked = true;
         }
 
@@ -61,7 +55,14 @@ namespace Kiwi_TV
 
         private void ContentView_Navigated(object sender, NavigationEventArgs e)
         {
-            NavPane.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                NavPane.DisplayMode = SplitViewDisplayMode.Overlay;
+            }
+            else
+            {
+                NavPane.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+            }
             NavPane.IsPaneOpen = false;
 
             if (e.SourcePageType == typeof(Views.Player))

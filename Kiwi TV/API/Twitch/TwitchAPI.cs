@@ -1,13 +1,9 @@
-﻿using Kiwi_TV.Models;
-using Kiwi_TV.Models.TwitchAPI;
-using System;
-using System.Collections.Generic;
+﻿using Kiwi_TV.Helpers;
+using Kiwi_TV.API.Twitch.Models;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
-namespace Kiwi_TV.Logic
+namespace Kiwi_TV.API.Twitch
 {
     class TwitchAPI
     {

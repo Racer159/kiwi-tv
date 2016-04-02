@@ -1,20 +1,10 @@
-﻿using Kiwi_TV.Logic;
+﻿using Kiwi_TV.Helpers;
 using Kiwi_TV.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -47,7 +37,7 @@ namespace Kiwi_TV.Views
         {
             if (e.Parameter is bool)
             {
-                ChannelList = await FileManager.LoadChannels((bool)e.Parameter);
+                ChannelList = await ChannelManager.LoadChannels((bool)e.Parameter);
                 ChannelList.Sort();
                 if ((bool)e.Parameter)
                 {
@@ -57,7 +47,7 @@ namespace Kiwi_TV.Views
 
             RefreshChannelList(ChannelList, "", "All Languages");
             base.OnNavigatedTo(e);
-            RefreshLiveStatus(await FileManager.SetLive(ChannelList));
+            RefreshLiveStatus(await ChannelManager.SetLive(ChannelList));
         }
 
         private void RefreshLiveStatus(List<Channel> channelList)
@@ -98,14 +88,14 @@ namespace Kiwi_TV.Views
                 NoContentHeader.Visibility = Visibility.Collapsed;
             }
 
-            FileManager.LoadCategories(channelList, CategoryList);
+            ChannelManager.LoadCategories(channelList, CategoryList);
         }
 
         private async void FavoriteCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if(sender is CheckBox)
             {
-                await FileManager.SaveFavorite((String)((CheckBox)sender).Tag, (bool)((CheckBox)sender).IsChecked);
+                await ChannelManager.SaveFavorite((String)((CheckBox)sender).Tag, (bool)((CheckBox)sender).IsChecked);
             }
         }
 

@@ -1,13 +1,14 @@
 ﻿using Kiwi_TV.Models;
+using Kiwi_TV.API.Twitch;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Kiwi_TV.Logic
+namespace Kiwi_TV.Helpers
 {
-    class FileManager
+    class ChannelManager
     {
         public async static Task<List<Channel>> LoadChannels(bool favorite)
         {
@@ -99,7 +100,7 @@ namespace Kiwi_TV.Logic
                 }
             }
 
-            await FileManager.SaveChannels(TempList);
+            await ChannelManager.SaveChannels(TempList);
         }
 
         public async static Task AddChannel(Channel channel)
@@ -108,7 +109,7 @@ namespace Kiwi_TV.Logic
 
             TempList.Add(channel);
 
-            await FileManager.SaveChannels(TempList);
+            await ChannelManager.SaveChannels(TempList);
         }
 
         public static void LoadCategories(List<Channel> channels, ObservableCollection<Category> categoryList)

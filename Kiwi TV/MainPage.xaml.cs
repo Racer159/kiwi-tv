@@ -44,6 +44,11 @@ namespace Kiwi_TV
             ContentView.Navigate(typeof(Views.Channels), false);
         }
 
+        private void AddChannelButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ContentView.Navigate(typeof(Views.AddChannel));
+        }
+
         private void FeedbackButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.Feedback));
@@ -65,6 +70,7 @@ namespace Kiwi_TV
 
                 ChannelsButton.IsChecked = false;
                 FavoritesButton.IsChecked = false;
+                AddChannelButton.IsChecked = false;
                 FeedbackButton.IsChecked = false;
                 SettingsButton.IsChecked = false;
 
@@ -97,10 +103,6 @@ namespace Kiwi_TV
             }
             else if (e.SourcePageType == typeof(Views.AddChannel))
             {
-                ChannelsButton.IsChecked = false;
-                FavoritesButton.IsChecked = false;
-                FeedbackButton.IsChecked = false;
-                SettingsButton.IsChecked = false;
                 TitleText.Text = "Add Channel";
             }
             else

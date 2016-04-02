@@ -52,7 +52,6 @@ namespace Kiwi_TV.Views
                 if ((bool)e.Parameter)
                 {
                     LanguagesBox.Visibility = Visibility.Collapsed;
-                    AddChannelButton.Visibility = Visibility.Collapsed;
                 }
             }
 
@@ -107,14 +106,6 @@ namespace Kiwi_TV.Views
             if(sender is CheckBox)
             {
                 await FileManager.SaveFavorite((String)((CheckBox)sender).Tag, (bool)((CheckBox)sender).IsChecked);
-            }
-        }
-
-        private void AddChannelButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is AppBarButton)
-            {
-                Frame.Navigate(typeof(Views.AddChannel));
             }
         }
 

@@ -41,6 +41,9 @@
                         <!-- Channels Button -->
                         <RadioButton x:Name="ChannelsButton" Tag="&#xEA37;" Content="All Channels" Style="{StaticResource NavPaneNavButtonStyle}" Checked="ChannelsButton_Checked" IsChecked="False" />
 
+                        <!-- Channels Button -->
+                        <RadioButton x:Name="AddChannelButton" Tag="&#xE710;" Content="Add Channel" Style="{StaticResource NavPaneNavButtonStyle}" Checked="AddChannelButton_Checked" IsChecked="False" />
+                        
                         <!-- Feedback Button -->
                         <RadioButton x:Name="FeedbackButton" Tag="&#xE76E;" Content="Feedback" Style="{StaticResource NavPaneNavButtonStyle}" Checked="FeedbackButton_Checked" IsChecked="False" />
                     </StackPanel>

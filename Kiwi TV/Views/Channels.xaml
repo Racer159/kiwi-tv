@@ -27,11 +27,6 @@
                 <ComboBoxItem>Arabic</ComboBoxItem>
             </ComboBox>
             <TextBox x:Name="SearchBox" Height="32" Margin="0,8,5,0" Width="150" PlaceholderText="Search" VerticalAlignment="Top" TextAlignment="Left" TextChanged="SearchBox_TextChanged"></TextBox>
-            <AppBarButton Name="AddChannelButton" FontFamily="Segoe MDL2 Assets" Click="AddChannelButton_Click" Width="48" Height="48" FontSize="16">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE710;"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
         </StackPanel>
         <ScrollViewer Grid.Row="1" Margin="20" BorderThickness="0">
             <StackPanel>

@@ -35,7 +35,7 @@ namespace Kiwi_TV.Views
             {
                 Tuple<Channel, object> parameter = (Tuple<Channel, object>)e.Parameter;
                 nowPlaying = parameter.Item1;
-
+                SetLiveCheckBoxValue(nowPlaying.Live);
                 FavoriteCheckBox.IsChecked = nowPlaying.Favorite;
 
                 if (nowPlaying.Type == "twitch")
@@ -83,6 +83,7 @@ namespace Kiwi_TV.Views
             else
             {
                 ToolTipService.SetToolTip(LiveCheckBox, "Offline");
+                OfflineText.Visibility = Visibility.Visible;
             }
         }
     }

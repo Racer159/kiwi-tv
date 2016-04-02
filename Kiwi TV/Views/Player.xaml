@@ -21,5 +21,6 @@
             <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" Height="32" Width="32" Margin="0,7,-35,0"  Click="FavoriteCheckBox_Click" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
         </StackPanel>
         <MediaElement x:Name="MainPlayer"></MediaElement>
+        <TextBlock x:Name="OfflineText" Text="Channel Offline" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="32" Foreground="White" Margin="10" FontWeight="SemiLight"/>
     </Grid>
 </Page>

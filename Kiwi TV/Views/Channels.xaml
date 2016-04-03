@@ -15,35 +15,50 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0">
-            <ComboBox x:Name="LanguagesBox" Height="32" Margin="0,8,5,0" Width="140" SelectionChanged="LanguagesBox_SelectionChanged">
-                <ComboBoxItem IsSelected="True">All Languages</ComboBoxItem>
-                <ComboBoxItem>English</ComboBoxItem>
-                <ComboBoxItem>French</ComboBoxItem>
-                <ComboBoxItem>Spanish</ComboBoxItem>
-                <ComboBoxItem>German</ComboBoxItem>
-                <ComboBoxItem>Russian</ComboBoxItem>
-                <ComboBoxItem>Arabic</ComboBoxItem>
-            </ComboBox>
-            <TextBox x:Name="SearchBox" Height="32" Margin="0,8,5,0" Width="150" PlaceholderText="Search" VerticalAlignment="Top" TextAlignment="Left" TextChanged="SearchBox_TextChanged"></TextBox>
+    <Grid x:Name="MainChannelsGrid" SizeChanged="MainChannelsGrid_SizeChanged">
+        <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
+            <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="All Channels"/>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0">
+            <Grid Margin="0,4,5,0" Background="#ffcdcdcd" Height="40" VerticalAlignment="Top" >
+                <ComboBox x:Name="LanguagesBox" Height="40" Width="150" SelectionChanged="LanguagesBox_SelectionChanged" BorderThickness="0" Padding="9" LostFocus="SearchBox_LostFocus" >
+                    <ComboBoxItem IsSelected="True">All Languages</ComboBoxItem>
+                    <ComboBoxItem>English</ComboBoxItem>
+                    <ComboBoxItem>French</ComboBoxItem>
+                    <ComboBoxItem>Spanish</ComboBoxItem>
+                    <ComboBoxItem>German</ComboBoxItem>
+                    <ComboBoxItem>Russian</ComboBoxItem>
+                    <ComboBoxItem>Arabic</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+            <Grid Margin="0,4,5,0" Background="#ffcdcdcd" Height="40" VerticalAlignment="Top" >
+                <TextBox x:Name="SearchBox" Height="40" Width="250" TextAlignment="Left" TextChanged="SearchBox_TextChanged" BorderThickness="0" Padding="9" PlaceholderText="Search" LostFocus="SearchBox_LostFocus" />
+            </Grid>
+            <AppBarButton x:Name="SearchButton" FontFamily="Segoe MDL2 Assets" Height="48" Width="48" Visibility="Collapsed" Click="SearchButton_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE71E;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
+        
         <ScrollViewer Grid.Row="1" Margin="20" BorderThickness="0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <TextBlock Name="NoContentHeader" Text="No favorites found, try adding some from the channel list to get started." Visibility="Collapsed"/>
+                <TextBlock Name="NoContentHeader" Text="No favorites found, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords"/>
                 <ItemsControl Name="CategoriesItemsControl">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                            <TextBlock Name="CategoryHeader" Text="{Binding Name}"/>
+                                <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="0,0,0,10"/>
                                 <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid Width="150" Height="150" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White">
-                                                <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
-                                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
-                                                <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
-                                            </Grid>
+                                            <Border Holding="Border_Holding" RightTapped="Border_RightTapped" Tag="{Binding}">
+                                                <Grid Width="150" Height="150" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White">
+                                                    <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}" />
+                                                    <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
+                                                    <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+                                                </Grid>
+                                            </Border>
                                         </DataTemplate>
                                     </GridView.ItemTemplate>
                                 </GridView>

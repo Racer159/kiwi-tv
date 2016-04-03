@@ -22,6 +22,7 @@ namespace Kiwi_TV.Views
     /// </summary>
     public sealed partial class AddChannel : Page
     {
+        DeviceFormFactorType DeviceType;
         ObservableCollection<string> categories = new ObservableCollection<string>();
         ObservableCollection<string> languages = new ObservableCollection<string>();
         AddChannelViewModel _viewModel;
@@ -33,6 +34,11 @@ namespace Kiwi_TV.Views
             CustomLanguage.ItemsSource = languages;
             TwitchCategory.ItemsSource = categories;
             TwitchLanguage.ItemsSource = languages;
+            DeviceType = UWPHelper.GetDeviceFormFactorType();
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                TitleText.Margin = new Thickness(48, 0, 0, 0);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

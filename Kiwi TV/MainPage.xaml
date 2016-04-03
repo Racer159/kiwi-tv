@@ -25,7 +25,6 @@
                         <FontIcon Glyph="&#xE700;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <TextBlock Name="TitleText" Padding="10,14,0,0" FontWeight="Bold"/>
             </StackPanel>
         </Grid>
 

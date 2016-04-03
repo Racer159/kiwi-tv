@@ -58,8 +58,6 @@ namespace Kiwi_TV
 
         private void ContentView_Navigated(object sender, NavigationEventArgs e)
         {
-            
-
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                 ((Frame)sender).CanGoBack ?
                 AppViewBackButtonVisibility.Visible :
@@ -84,46 +82,29 @@ namespace Kiwi_TV
                 AddChannelButton.IsChecked = false;
                 FeedbackButton.IsChecked = false;
                 SettingsButton.IsChecked = false;
-
-                if (e.Parameter is Tuple<Channel,object>)
-                {
-                    TitleText.Text = ((Tuple<Channel, object>)e.Parameter).Item1.Name;
-                } else
-                {
-                    TitleText.Text = "Now Playing";
-                }
             }
             else if (e.SourcePageType == typeof(Views.Channels))
             {
                 if (e.Parameter is bool && (bool)e.Parameter)
                 {
-                    TitleText.Text = "Favorites";
                     FavoritesButton.IsChecked = true;
                 }
                 else
                 {
-                    TitleText.Text = "All Channels";
                     ChannelsButton.IsChecked = true;
                 }
             }
             else if (e.SourcePageType == typeof(Views.Feedback))
             {
-                TitleText.Text = "Feedback";
                 FeedbackButton.IsChecked = true;
             }
             else if (e.SourcePageType == typeof(Views.Settings))
             {
-                TitleText.Text = "Settings";
                 SettingsButton.IsChecked = true;
             }
             else if (e.SourcePageType == typeof(Views.AddChannel))
             {
-                TitleText.Text = "Add Channel";
                 AddChannelButton.IsChecked = true;
-            }
-            else
-            {
-                TitleText.Text = "";
             }
         }
 

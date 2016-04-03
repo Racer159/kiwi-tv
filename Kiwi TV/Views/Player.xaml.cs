@@ -37,6 +37,7 @@ namespace Kiwi_TV.Views
                 nowPlaying = parameter.Item1;
                 SetLiveCheckBoxValue(nowPlaying.Live);
                 FavoriteCheckBox.IsChecked = nowPlaying.Favorite;
+                TitleText.Text = nowPlaying.Name;
 
                 if (nowPlaying.Type == "twitch")
                 {

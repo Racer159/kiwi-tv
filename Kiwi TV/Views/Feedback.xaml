@@ -7,18 +7,33 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid MaxWidth="750" HorizontalAlignment="Stretch">
-        <ScrollViewer Grid.Row="1" Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../KiwiTVStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid>
+        <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
+            <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Feedback"/>
+        </StackPanel>
+        <ScrollViewer Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" MaxWidth="750" MinWidth="0" HorizontalAlignment="Stretch">
             <StackPanel>
                 <TextBlock Name="FeedbackHeader" Text="Feedback" FontSize="24" FontWeight="SemiLight" Margin="10"/>
-                <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBox>
-                <StackPanel Orientation="Horizontal" Margin="10">
-                    <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True"/>
-                    <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Grid Margin="10,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Width="200" HorizontalAlignment="Left">
+                    <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Padding="7" Height="40" Width="200"  HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBox>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Margin="10,4">
+                    <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" />
+                    <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 </StackPanel>
-                <TextBox x:Name="FeedbackBox" Height="200" Margin="10" PlaceholderText="Feedback..."></TextBox>
-                <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10" Click="SubmitButton_Click"></Button>
+                <Grid Margin="10,4" Background="#ffc0c0c0" Height="200" VerticalAlignment="Top">
+                    <TextBox x:Name="FeedbackBox" Height="200" Padding="7" PlaceholderText="Enter your feedback and suggestions here." TextWrapping="Wrap"></TextBox>
+                </Grid>
+                <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10,4" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}"  Click="SubmitButton_Click"></Button>
             </StackPanel>
         </ScrollViewer>
     </Grid>

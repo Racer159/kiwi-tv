@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kiwi_TV.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,16 @@ namespace Kiwi_TV.Views
     /// </summary>
     public sealed partial class Feedback : Page
     {
+        DeviceFormFactorType DeviceType;
+
         public Feedback()
         {
             this.InitializeComponent();
+            DeviceType = UWPHelper.GetDeviceFormFactorType();
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                TitleText.Margin = new Thickness(48, 0, 0, 0);
+            }
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)

@@ -10,7 +10,7 @@ namespace Kiwi_TV.Helpers
 {
     class ChannelManager
     {
-        public async static Task<List<Channel>> LoadChannels(bool favorite)
+        public async static Task<List<Channel>> LoadChannels(bool favorite, bool justDefault)
         {
             List<Channel> allChannels = new List<Channel>();
             StorageFolder currentFolder = ApplicationData.Current.LocalFolder;
@@ -18,7 +18,7 @@ namespace Kiwi_TV.Helpers
             IStorageItem channelsItem = await currentFolder.TryGetItemAsync("channels.txt");
             StorageFile channelsFile;
 
-            if (channelsItem == null || !(channelsItem is StorageFile))
+            if (channelsItem == null || !(channelsItem is StorageFile) || justDefault)
             {
                 channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteLinesAsync(channelsFile, System.IO.File.ReadAllLines("Data/channels.txt"));
@@ -90,7 +90,7 @@ namespace Kiwi_TV.Helpers
 
         public async static Task SaveFavorite(string channelName, bool favorited)
         {
-            List<Channel> TempList = await LoadChannels(false);
+            List<Channel> TempList = await LoadChannels(false, false);
 
             foreach (Channel c in TempList)
             {
@@ -105,11 +105,42 @@ namespace Kiwi_TV.Helpers
 
         public async static Task AddChannel(Channel channel)
         {
-            List<Channel> TempList = await LoadChannels(false);
+            List<Channel> TempList = await LoadChannels(false, false);
 
             TempList.Add(channel);
 
             await ChannelManager.SaveChannels(TempList);
+        }
+
+        public async static Task RemoveChannel(Channel channel)
+        {
+            List<Channel> TempList = await LoadChannels(false, false);
+
+            TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Source == channel.Source) && (c.Name == channel.Name) && (c.Icon == channel.Icon) && (c.Genre == channel.Genre); }));
+
+            await ChannelManager.SaveChannels(TempList);
+        }
+
+        public async static Task RestoreDefaultChannels()
+        {
+            List<Channel> CurrList = await LoadChannels(false, false);
+            List<Channel> DefaultList = await LoadChannels(false, true);
+
+            foreach (Channel channel in DefaultList)
+            {
+                CurrList.Remove(CurrList.Find(delegate (Channel c) { return (c.Source == channel.Source) && (c.Name == channel.Name) && (c.Icon == channel.Icon) && (c.Genre == channel.Genre); }));
+            }
+
+            CurrList.AddRange(DefaultList);
+
+            await ChannelManager.SaveChannels(CurrList);
+        }
+
+        public async static Task ResetChannels()
+        {
+            List<Channel> DefaultList = await LoadChannels(false, true);
+
+            await ChannelManager.SaveChannels(DefaultList);
         }
 
         public static void LoadCategories(List<Channel> channels, ObservableCollection<Category> categoryList)

@@ -12,8 +12,19 @@ namespace Kiwi_TV.Helpers
     {
         public async static Task<List<Channel>> LoadChannels(bool favorite, bool justDefault)
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             List<Channel> allChannels = new List<Channel>();
-            StorageFolder currentFolder = ApplicationData.Current.LocalFolder;
+            StorageFolder currentFolder;
+
+            if (localSettings.Values["syncData"] is bool && !(bool)localSettings.Values["syncData"])
+            {
+                currentFolder = ApplicationData.Current.LocalFolder;
+            }
+            else
+            {
+                currentFolder = ApplicationData.Current.RoamingFolder;
+            }
+
             
             IStorageItem channelsItem = await currentFolder.TryGetItemAsync("channels.txt");
             StorageFile channelsFile;
@@ -59,7 +70,18 @@ namespace Kiwi_TV.Helpers
 
         private async static Task SaveChannels(List<Channel> channels)
         {
-            StorageFolder currentFolder = ApplicationData.Current.LocalFolder;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            StorageFolder currentFolder;
+
+            if (localSettings.Values["syncData"] is bool && !(bool)localSettings.Values["syncData"])
+            {
+                currentFolder = ApplicationData.Current.LocalFolder;
+            }
+            else
+            {
+                currentFolder = ApplicationData.Current.RoamingFolder;
+            }
+
             String file = "#EXTM3U\n\n";
 
             foreach (Channel c in channels)

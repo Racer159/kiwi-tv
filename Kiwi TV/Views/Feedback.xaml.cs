@@ -37,7 +37,7 @@ namespace Kiwi_TV.Views
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MailHelper.SendFeedbackEmail(EmailBox.Text, "Test", FeedbackBox.Text);
         }
     }
 }

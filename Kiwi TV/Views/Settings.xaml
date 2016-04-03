@@ -15,15 +15,15 @@
             <StackPanel>
                 <TextBlock Name="OptionsHeader" Text="Options" FontSize="24" FontWeight="SemiLight" Margin="10"/>
                 <TextBlock Text="Sync Channels across Devices" Margin="10,5"/>
-                <ToggleSwitch Name="SyncToggleSwitch" Margin="10,5"/>
+                <ToggleSwitch Name="SyncToggleSwitch" Margin="10,5" Toggled="SyncToggleSwitch_Toggled"/>
                 <StackPanel Orientation="Horizontal">
                     <Button Name="RestoreDefaultChannels" Content="Restore Default Channels" Margin="10,5" Click="RestoreDefaultChannels_Click"/>
                     <Button Name="ResetChannels" Content="Reset Channel List" Margin="10,5" Click="ResetChannels_Click"/>
                 </StackPanel>
                 <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="10"/>
                 <TextBlock Name="AboutHeader" Text="About" FontSize="24" FontWeight="SemiLight" Margin="10"/>
-                <TextBlock Text="Developed By Racer159" Margin="10,5"/>
-                <TextBlock Text="Version 1.0.0" Margin="10,5"/>
+                <TextBlock Text="Developed By Racer159" Margin="10,5" FontWeight="SemiLight"/>
+                <TextBlock Text="Version 1.0.0" Margin="10,5" FontWeight="SemiLight"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

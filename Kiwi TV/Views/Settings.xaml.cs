@@ -24,6 +24,9 @@ namespace Kiwi_TV.Views
     public sealed partial class Settings : Page
     {
         DeviceFormFactorType DeviceType;
+
+        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
         public Settings()
         {
             this.InitializeComponent();
@@ -31,6 +34,15 @@ namespace Kiwi_TV.Views
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
+            }
+
+            if (localSettings.Values["syncData"] is bool)
+            {
+                SyncToggleSwitch.IsOn = (bool)localSettings.Values["syncData"];
+            }
+            else
+            {
+                SyncToggleSwitch.IsOn = true;
             }
         }
 
@@ -67,6 +79,11 @@ namespace Kiwi_TV.Views
                 await ChannelManager.ResetChannels();
                 await new Windows.UI.Popups.MessageDialog("Successfully Reset Channel List.").ShowAsync();
             }
+        }
+
+        private void SyncToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            localSettings.Values["syncData"] = SyncToggleSwitch.IsOn;
         }
     }
 }

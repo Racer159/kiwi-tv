@@ -24,6 +24,10 @@ namespace Kiwi_TV
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
             FavoritesButton.IsChecked = true;
+            //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
+            //{
+                FeedbackButton.Visibility = Visibility.Visible;
+            //}
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -49,6 +53,7 @@ namespace Kiwi_TV
         private void FeedbackButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.Feedback));
+            //await Microsoft.Services.Store.Engagement.Feedback.LaunchFeedbackAsync();
         }
 
         private void SettingsButton_Checked(object sender, RoutedEventArgs e)

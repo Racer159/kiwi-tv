@@ -95,6 +95,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Twitch\Models\TwitchSearchResults.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -129,6 +130,7 @@
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\States\AddChannelViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -137,7 +139,8 @@
     <None Include="Kiwi TV_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\bars.png" />
+    <Content Include="Assets\Bars.png" />
+    <Content Include="Assets\Black.png" />
     <Content Include="Data\ChannelIcons\bloomberg.png" />
     <Content Include="Data\ChannelIcons\deutschewelle.png" />
     <Content Include="Data\ChannelIcons\dwamerika.png" />

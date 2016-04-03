@@ -29,7 +29,7 @@ namespace Kiwi_TV.Models
         {
             this._name = name;
             this._icon = icon;
-            this._source = new Uri(source);
+            Uri.TryCreate(source, UriKind.RelativeOrAbsolute, out this._source);
             this._languages = languages;
             this._favorite = favorite;
             this._genre = genre;

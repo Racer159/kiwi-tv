@@ -28,6 +28,13 @@ namespace Kiwi_TV.API.Twitch
             return channelDesc;
         }
 
+        public async static Task<TwitchSearchResults> RetrieveSearchResults(string search)
+        {
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/search/channels?q=" + search, typeof(TwitchSearchResults));
+            TwitchSearchResults results = response as TwitchSearchResults;
+            return results;
+        }
+
         public async static Task<bool> IsLive(string channelName)
         {
             TwitchStreamDesc streamDesc = await RetreiveStreamDescription(channelName);

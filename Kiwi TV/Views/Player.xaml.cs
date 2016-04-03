@@ -24,7 +24,7 @@ namespace Kiwi_TV.Views
             this.InitializeComponent();
             
             MainPlayer.AreTransportControlsEnabled = true;
-            MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/bars.png"));
+            MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Bars.png"));
             
             // ABC MainPlayer.Source = new Uri("http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8?sd=10&b=1200&rebase=on");
         }
@@ -50,7 +50,18 @@ namespace Kiwi_TV.Views
                     else
                     {
                         TwitchChannel channelDesc = await TwitchAPI.RetreiveChannelDescription(channelName);
-                        MainPlayer.PosterSource = new BitmapImage(new Uri(channelDesc.VideoBanner));
+
+                        Uri source;
+                        Uri.TryCreate(channelDesc.VideoBanner, UriKind.RelativeOrAbsolute, out source);
+                        if (source != null)
+                        {
+                            MainPlayer.PosterSource = new BitmapImage(source);
+                        }
+                        else
+                        {
+                            MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Black.png"));
+                        }
+
                         SetLiveCheckBoxValue(false);
                     }
                 }

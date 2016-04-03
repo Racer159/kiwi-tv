@@ -7,8 +7,6 @@ namespace Kiwi_TV.API.Twitch.Models
     {
         [DataMember(Name = "name")]
         public string Name { get; set; }
-        [DataMember(Name = "mature")]
-        public bool Mature { get; set; }
         [DataMember(Name = "status")]
         public string Status { get; set; }
         [DataMember(Name = "language")]

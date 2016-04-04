@@ -33,6 +33,7 @@ namespace Kiwi_TV.Views
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
+                TypeStackPanel.Orientation = Orientation.Vertical;
             }
         }
 
@@ -42,7 +43,7 @@ namespace Kiwi_TV.Views
             if ((bool)SuggestButton.IsChecked) { type = "Suggestion"; }  else if ((bool)LikeButton.IsChecked) { type = "Like"; }
             object output = await MailHelper.SendFeedbackEmail(EmailBox.Text, type, FeedbackBox.Text);
 
-            if (output is HttpResponseMessage)
+            if (!(output is Exception))
             {
                 EmailBox.Text = "";
                 FeedbackBox.Text = "";

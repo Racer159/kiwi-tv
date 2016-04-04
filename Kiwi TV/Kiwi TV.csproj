@@ -100,7 +100,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\MailGun\Models\MailGun.cs" />
     <Compile Include="API\Twitch\Models\TwitchSearchResults.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Background="Black">
         <StackPanel Orientation="Horizontal" Margin="48,-48,0,0">
             <TextBlock Name="TitleText" Padding="10,14,0,0" FontWeight="Bold" Text="Now Playing"/>
         </StackPanel>

@@ -6,6 +6,7 @@ using Kiwi_TV.Views.States;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,6 +39,7 @@ namespace Kiwi_TV.Views
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
+                GridViewIconSize.Tag = 115;
             }
         }
 
@@ -64,6 +66,7 @@ namespace Kiwi_TV.Views
                 languages.Add(CustomLanguage.Text);
                 Channel newChannel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
                 await ChannelManager.AddChannel(newChannel);
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + newChannel.Name).ShowAsync();
             }
             else
             {
@@ -130,7 +133,7 @@ namespace Kiwi_TV.Views
                 languages.Add(selected.Language);
                 Channel newChannel = new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, "Gaming", "twitch", true);
                 await ChannelManager.AddChannel(newChannel);
-
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + newChannel.Name).ShowAsync();
             }
             else
             {
@@ -164,6 +167,21 @@ namespace Kiwi_TV.Views
             else
             {
                 _viewModel.TwitchChannels = new TwitchChannel[0];
+            }
+        }
+
+        private async void SuggestCustomButton_Click(object sender, RoutedEventArgs e)
+        {
+            object output = await MailHelper.SendFeedbackEmail("", "Suggestion", "Hi, I want to suggest you add '" + CustomName.Text +
+                "' as a default channel.  Below are the sources I used:\n\nImage: " + CustomImageURL.Text + "\nVideo: " + CustomSourceURL.Text + "\n\nThank you!");
+
+            if (!(output is Exception))
+            {
+                await new Windows.UI.Popups.MessageDialog("Successfully received your suggestion. Thank you!").ShowAsync();
+            }
+            else
+            {
+                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
             }
         }
     }

@@ -34,6 +34,7 @@ namespace Kiwi_TV.Views
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
+                ResetButtonStackPanel.Orientation = Orientation.Vertical;
             }
 
             if (localSettings.Values["syncData"] is bool)

@@ -25,7 +25,7 @@
                 <Grid Margin="10,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Width="200" HorizontalAlignment="Left">
                     <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Padding="7" Height="40" Width="200"  HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBox>
                 </Grid>
-                <StackPanel Orientation="Horizontal" Margin="10,4">
+                <StackPanel x:Name="TypeStackPanel" Orientation="Horizontal" Margin="10,4">
                     <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" />
                     <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top" />

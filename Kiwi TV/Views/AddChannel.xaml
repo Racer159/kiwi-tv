@@ -19,105 +19,106 @@
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Add Channel"/>
         </StackPanel>
-        <StackPanel>
-            <Grid Height="48" Background="{ThemeResource AppBarBackgroundThemeBrush}"></Grid>
-            <Pivot Name="MainPivot" SelectedIndex="{Binding MainPivotSelectedIndex, Mode=TwoWay}" Margin="0,-48,0,0">
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid Height="48" Padding="4,15">
-                            <TextBlock Text="{Binding}" FontSize="15" FontWeight="Normal"></TextBlock>
+        <Grid Height="48" Background="{ThemeResource AppBarBackgroundThemeBrush}" VerticalAlignment="Top"></Grid>
+        <Grid Name="GridViewIconSize" Tag="150" />
+
+        <Pivot Name="MainPivot" SelectedIndex="{Binding MainPivotSelectedIndex, Mode=TwoWay}" Margin="0,0,0,0">
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Height="48" Padding="4,15">
+                        <TextBlock Text="{Binding}" FontSize="15" FontWeight="Normal"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+
+            <!--Twitch Pivot -->
+            <PivotItem Header="Twitch.tv" Name="TwitchPivotItem" MaxWidth="750">
+                <ScrollViewer Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+                    <StackPanel>
+                        <TextBlock Name="TwitchHeader" Text="Twitch.tv" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
+                        <TextBlock Text="Just type something like 'mlg' into the search box to get started, then make a selection." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
+                        <TextBlock Text="Search" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                            <TextBox x:Name="TwitchSearch" Text="{Binding TwitchSearchText, Mode=TwoWay}" PlaceholderText="Search" TextChanged="TwitchSearch_TextChanged" Padding="7" Height="40"/>
                         </Grid>
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
-
-                <!--Twitch Pivot -->
-                <PivotItem Header="Twitch.tv" Name="TwitchPivotItem" MaxWidth="750">
-                    <ScrollViewer Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-                        <StackPanel>
-                            <TextBlock Name="TwitchHeader" Text="Twitch.tv" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
-                            <TextBlock Text="Just type something like 'mlg' into the search box to get started, then make a selection." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
-                            <TextBlock Text="Search" FontWeight="Bold" Margin="0,0,0,10"/>
-                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
-                                <TextBox x:Name="TwitchSearch" Text="{Binding TwitchSearchText, Mode=TwoWay}" PlaceholderText="Search" TextChanged="TwitchSearch_TextChanged" Padding="7" Height="40"/>
-                            </Grid>
-                            <GridView Name="TwitchChannelsGridView" ItemsSource="{Binding TwitchChannels, Mode=TwoWay}">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Width="150" Height="150" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White" >
-                                            <Image Source="{Binding Logo}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding DisplayName}"/>
-                                            <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
-                                            <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                            <TextBlock Text="Additional Info" FontWeight="Bold" Margin="0,0,0,10"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
-                                    <AutoSuggestBox x:Name="TwitchCategory" Text="{Binding TwitchCategoryText, Mode=TwoWay}" Height="40" GotFocus="CustomCategory_GotFocus" LostFocus="CustomCategory_LostFocus" PlaceholderText="Category" Padding="7" />
-                                </Grid>
-                                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
-                                    <AutoSuggestBox x:Name="TwitchLanguage" Text="{Binding TwitchLanguageText, Mode=TwoWay}" Height="40" GotFocus="CustomLanguage_GotFocus" LostFocus="CustomLanguage_LostFocus" PlaceholderText="Language" Padding="7" />
-                                </Grid>
-                            </Grid>
-                            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                                <Button x:Name="AddTwitchButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddTwitchButton_Click"/>
-                                <Button x:Name="TestTwitchButton" Content="Test Channel" HorizontalAlignment="Right" Margin="5" Height="40" Padding="7"  Click="TestTwitchButton_Click"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </ScrollViewer>
-                </PivotItem>
-
-                <!--Custom Pivot -->
-                <PivotItem Header="Custom Channel" Name="CustomPivotItem" MaxWidth="750" HorizontalAlignment="Stretch">
-                    <ScrollViewer Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-                        <StackPanel>
-                            <TextBlock Name="CustomHeader" Text="Custom Source" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
-                            <TextBlock Text="This channel can be any available .m3u8, .mkv, .mov or .mp4 stream that is on the internet." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
-                            <TextBlock Text="Preview" FontWeight="Bold" Margin="0,0,0,10"/>
-                            <GridView Name="CustomChannelsGridView">
-                                <GridView.Items>
-                                    <Grid Width="150" Height="150" Background="White" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
-                                        <Image Name="CustomImage" Source="{Binding ElementName=CustomImageURL, Path=Text}"/>
+                        <GridView Name="TwitchChannelsGridView" ItemsSource="{Binding TwitchChannels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White" >
+                                        <Image Source="{Binding Logo}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding DisplayName}"/>
                                         <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
                                         <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
                                     </Grid>
-                                </GridView.Items>
-                            </GridView>
-                            <TextBlock Text="Channel Info" FontWeight="Bold" Margin="0,0,0,10"/>
-                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
-                                <TextBox x:Name="CustomName" Text="{Binding CustomNameText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Channel Name"/>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                        <TextBlock Text="Additional Info" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
+                                <AutoSuggestBox x:Name="TwitchCategory" Text="{Binding TwitchCategoryText, Mode=TwoWay}" Height="40" GotFocus="CustomCategory_GotFocus" LostFocus="CustomCategory_LostFocus" PlaceholderText="Category" Padding="7" />
                             </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
-                                    <AutoSuggestBox x:Name="CustomCategory" Text="{Binding CustomCategoryText, Mode=TwoWay}" Height="40" GotFocus="CustomCategory_GotFocus" LostFocus="CustomCategory_LostFocus" PlaceholderText="Category" Padding="7"/>
-                                </Grid>
-                                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
-                                    <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="CustomLanguage_GotFocus" LostFocus="CustomLanguage_LostFocus" PlaceholderText="Language" Padding="7"/>
-                                </Grid>
+                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
+                                <AutoSuggestBox x:Name="TwitchLanguage" Text="{Binding TwitchLanguageText, Mode=TwoWay}" Height="40" GotFocus="CustomLanguage_GotFocus" LostFocus="CustomLanguage_LostFocus" PlaceholderText="Language" Padding="7" />
                             </Grid>
-                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
-                                <TextBox x:Name="CustomSourceURL" Text="{Binding CustomSourceURLText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Video Source URL" />
-                            </Grid>
-                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
-                                <TextBox x:Name="CustomImageURL" Text="{Binding CustomImageURLText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Channel Logo URL" />
-                            </Grid>
-                            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                                <Button x:Name="AddCustomButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddCustomButton_Click"/>
-                                <Button x:Name="TestCustomButton" Content="Test Channel" HorizontalAlignment="Right"  Margin="5" Height="40" Padding="7" Click="TestCustomButton_Click"/>
-                            </StackPanel>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <Button x:Name="AddTwitchButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddTwitchButton_Click"/>
+                            <Button x:Name="TestTwitchButton" Content="Test Channel" HorizontalAlignment="Right" Margin="5" Height="40" Padding="7"  Click="TestTwitchButton_Click"/>
                         </StackPanel>
-                    </ScrollViewer>
-                </PivotItem>
-            </Pivot>
-        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+
+            <!--Custom Pivot -->
+            <PivotItem Header="Custom Channel" Name="CustomPivotItem" MaxWidth="750">
+                <ScrollViewer Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+                    <StackPanel>
+                        <TextBlock Name="CustomHeader" Text="Custom Source" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
+                        <TextBlock Text="This channel can be any available .m3u8, .mkv, .mov or .mp4 stream that is on the internet." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
+                        <TextBlock Text="Preview" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <GridView Name="CustomChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled">
+                            <GridView.Items>
+                                <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5">
+                                    <Image Name="CustomImage" Source="{Binding ElementName=CustomImageURL, Path=Text}"/>
+                                    <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
+                                    <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+                                </Grid>
+                            </GridView.Items>
+                        </GridView>
+                        <TextBlock Text="Channel Info" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                            <TextBox x:Name="CustomName" Text="{Binding CustomNameText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Channel Name"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
+                                <AutoSuggestBox x:Name="CustomCategory" Text="{Binding CustomCategoryText, Mode=TwoWay}" Height="40" GotFocus="CustomCategory_GotFocus" LostFocus="CustomCategory_LostFocus" PlaceholderText="Category" Padding="7"/>
+                            </Grid>
+                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
+                                <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="CustomLanguage_GotFocus" LostFocus="CustomLanguage_LostFocus" PlaceholderText="Language" Padding="7"/>
+                            </Grid>
+                        </Grid>
+                        <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                            <TextBox x:Name="CustomSourceURL" Text="{Binding CustomSourceURLText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Video Source URL" />
+                        </Grid>
+                        <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                            <TextBox x:Name="CustomImageURL" Text="{Binding CustomImageURLText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Channel Logo URL" />
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <Button x:Name="AddCustomButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddCustomButton_Click"/>
+                            <Button x:Name="TestCustomButton" Content="Test Channel" HorizontalAlignment="Right"  Margin="5" Height="40" Padding="7" Click="TestCustomButton_Click"/>
+                            <Button x:Name="SuggestCustomButton" Content="Suggest Channel" HorizontalAlignment="Right"  Margin="5" Height="40" Padding="7" Click="SuggestCustomButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

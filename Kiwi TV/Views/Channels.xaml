@@ -41,19 +41,23 @@
             </AppBarButton>
         </StackPanel>
         
+        <Grid Name="GridViewIconSize" Tag="150" />
+
         <ScrollViewer Grid.Row="1" Margin="20" BorderThickness="0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Name="NoContentHeader" Text="No favorites found, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords"/>
+                <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords"/>
+
                 <ItemsControl Name="CategoriesItemsControl">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="0,0,0,10"/>
-                                <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}">
+                                <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}" ScrollViewer.VerticalScrollMode="Disabled">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
                                             <Border Holding="Border_Holding" RightTapped="Border_RightTapped" Tag="{Binding}">
-                                                <Grid Width="150" Height="150" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White">
+                                                <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White">
                                                     <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}" />
                                                     <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
                                                     <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>

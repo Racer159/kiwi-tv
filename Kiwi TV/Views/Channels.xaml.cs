@@ -33,6 +33,9 @@ namespace Kiwi_TV.Views
                 SearchBox.Visibility = Visibility.Collapsed;
                 LanguagesBox.Visibility = Visibility.Collapsed;
                 SearchButton.Visibility = Visibility.Visible;
+                GridViewIconSize.Tag = 115;
+                SearchBox.Width = 125;
+                LanguagesBox.Width = 125;
             }
         }
 
@@ -85,13 +88,6 @@ namespace Kiwi_TV.Views
 
         private void RefreshChannelList(List<Channel> channelList, string search, string language)
         {
-            CategoryList.Clear();
-            channelList = channelList.FindAll(delegate (Channel c) { return c.Name.ToLower().Contains(search); });
-            if (!(language == "All Languages" || language == ""))
-            {
-                channelList = channelList.FindAll(delegate (Channel c) { return c.Languages.Contains(language); });
-            }
-
             if (channelList.Count == 0)
             {
                 NoContentHeader.Visibility = Visibility.Visible;
@@ -99,6 +95,24 @@ namespace Kiwi_TV.Views
             else
             {
                 NoContentHeader.Visibility = Visibility.Collapsed;
+            }
+
+            CategoryList.Clear();
+            channelList = channelList.FindAll(delegate (Channel c) { return c.Name.ToLower().Contains(search); });
+            if (!(language == "All Languages" || language == ""))
+            {
+                channelList = channelList.FindAll(delegate (Channel c) { return c.Languages.Contains(language); });
+            }
+
+
+
+            if (channelList.Count == 0 && NoContentHeader.Visibility == Visibility.Collapsed)
+            {
+                NoSearchHeader.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoSearchHeader.Visibility = Visibility.Collapsed;
             }
 
             ChannelManager.LoadCategories(channelList, CategoryList);

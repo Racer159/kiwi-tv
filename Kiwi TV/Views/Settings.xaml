@@ -16,7 +16,7 @@
                 <TextBlock Name="OptionsHeader" Text="Options" FontSize="24" FontWeight="SemiLight" Margin="10"/>
                 <TextBlock Text="Sync Channels across Devices" Margin="10,5"/>
                 <ToggleSwitch Name="SyncToggleSwitch" Margin="10,5" Toggled="SyncToggleSwitch_Toggled"/>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Name="ResetButtonStackPanel" Orientation="Horizontal">
                     <Button Name="RestoreDefaultChannels" Content="Restore Default Channels" Margin="10,5" Click="RestoreDefaultChannels_Click"/>
                     <Button Name="ResetChannels" Content="Reset Channel List" Margin="10,5" Click="ResetChannels_Click"/>
                 </StackPanel>

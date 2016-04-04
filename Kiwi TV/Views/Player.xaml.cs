@@ -48,7 +48,7 @@ namespace Kiwi_TV.Views
                         MainPlayer.Source = new Uri(nowPlaying.Source, "?allow_source=true&token=" + Uri.EscapeDataString(token.Token.Replace("\\", "")) + "&sig=" + Uri.EscapeDataString(token.Signature));
                         SetLiveCheckBoxValue(true);
                     }
-                    else
+                    else if (token != null)
                     {
                         TwitchChannel channelDesc = await TwitchAPI.RetreiveChannelDescription(channelName);
 

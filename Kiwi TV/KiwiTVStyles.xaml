@@ -17,6 +17,7 @@
     <SolidColorBrush x:Key="NavButtonCheckedPressedBackgroundBrush" Color="#ffca814c" />
     <SolidColorBrush x:Key="NavButtonCheckedHoverBackgroundBrush" Color="#ffc16b2d" />
 
+
     <x:Double x:Key="NavPaneSmallFontSize">16</x:Double>
     <x:Double x:Key="NavPaneLargeFontSize">20</x:Double>
     <x:Double x:Key="BackButtonHeight">32</x:Double>

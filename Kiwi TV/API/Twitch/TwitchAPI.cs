@@ -38,7 +38,14 @@ namespace Kiwi_TV.API.Twitch
         public async static Task<bool> IsLive(string channelName)
         {
             TwitchStreamDesc streamDesc = await RetreiveStreamDescription(channelName);
-            return !(streamDesc.Stream == null);
+            if (streamDesc != null)
+            {
+                return !(streamDesc.Stream == null);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static string GetChannelNameFromURL(string videoUrl)

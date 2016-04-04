@@ -2,6 +2,7 @@
 using Kiwi_TV.Models;
 using Kiwi_TV.Views.States;
 using System;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,6 +29,13 @@ namespace Kiwi_TV
             //{
                 FeedbackButton.Visibility = Visibility.Visible;
             //}
+            Windows.UI.ViewManagement.ApplicationView appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+            appView.TitleBar.ButtonBackgroundColor = Colors.White;
+            appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 230, 230, 230);
+            appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 204, 204, 204);
+            appView.TitleBar.ButtonForegroundColor = Colors.Black;
+            appView.TitleBar.ButtonHoverForegroundColor = Colors.Black;
+            appView.TitleBar.ButtonPressedForegroundColor = Colors.Black;
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)

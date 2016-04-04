@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Web.Http;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,9 +36,23 @@ namespace Kiwi_TV.Views
             }
         }
 
-        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        private async void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            MailHelper.SendFeedbackEmail(EmailBox.Text, "Test", FeedbackBox.Text);
+            string type = "Dislike";
+            if ((bool)SuggestButton.IsChecked) { type = "Suggestion"; }  else if ((bool)LikeButton.IsChecked) { type = "Like"; }
+            object output = await MailHelper.SendFeedbackEmail(EmailBox.Text, type, FeedbackBox.Text);
+
+            if (output is HttpResponseMessage)
+            {
+                EmailBox.Text = "";
+                FeedbackBox.Text = "";
+                SuggestButton.IsChecked = true;
+                await new Windows.UI.Popups.MessageDialog("Successfully received your feedback. Thank you!").ShowAsync();
+            }
+            else
+            {
+                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your feedback later.").ShowAsync();
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,8 +35,8 @@ namespace Kiwi_TV.Views
             CustomCategory.ItemsSource = categories;
             CustomLanguage.ItemsSource = languages;
             TwitchCategory.ItemsSource = categories;
-            TwitchLanguage.ItemsSource = languages;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
+
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
@@ -62,11 +63,8 @@ namespace Kiwi_TV.Views
             Uri.TryCreate(CustomSourceURL.Text, UriKind.RelativeOrAbsolute, out source);
             if (source.IsAbsoluteUri)
             {
-                List<string> languages = new List<string>();
-                languages.Add(CustomLanguage.Text);
-                Channel newChannel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
-                await ChannelManager.AddChannel(newChannel);
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + newChannel.Name).ShowAsync();
+                await ChannelManager.AddChannel(GenerateCustomChannel());
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + CustomName.Text).ShowAsync();
             }
             else
             {
@@ -80,14 +78,33 @@ namespace Kiwi_TV.Views
             Uri.TryCreate(CustomSourceURL.Text, UriKind.RelativeOrAbsolute, out source);
             if (source.IsAbsoluteUri)
             {
-                List<string> languages = new List<string>();
-                languages.Add(CustomLanguage.Text);
-                Channel newChannel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(newChannel, ""));
+                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateCustomChannel(), ""));
             }
             else
             {
                 await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot load that channel because the specified video URL is invalid.").ShowAsync();
+            }
+        }
+
+        private Channel GenerateCustomChannel()
+        {
+            List<string> languages = new List<string>();
+            languages.Add(CustomLanguage.Text);
+            return new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
+        }
+
+        private async void SuggestCustomButton_Click(object sender, RoutedEventArgs e)
+        {
+            object output = await MailHelper.SendFeedbackEmail("", "Suggestion", "Hi, I want to suggest you add '" + CustomName.Text +
+                "' as a default channel.  Below are the sources I used:\n\nImage: " + CustomImageURL.Text + "\nVideo: " + CustomSourceURL.Text + "\n\nThank you!");
+
+            if (!(output is Exception))
+            {
+                await new Windows.UI.Popups.MessageDialog("Successfully received your suggestion. Thank you!").ShowAsync();
+            }
+            else
+            {
+                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
             }
         }
 
@@ -129,11 +146,8 @@ namespace Kiwi_TV.Views
             if (TwitchChannelsGridView.SelectedItem is TwitchChannel)
             {
                 TwitchChannel selected = (TwitchChannel)TwitchChannelsGridView.SelectedItem;
-                List<string> languages = new List<string>();
-                languages.Add(selected.Language);
-                Channel newChannel = new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, "Gaming", "twitch", true);
-                await ChannelManager.AddChannel(newChannel);
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + newChannel.Name).ShowAsync();
+                await ChannelManager.AddChannel(GenerateTwitchChannel(selected));
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + selected.DisplayName).ShowAsync();
             }
             else
             {
@@ -146,10 +160,7 @@ namespace Kiwi_TV.Views
             if (TwitchChannelsGridView.SelectedItem is TwitchChannel)
             {
                 TwitchChannel selected = (TwitchChannel)TwitchChannelsGridView.SelectedItem;
-                List<string> languages = new List<string>();
-                languages.Add(selected.Language);
-                Channel newChannel = new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, "Gaming", "twitch", true);
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(newChannel, ""));
+                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateTwitchChannel(selected), ""));
             }
             else
             {
@@ -157,31 +168,36 @@ namespace Kiwi_TV.Views
             }
         }
 
-        private async void TwitchSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private Channel GenerateTwitchChannel(TwitchChannel selected)
         {
-            if (TwitchSearch.Text != "")
+            List<string> languages = new List<string>();
+            languages.Add(TwitchAPI.ConvertLanguageCode(selected.Language));
+            return new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, TwitchCategory.Text, "twitch", true);
+        }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            await RunTwitchSearch();
+        }
+
+        private async void TwitchSearch_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                TwitchSearchResults results = await TwitchAPI.RetrieveSearchResults(Uri.EscapeDataString(TwitchSearch.Text));
-                _viewModel.TwitchChannels = results.Channels;
-            }
-            else
-            {
-                _viewModel.TwitchChannels = new TwitchChannel[0];
+                await RunTwitchSearch();
             }
         }
 
-        private async void SuggestCustomButton_Click(object sender, RoutedEventArgs e)
+        private async Task RunTwitchSearch()
         {
-            object output = await MailHelper.SendFeedbackEmail("", "Suggestion", "Hi, I want to suggest you add '" + CustomName.Text +
-                "' as a default channel.  Below are the sources I used:\n\nImage: " + CustomImageURL.Text + "\nVideo: " + CustomSourceURL.Text + "\n\nThank you!");
+            _viewModel.TwitchChannels = new TwitchChannel[0];
 
-            if (!(output is Exception))
+            if (TwitchSearch.Text != "")
             {
-                await new Windows.UI.Popups.MessageDialog("Successfully received your suggestion. Thank you!").ShowAsync();
-            }
-            else
-            {
-                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
+                TwitchLoadingSpinner.Visibility = Visibility.Visible;
+                TwitchSearchResults results = await TwitchAPI.RetrieveSearchResults(Uri.EscapeDataString(TwitchSearch.Text));
+                TwitchLoadingSpinner.Visibility = Visibility.Collapsed;
+                _viewModel.TwitchChannels = results.Channels;
             }
         }
     }

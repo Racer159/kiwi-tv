@@ -20,8 +20,12 @@ namespace Kiwi_TV.Views.States
         private string _customImageURLText;
         private string _twitchSearchText;
         private string _twitchCategoryText;
-        private string _twitchLanguageText;
         private TwitchChannel[] _twitchChannels;
+
+        public AddChannelViewModel()
+        {
+            _twitchCategoryText = "Gaming";
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -116,17 +120,6 @@ namespace Kiwi_TV.Views.States
             {
                 _twitchCategoryText = value;
                 NotifyPropertyChanged("TwitchCategoryText");
-            }
-        }
-
-        [DataMember]
-        public string TwitchLanguageText
-        {
-            get { return _twitchLanguageText; }
-            set
-            {
-                _twitchLanguageText = value;
-                NotifyPropertyChanged("TwitchLanguageText");
             }
         }
 

@@ -52,5 +52,24 @@ namespace Kiwi_TV.API.Twitch
         {
             return videoUrl.Split('/').Last().Split('.').First();
         }
+
+        public static string ConvertLanguageCode(string code)
+        {
+            switch (code)
+            {
+                case "en":
+                    return "English";
+                case "fr":
+                    return "French";
+                case "ar":
+                    return "Arabic";
+                case "ru":
+                    return "Russian";
+                case "de":
+                    return "German";
+                default:
+                    return "Other";
+            }
+        }
     }
 }

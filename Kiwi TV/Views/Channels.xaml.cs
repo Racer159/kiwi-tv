@@ -62,28 +62,9 @@ namespace Kiwi_TV.Views
             }
 
             RefreshChannelList(ChannelList, "", "All Languages");
+            LoadingSpinner.Visibility = Visibility.Collapsed;
             base.OnNavigatedTo(e);
-            RefreshLiveStatus(await ChannelManager.SetLive(ChannelList));
-        }
-
-        private void RefreshLiveStatus(List<Channel> channelList)
-        {
-            for (int i = 0; i < CategoryList.Count; i++)
-            {
-                for(int j = 0; j < CategoryList[i].Channels.Count; j++)
-                {
-                    for (int k = 0; k < channelList.Count; k++)
-                    {
-                        if (CategoryList[i].Channels[j].Name == channelList[k].Name)
-                        {
-                            Channel updated = CategoryList[i].Channels[j];
-                            updated.Live = channelList[k].Live;
-                            CategoryList[i].Channels.RemoveAt(j);
-                            CategoryList[i].Channels.Insert(j, updated);
-                        }
-                    }
-                }
-            }
+            ChannelList = await ChannelManager.SetLive(ChannelList);
         }
 
         private void RefreshChannelList(List<Channel> channelList, string search, string language)

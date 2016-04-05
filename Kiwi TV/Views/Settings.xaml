@@ -11,7 +11,7 @@
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Settings"/>
         </StackPanel>
-        <ScrollViewer Grid.Row="1" Margin="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" MaxWidth="750" HorizontalAlignment="Stretch">
+        <ScrollViewer Grid.Row="1" Padding="10" BorderThickness="0" VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Left">
             <StackPanel>
                 <TextBlock Name="OptionsHeader" Text="Options" FontSize="24" FontWeight="SemiLight" Margin="10"/>
                 <TextBlock Text="Sync Channels across Devices" Margin="10,5"/>

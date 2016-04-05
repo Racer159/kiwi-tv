@@ -146,6 +146,7 @@
   <ItemGroup>
     <Content Include="Assets\Bars.png" />
     <Content Include="Assets\Black.png" />
+    <Content Include="Assets\Loading.gif" />
     <Content Include="Data\ChannelIcons\bloomberg.png" />
     <Content Include="Data\ChannelIcons\deutschewelle.png" />
     <Content Include="Data\ChannelIcons\dwamerika.png" />

@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.System.Display;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -18,6 +19,7 @@ namespace Kiwi_TV.Views
     public sealed partial class Player : Page
     {
         Channel nowPlaying = new Channel();
+        private DisplayRequest dispRequest = null;
 
         public Player()
         {
@@ -96,6 +98,24 @@ namespace Kiwi_TV.Views
             {
                 ToolTipService.SetToolTip(LiveCheckBox, "Offline");
                 OfflineText.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void MainPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (dispRequest == null)
+            {
+                dispRequest = new DisplayRequest();
+                dispRequest.RequestActive();
+            }
+        }
+
+        private void MainPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (dispRequest != null)
+            {
+                dispRequest.RequestRelease();
+                dispRequest = null;
             }
         }
     }

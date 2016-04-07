@@ -101,7 +101,7 @@ namespace Kiwi_TV.Views
 
             if (!(output is Exception))
             {
-                await new Windows.UI.Popups.MessageDialog("Successfully received your suggestion. Thank you!").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("Successfully received your suggestion to add this channel as a default. Thank you!").ShowAsync();
             }
             else
             {

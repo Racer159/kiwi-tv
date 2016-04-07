@@ -23,7 +23,7 @@
                 <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="10"/>
                 <TextBlock Name="AboutHeader" Text="About" FontSize="24" FontWeight="SemiLight" Margin="10"/>
                 <TextBlock Text="Developed By Racer159" Margin="10,5" FontWeight="SemiLight"/>
-                <TextBlock Text="Version 1.1.3" Margin="10,5" FontWeight="SemiLight"/>
+                <TextBlock Text="Version 1.1.5" Margin="10,5" FontWeight="SemiLight"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

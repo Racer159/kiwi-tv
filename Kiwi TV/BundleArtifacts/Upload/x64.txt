@@ -1,2 +1,2 @@
-MainPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\bin\x64\Release\Upload\Kiwi TV_1.1.4.0_x64.appx
-SymbolPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\AppPackages\Kiwi TV_1.1.4.0\Kiwi TV_1.1.4.0_x64.appxsym
+MainPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\bin\x64\Release\Upload\Kiwi TV_1.1.5.0_x64.appx
+SymbolPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\AppPackages\Kiwi TV_1.1.5.0\Kiwi TV_1.1.5.0_x64.appxsym

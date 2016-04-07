@@ -41,6 +41,7 @@ namespace Kiwi_TV.Views
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
                 GridViewIconSize.Tag = 115;
+                CustomButtons.Orientation = Orientation.Vertical;
             }
         }
 
@@ -115,7 +116,6 @@ namespace Kiwi_TV.Views
             categories.Add("Science/Technology");
             categories.Add("Entertainment");
             categories.Add("Sports");
-            categories.Add("Kids");
             categories.Add("Gaming");
             categories.Add("Other");
         }

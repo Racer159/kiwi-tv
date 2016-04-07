@@ -31,7 +31,7 @@
                     <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 </StackPanel>
                 <Grid Margin="10,4" Background="#ffc0c0c0" Height="180" VerticalAlignment="Top">
-                    <TextBox x:Name="FeedbackBox" Height="180" Padding="7" PlaceholderText="Enter your feedback and suggestions here." TextWrapping="Wrap"></TextBox>
+                    <TextBox x:Name="FeedbackBox" Height="180" Padding="7" PlaceholderText="Enter your feedback here." TextWrapping="Wrap"></TextBox>
                 </Grid>
                 <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10,4" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}"  Click="SubmitButton_Click"></Button>
             </StackPanel>

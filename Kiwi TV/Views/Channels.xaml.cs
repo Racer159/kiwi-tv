@@ -3,6 +3,8 @@ using Kiwi_TV.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,12 +32,10 @@ namespace Kiwi_TV.Views
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
-                SearchBox.Visibility = Visibility.Collapsed;
-                LanguagesBox.Visibility = Visibility.Collapsed;
+                ChannelFilters.Visibility = Visibility.Collapsed;
                 SearchButton.Visibility = Visibility.Visible;
                 GridViewIconSize.Tag = 115;
-                SearchBox.Width = 125;
-                LanguagesBox.Width = 125;
+                SearchBoxGridWidth.Width = new GridLength(160);
             }
         }
 
@@ -59,12 +59,38 @@ namespace Kiwi_TV.Views
                     TitleText.Text = "Favorites";
                     favorites = true;
                 }
+                else
+                {
+                    SetLanguageList();
+                }
             }
 
             RefreshChannelList(ChannelList, "", "All Languages");
             LoadingSpinner.Visibility = Visibility.Collapsed;
             base.OnNavigatedTo(e);
             ChannelList = await ChannelManager.SetLive(ChannelList);
+        }
+
+        private void SetLanguageList()
+        {
+            List<string> languages = new List<string>();
+
+            foreach (Channel c in ChannelList)
+            {
+                foreach (string s in c.Languages) {
+                    if (!languages.Contains(s))
+                    {
+                        languages.Add(s);
+                    }
+                }
+            }
+
+            foreach (string s in languages)
+            {
+                ComboBoxItem c = new ComboBoxItem();
+                c.Content = s;
+                LanguagesBox.Items.Add(c);
+            }
         }
 
         private void RefreshChannelList(List<Channel> channelList, string search, string language)
@@ -125,34 +151,28 @@ namespace Kiwi_TV.Views
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                ChannelFilters.Width = Frame.ActualWidth;
+            }
+
+            ChannelFilters.Visibility = Visibility.Visible;
             SearchButton.Visibility = Visibility.Collapsed;
             TitleText.Visibility = Visibility.Collapsed;
-            SearchBox.Visibility = Visibility.Visible;
             SearchBox.Focus(FocusState.Pointer);
-
-            if (!favorites)
-            {
-                LanguagesBox.Visibility = Visibility.Visible;
-            }
         }
 
         private void MainChannelsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (MainChannelsGrid.ActualWidth < 550 && SearchBox.Visibility == Visibility.Visible)
+            if (MainChannelsGrid.ActualWidth < 550 && ChannelFilters.Visibility == Visibility.Visible)
             {
-                SearchBox.Visibility = Visibility.Collapsed;
-                LanguagesBox.Visibility = Visibility.Collapsed;
+                ChannelFilters.Visibility = Visibility.Collapsed;
                 SearchButton.Visibility = Visibility.Visible;
                 TitleText.Visibility = Visibility.Visible;
             }
-            else if (MainChannelsGrid.ActualWidth > 550 && SearchBox.Visibility == Visibility.Collapsed)
+            else if (MainChannelsGrid.ActualWidth > 550 && ChannelFilters.Visibility == Visibility.Collapsed)
             {
-                SearchBox.Visibility = Visibility.Visible;
-                if (!favorites)
-                {
-                    LanguagesBox.Visibility = Visibility.Visible;
-                }
-
+                ChannelFilters.Visibility = Visibility.Visible;
                 SearchButton.Visibility = Visibility.Collapsed;
             }
         }
@@ -163,20 +183,12 @@ namespace Kiwi_TV.Views
             {
                 SearchButton.Visibility = Visibility.Visible;
                 TitleText.Visibility = Visibility.Visible;
-                SearchBox.Visibility = Visibility.Collapsed;
-                LanguagesBox.Visibility = Visibility.Collapsed;
-            }
-        }
+                ChannelFilters.Visibility = Visibility.Collapsed;
 
-        private async void Border_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
-        {
-            if (sender is Border && ((Border)sender).Tag is Channel)
-            {
-                Channel channel = (Channel)((Border)sender).Tag;
-                PopupMenu popup = new PopupMenu();
-                UICommand delete = new UICommand("Delete", delegate (IUICommand command) { DeleteChannel(channel); });
-                popup.Commands.Add(delete);
-                await popup.ShowAsync(e.GetPosition((FrameworkElement)((FrameworkElement)((FrameworkElement)((FrameworkElement)Frame.Parent).Parent).Parent).Parent));
+                if (DeviceType == DeviceFormFactorType.Phone)
+                {
+                    ChannelFilters.Width = double.NaN;
+                }
             }
         }
 

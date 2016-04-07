@@ -4,13 +4,13 @@
 #EXTINF:0, NASA TV, English, ms-appx:///Data/ChannelIcons/nasatv.png, n, Science/Technology, iptv
 http://nasatv-lh.akamaihd.net/i/NASA_101@319270/index_1000_av-p.m3u8
 
-#EXTINF:0, NASA TV ISS, English, ms-appx:///Data/ChannelIcons/test.png, n, Science/Technology, iptv
+#EXTINF:0, NASA TV ISS, English, ms-appx:///Data/ChannelIcons/nasatviss.png, n, Science/Technology, iptv
 http://iphone-streaming.ustream.tv/ustreamVideo/17074538/streams/live/playlist.m3u8
 
 #EXTINF:0, Russia Today, English, ms-appx:///Data/ChannelIcons/russiatoday.png, n, News, iptv
 https://rt-a.akamaihd.net/ch_01@325605/320p.m3u8
 
-#EXTINF:0, RT Documentary, English, ms-appx:///Data/ChannelIcons/test.png, n, News, iptv
+#EXTINF:0, RT Documentaries, English, ms-appx:///Data/ChannelIcons/rtdocumentaries.png, n, News, iptv
 http://rt-lh.akamaihd.net/i/ch_05@325609/index_320p_av-p.m3u8?sd=10&rebase=on
 
 #EXTINF:0, Bloomberg, English, ms-appx:///Data/ChannelIcons/bloomberg.png, n, News, iptv
@@ -31,44 +31,44 @@ http://dwstream3-lh.akamaihd.net/i/dwstream3_live@124409/master.m3u8
 #EXTINF:0, DW (Arabia), Arabic, ms-appx:///Data/ChannelIcons/dwarabia.png, n, News, iptv
 http://dwstream2-lh.akamaihd.net/i/dwstream2_live@124400/master.m3u8
 
-#EXTINF:0, France 24, English, ms-appx:///Data/ChannelIcons/test.png, n, News, iptv
+#EXTINF:0, France 24, English, ms-appx:///Data/ChannelIcons/france24.png, n, News, iptv
 http://static.france24.com/live/F24_EN_LO_HLS/live_web.m3u8
 
-#EXTINF:0, Arirang TV, English, ms-appx:///Data/ChannelIcons/test.png, n, News, iptv
+#EXTINF:0, Arirang TV, English, ms-appx:///Data/ChannelIcons/arirangtv.png, n, News, iptv
 http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8
 
-#EXTINF:0, Weather Nation, English, ms-appx:///Data/ChannelIcons/test.png, n, News, iptv
+#EXTINF:0, Weather Nation, English, ms-appx:///Data/ChannelIcons/weathernation.png, n, News, iptv
 http://kalsegsec-a.akamaihd.net:80/dc-1/m/ny-live-publish5/kLive/smil:1_oorxcge2_all.smil/playlist.m3u8
 
-#EXTINF:0, 360 North, English, ms-appx:///Data/ChannelIcons/test.png, n, News, iptv
+#EXTINF:0, 360 North, English, ms-appx:///Data/ChannelIcons/360north.png, n, News, iptv
 http://state.ak.tvwmedia.net:1935/ktoo-live/_definst_/360north/playlist.m3u8
 
-#EXTINF:0, TV Shopping Network, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, iptv
+#EXTINF:0, TV Shopping Network, English, ms-appx:///Data/ChannelIcons/tvshoppingnetwork.png, n, Other, iptv
 http://tvsn-lh.akamaihd.net/i/TVSN_1@137553/master.m3u8
 
-#EXTINF:0, Evine TV, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, iptv
+#EXTINF:0, Evine TV, English, ms-appx:///Data/ChannelIcons/evinetv.png, n, Other, iptv
 http://shophqlivehls-i.akamaihd.net/hls/live/217244/onair/master.m3u8
 
-#EXTINF:0, Spirit Television, English, ms-appx:///Data/ChannelIcons/test.png, n, Entertainment, iptv
+#EXTINF:0, Spirit Television, English, ms-appx:///Data/ChannelIcons/spirittelevision.png, n, Entertainment, iptv
 http://cdn.rbm.tv/rightbrainmedia-live-109/_definst_/smil:spirit_all.smil/playlist.m3u8
 
-#EXTINF:0, Cartoon 7 TV, English, ms-appx:///Data/ChannelIcons/test.png, n, Entertainment, iptv
+#EXTINF:0, Cartoon 7 TV, English, ms-appx:///Data/ChannelIcons/cartoon7tv.png, n, Entertainment, iptv
 http://iphone-streaming.ustream.tv/uhls/13635287/streams/live/iphone/playlist.m3u8
+
+#EXTINF:0, Russian Music Box, Russian, ms-appx:///Data/ChannelIcons/russianmusicbox.png, n, Entertainment, iptv
+http://musicbox.cdnvideo.ru/musicbox/musicbox.sdp/playlist.m3u8
+
+#EXTINF:0, Beatz TV, English, ms-appx:///Data/ChannelIcons/beatztv.png, n, Entertainment, iptv
+http://rtmp.infomaniak.ch/livecast/beats_1/playlist.m3u8
+
+#EXTINF:0, RadioU TV, English, ms-appx:///Data/ChannelIcons/radiou.png, n, Entertainment, iptv
+http://cdn.rbm.tv/rightbrainmedia-live-109/_definst_/smil:radioutv_all.smil/playlist.m3u8
 
 //#EXTINF:0, DW (Amerika), English, ms-appx:///Data/ChannelIcons/dwamerika.png, n, News, iptv
 //http://dwstream5-lh.akamaihd.net/i/dwstream5_live@124540/master.m3u8
 
 //#EXTINF:0, DW (Deutsch), German, ms-appx:///Data/ChannelIcons/dwdeutsch.png, n, News, iptv
 //http://dwstream6-lh.akamaihd.net/i/dwstream6_live@123962/master.m3u8
-
-#EXTINF:0, Russian Music Box, Russian, ms-appx:///Data/ChannelIcons/russianmusicbox.png, n, Entertainment, iptv
-http://musicbox.cdnvideo.ru/musicbox/musicbox.sdp/playlist.m3u8
-
-#EXTINF:0, Beatz TV, English, ms-appx:///Data/ChannelIcons/test.png, n, Entertainment, iptv
-http://rtmp.infomaniak.ch/livecast/beats_1/playlist.m3u8
-
-#EXTINF:0, RadioU TV, English, ms-appx:///Data/ChannelIcons/test.png, n, Entertainment, iptv
-http://cdn.rbm.tv/rightbrainmedia-live-109/_definst_/smil:radioutv_all.smil/playlist.m3u8
 
 //#EXTINF:0, Twitch Test2, English, ms-appx:///Data/ChannelIcons/test.png, n, Gaming, twitch
 //http://usher.ttvnw.net/api/channel/hls/mlg.m3u8

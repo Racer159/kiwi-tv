@@ -118,5 +118,10 @@ namespace Kiwi_TV.Views
                 dispRequest = null;
             }
         }
+
+        private void MainPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            SetLiveCheckBoxValue(false);
+        }
     }
 }

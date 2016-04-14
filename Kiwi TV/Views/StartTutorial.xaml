@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="Kiwi_TV.Views.StartTutorial"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kiwi_TV.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../KiwiTVStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource HamburgerBackgroundBrush}" Margin="0,-48,0,0">
+        <Grid Name="TutorialWrap" MaxWidth="600" Margin="50, 100" Background="{ThemeResource AppBarBackgroundThemeBrush}">
+            <Image Name="ExampleImage" Height="200" Margin="10, -150, 10, 10" Source="ms-appx:///Assets/Welcome.png"/>
+            <TextBlock Name="TitleText" Text="Welcome to Kiwi TV" FontSize="24" FontWeight="SemiLight" Margin="10, 150, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Name="SubText" Text="Your home for internet television." FontWeight="SemiLight" Margin="10, 250, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Margin="10, 350, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Name="Skip" Content="Skip" Margin="10" Width="100" Click="Skip_Click"/>
+                <Button Name="Next" Content="Next" Margin="10" Width="100" Click="Next_Click" Background="{ThemeResource HamburgerBackgroundBrush}" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

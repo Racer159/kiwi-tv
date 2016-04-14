@@ -135,6 +135,9 @@
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StartTutorial.xaml.cs">
+      <DependentUpon>StartTutorial.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\States\AddChannelViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +147,13 @@
     <None Include="Kiwi TV_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Add.png" />
     <Content Include="Assets\Bars.png" />
     <Content Include="Assets\Black.png" />
+    <Content Include="Assets\Favorite.png" />
+    <Content Include="Assets\Live.png" />
     <Content Include="Assets\Loading.gif" />
+    <Content Include="Assets\Welcome.png" />
     <Content Include="Data\ChannelIcons\360north.png" />
     <Content Include="Data\ChannelIcons\arirangtv.png" />
     <Content Include="Data\ChannelIcons\beatztv.png" />
@@ -213,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartTutorial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

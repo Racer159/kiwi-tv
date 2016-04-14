@@ -18,16 +18,25 @@ namespace Kiwi_TV
     public sealed partial class MainPage : Page
     {
         DeviceFormFactorType DeviceType;
+        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
         public MainPage()
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
-            FavoritesButton.IsChecked = true;
+            if (localSettings.Values["freshInstall"] is bool)
+            {
+                FavoritesButton.IsChecked = true;
+            }
+            else
+            {
+                localSettings.Values["freshInstall"] = false;
+                ContentView.Navigate(typeof(Views.StartTutorial), true);
+            }
             //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
             //{
-                FeedbackButton.Visibility = Visibility.Visible;
+            FeedbackButton.Visibility = Visibility.Visible;
             //}
             Windows.UI.ViewManagement.ApplicationView appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
             appView.TitleBar.ButtonBackgroundColor = Colors.White;
@@ -86,7 +95,7 @@ namespace Kiwi_TV
             }
             NavPane.IsPaneOpen = false;
 
-            if (e.SourcePageType == typeof(Views.Player))
+            if (e.SourcePageType == typeof(Views.Player) || e.SourcePageType == typeof(Views.StartTutorial))
             {
                 NavPane.DisplayMode = SplitViewDisplayMode.Overlay;
 

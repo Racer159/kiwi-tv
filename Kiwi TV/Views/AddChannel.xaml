@@ -60,13 +60,15 @@
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
-                        <TextBlock Text="Category" FontWeight="Bold" Margin="0,0,0,10"/>
-                        <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
-                            <AutoSuggestBox x:Name="TwitchCategory" Text="{Binding TwitchCategoryText, Mode=TwoWay}" Height="40" GotFocus="CustomCategory_GotFocus" LostFocus="CustomCategory_LostFocus" PlaceholderText="Category" />
-                        </Grid>
-                        <StackPanel Name="TwitchButtons" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button x:Name="TestTwitchButton" Content="Test Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7"  Click="TestTwitchButton_Click"/>
-                            <Button x:Name="AddTwitchButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddTwitchButton_Click"/>
+                        <StackPanel Name="TwitchCategoryWrap" Visibility="Collapsed">
+                            <TextBlock Text="Category" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
+                                <AutoSuggestBox x:Name="TwitchCategory" Text="{Binding TwitchCategoryText, Mode=TwoWay}" Height="40" GotFocus="CustomCategory_GotFocus" LostFocus="CustomCategory_LostFocus" PlaceholderText="Category" />
+                            </Grid>
+                            <StackPanel Name="TwitchButtons" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button x:Name="TestTwitchButton" Content="Test Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7"  Click="TestTwitchButton_Click"/>
+                                <Button x:Name="AddTwitchButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddTwitchButton_Click"/>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

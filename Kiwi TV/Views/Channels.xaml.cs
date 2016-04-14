@@ -22,7 +22,6 @@ namespace Kiwi_TV.Views
         DeviceFormFactorType DeviceType;
         List<Channel> ChannelList = new List<Channel>();
         ObservableCollection<Category> CategoryList = new ObservableCollection<Category>();
-        bool favorites = false;
 
         public Channels()
         {
@@ -57,7 +56,6 @@ namespace Kiwi_TV.Views
                 {
                     LanguagesBox.Visibility = Visibility.Collapsed;
                     TitleText.Text = "Favorites";
-                    favorites = true;
                 }
                 else
                 {

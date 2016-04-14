@@ -51,6 +51,10 @@ namespace Kiwi_TV.Views
             {
                 _viewModel = (AddChannelViewModel)e.Parameter;
                 this.DataContext = _viewModel;
+                if (this._viewModel.TwitchChannels != null && this._viewModel.TwitchChannels.Length > 0)
+                {
+                    TwitchCategoryWrap.Visibility = Visibility.Visible;
+                }
             }
             else
             {
@@ -197,6 +201,7 @@ namespace Kiwi_TV.Views
                 TwitchLoadingSpinner.Visibility = Visibility.Visible;
                 TwitchSearchResults results = await TwitchAPI.RetrieveSearchResults(Uri.EscapeDataString(TwitchSearch.Text));
                 TwitchLoadingSpinner.Visibility = Visibility.Collapsed;
+                TwitchCategoryWrap.Visibility = Visibility.Visible;
                 _viewModel.TwitchChannels = results.Channels;
             }
         }

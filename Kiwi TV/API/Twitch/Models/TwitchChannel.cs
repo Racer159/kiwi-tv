@@ -34,12 +34,12 @@ namespace Kiwi_TV.API.Twitch.Models
         [DataMember(Name = "profile_banner_background_color")]
         public string ProfileBannerBackgroundColor { get; set; }
         [DataMember(Name = "partner")]
-        public bool Partner { get; set; }
+        public bool? Partner { get; set; }
         [DataMember(Name = "url")]
         public string Url { get; set; }
         [DataMember(Name = "views")]
-        public long Views { get; set; }
+        public long? Views { get; set; }
         [DataMember(Name = "followers")]
-        public long Followers { get; set; }
+        public long? Followers { get; set; }
     }
 }

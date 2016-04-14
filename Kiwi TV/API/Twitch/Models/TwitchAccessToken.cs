@@ -10,6 +10,6 @@ namespace Kiwi_TV.API.Twitch.Models
         [DataMember(Name = "sig")]
         public string Signature { get; set; }
         [DataMember(Name = "mobile_restricted")]
-        public bool IsMobileRestricted { get; set; }
+        public bool? IsMobileRestricted { get; set; }
     }
 }

@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.System.Display;
+using System.Diagnostics;
+using Windows.Media;
+using Windows.UI.Xaml.Media;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,15 +23,56 @@ namespace Kiwi_TV.Views
     {
         Channel nowPlaying = new Channel();
         private DisplayRequest dispRequest = null;
+        SystemMediaTransportControls systemControls;
 
         public Player()
         {
             this.InitializeComponent();
-            
+            this.InitializeTransportControls();
+
             MainPlayer.AreTransportControlsEnabled = true;
             MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Bars.png"));
             
             // ABC MainPlayer.Source = new Uri("http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8?sd=10&b=1200&rebase=on");
+        }
+
+        void InitializeTransportControls()
+        {
+            systemControls = SystemMediaTransportControls.GetForCurrentView();
+            systemControls.ButtonPressed += systemControls_ButtonPressed;
+            systemControls.IsPlayEnabled = true;
+            systemControls.IsPauseEnabled = true;
+        }
+
+        void systemControls_ButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
+        {
+            switch (args.Button)
+            {
+                case SystemMediaTransportControlsButton.Pause:
+                    PauseMedia();
+                    break;
+                case SystemMediaTransportControlsButton.Play:
+                    PlayMedia();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private async void PlayMedia()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                MainPlayer.Play();
+            });
+        }
+
+        private async void PauseMedia()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                MainPlayer.Pause();
+            });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -108,6 +152,7 @@ namespace Kiwi_TV.Views
                 dispRequest = new DisplayRequest();
                 dispRequest.RequestActive();
             }
+            Debug.Write(MainPlayer.AudioCategory);
         }
 
         private void MainPlayer_MediaEnded(object sender, RoutedEventArgs e)
@@ -122,6 +167,27 @@ namespace Kiwi_TV.Views
         private void MainPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             SetLiveCheckBoxValue(false);
+        }
+
+        private void MainPlayer_CurrentStateChanged(object sender, RoutedEventArgs e)
+        {
+            switch (MainPlayer.CurrentState)
+            {
+                case MediaElementState.Closed:
+                    systemControls.PlaybackStatus = MediaPlaybackStatus.Closed;
+                    break;
+                case MediaElementState.Paused:
+                    systemControls.PlaybackStatus = MediaPlaybackStatus.Paused;
+                    break;
+                case MediaElementState.Playing:
+                    systemControls.PlaybackStatus = MediaPlaybackStatus.Playing;
+                    break;
+                case MediaElementState.Stopped:
+                    systemControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

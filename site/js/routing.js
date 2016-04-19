@@ -7,11 +7,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 	
 	$stateProvider.state('home', {
 		url: '/home',
-		templateUrl: 'partials/home.html',
+		templateUrl: 'site/partials/home.html',
 		controller: 'HomeController'
 	}).state('faq', {
 		url: '/faq',
-		templateUrl: 'partials/faq.html',
+		templateUrl: 'site/partials/faq.html',
 		controller: 'FaqController'
 	});
 });

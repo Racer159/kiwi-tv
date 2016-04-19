@@ -1,1 +1,71 @@
-Hello World Test
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="main">
+
+<head>
+	<title>Wayne Starr (Racer159)</title>
+	<link rel="stylesheet" type="text/css" href="site/css/bootstrap/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="site/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="site/css/animations.css" />
+	<link rel="stylesheet" type="text/css" href="site/css/interface.css" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<script type="text/javascript" src="jsite/s/angular/angular.js"></script>
+	<script type="text/javascript" src="site/js/angular/angular-animate.js"></script>
+	<script type="text/javascript" src="site/js/angular/angular-ui-router.js"></script>
+	<script type="text/javascript" src="site/js/bootstrap/ui-bootstrap-tpls-0.11.2.min.js"></script>
+	
+	<script type="text/javascript" src="site/js/app-controller.js"></script>
+	<script type="text/javascript" src="site/js/routing.js"></script>
+	<script type="text/javascript" src="site/js/home-controller.js"></script>
+	<script type="text/javascript" src="site/js/faq-controller.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-10224412-2', 'auto');
+	</script>
+</head>
+
+<body ng-controller="AppController">
+	<div class="wrapper">
+	<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" ng-click="isCollapsed = !isCollapsed">
+					<span class="sr-only">Toggle Navigation</span>
+					<span class="glyphicon glyphicon-list"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+					<img style="float:left;" width="22" src="images/globe.png"/>
+					<span style="float:right;margin-left:5px;">Kiwi TV</span>
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" collapse="isCollapsed">
+				<ul class="nav navbar-nav">
+					<li ng-class="home"><a ui-sref="home">Home</a></li>
+					<li ng-class="faq"><a ui-sref="faq">FAQ</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="shadow"></div>
+	
+	<div class="container">
+		<div data-ui-view class="row"> </div>
+	</div>
+	</div>
+	
+	<div class="footer">
+		<div class="container">
+			<p class="text-muted" style="margin-top:10px;">Created by Wayne Starr</p>
+		</div>
+		<span class="text-muted" style="float:right;margin-top:-10px;" ng-click="activateNet()">&pi;</span>
+    </div>
+</body>
+
+</html>

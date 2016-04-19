@@ -1,0 +1,25 @@
+.fade.ng-enter {
+	-webkit-transition: 0.2s all linear;
+	-moz-transition: 0.2s all linear;
+	-ms-transition: 0.2s all linear;
+	-o-transition: 0.2s all linear;
+	transition: 0.2s all linear;
+	opacity: 0;
+}
+
+.fade.ng-leave.ng-leave-active {
+	opacity: 0;
+}
+
+.fade.ng-leave {
+	-webkit-transition: 0.2s all linear;
+	-moz-transition: 0.2s all linear;
+	-ms-transition: 0.2s all linear;
+	-o-transition: 0.2s all linear;
+	transition: 0.2s all linear;
+	opacity: 1;
+}
+
+.fade.ng-enter.ng-enter-active {
+	opacity: 1;
+}

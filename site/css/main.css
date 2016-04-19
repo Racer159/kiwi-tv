@@ -1,0 +1,72 @@
+/* GENERAL */
+html, body {
+	height: 100%;
+	font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/* CLOCK */
+#clock {
+	text-align: center;
+}
+
+/* CLOCK  CONTROLS */
+#alarm {
+	position: relative;
+	top: -235px;
+	left: 160px;
+	padding: -15px 0px 0px 0px;
+}
+
+#alarmbuttons {
+	position: relative;
+	top: -220px;
+	left: 89px;
+	padding: -15px 0px 0px 0px;
+}
+
+/* HOVER */
+.hover:hover {
+	background-color: #c1e79c;
+}
+
+/* SPACING */
+.panel img {
+	padding: 15px 0px 15px 0px;
+}
+
+.panel {
+	border-radius: 0px;
+}
+
+.well {
+	border-radius: 0px;
+}
+
+.page {
+	padding-bottom: 20px;
+}
+
+/* HEADER */
+.shadow {
+	width: 100%;
+	height: 3px;
+	background-color: #99d75b;
+	margin-top: -20px;
+}
+
+/* FOOTER */
+.wrapper {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -50px; 
+}
+.wrapper:after {
+  content: "";
+  display: block;
+}
+.footer, .wrapper:after {
+  height: 50px; 
+}
+.footer {
+  background: #222;
+}

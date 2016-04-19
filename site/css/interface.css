@@ -1,0 +1,40 @@
+/*SELECT BUTTONS*/
+select {
+    padding:3px;
+    margin: 0;
+    -webkit-box-shadow: 0 3px 0 #888, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #888, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #888, 0 -1px #fff inset;
+    color:#000;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+/* SELECT */
+select.one {
+	-webkit-box-shadow: 0 3px 0 #FF0000, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #FF0000, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #FF0000, 0 -1px #fff inset;
+}
+
+select.two {
+	-webkit-box-shadow: 0 3px 0 #FFCC00, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #FFCC00, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #FFCC00, 0 -1px #fff inset;
+}
+
+select.three {
+	-webkit-box-shadow: 0 3px 0 #00FF00, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #00FF00, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #00FF00, 0 -1px #fff inset;
+}
+
+/* BUTTONS */
+.btn {
+	border-radius: 0px;
+}

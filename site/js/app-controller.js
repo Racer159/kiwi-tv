@@ -18,18 +18,12 @@ app.controller('AppController', function($scope, $log, $location, $window) {
 	$scope.$on('$locationChangeSuccess', function(event){
 		$scope.isCollapsed = true;
     	$scope.home = '';
-		$scope.resume = '';
-		$scope.projects = '';
-		$scope.github = '';
+		$scope.faq = '';
 		$log.info($location.path());
 		if ($location.path() == '/home') {
 			$scope.home = 'active';
-		} else if ($location.path() == '/resume') {
-			$scope.resume = 'active';
-		} else if ($location.path().indexOf('/projects') > -1) {
-			$scope.projects = 'active';
-		} else {
-			$scope.github = 'active';
+		} else if ($location.path() == '/faq') {
+			$scope.faq = 'active';
 		}
     });
 });

@@ -4,26 +4,6 @@ html, body {
 	font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-/* CLOCK */
-#clock {
-	text-align: center;
-}
-
-/* CLOCK  CONTROLS */
-#alarm {
-	position: relative;
-	top: -235px;
-	left: 160px;
-	padding: -15px 0px 0px 0px;
-}
-
-#alarmbuttons {
-	position: relative;
-	top: -220px;
-	left: 89px;
-	padding: -15px 0px 0px 0px;
-}
-
 /* HOVER */
 .hover:hover {
 	background-color: #c1e79c;
@@ -60,13 +40,16 @@ html, body {
   /* equal to footer height */
   margin-bottom: -50px; 
 }
+
 .wrapper:after {
   content: "";
   display: block;
 }
+
 .footer, .wrapper:after {
   height: 50px; 
 }
+
 .footer {
   background: #222;
 }

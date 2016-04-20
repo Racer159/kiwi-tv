@@ -53,3 +53,7 @@ html, body {
 .footer {
   background: #222;
 }
+
+.channel {
+	border: 1px solid black;
+}

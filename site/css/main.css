@@ -4,11 +4,6 @@ html, body {
 	font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-/* HOVER */
-.hover:hover {
-	background-color: #c1e79c;
-}
-
 /* SPACING */
 .panel img {
 	padding: 15px 0px 15px 0px;

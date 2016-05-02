@@ -22,12 +22,23 @@ namespace Kiwi_TV
     /// </summary>
     sealed partial class App : Application
     {
+        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
+            {
+                this.RequestedTheme = ApplicationTheme.Dark;
+            }
+            else
+            {
+                this.RequestedTheme = ApplicationTheme.Light;
+            }
+
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);

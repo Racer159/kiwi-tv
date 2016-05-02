@@ -7,15 +7,15 @@
     <SolidColorBrush x:Key="NavPaneForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="ApplicationFrameBackgroundBrush" Color="#ffe6e6e6" />
 
-    <SolidColorBrush x:Key="HamburgerBackgroundBrush" Color="#ffff6a00" />
-    <SolidColorBrush x:Key="HamburgerPressedBackgroundBrush" Color="#ffff9042" />
-    <SolidColorBrush x:Key="HamburgerHoverBackgroundBrush" Color="#ffff7d21" />
+    <SolidColorBrush x:Key="HamburgerBackgroundBrush" Color="#ff81c057" />
+    <SolidColorBrush x:Key="HamburgerPressedBackgroundBrush" Color="#ff9dce7c" />
+    <SolidColorBrush x:Key="HamburgerHoverBackgroundBrush" Color="#ff81c76a" />
 
     <SolidColorBrush x:Key="NavButtonPressedBackgroundBrush" Color="#ff606060" />
     <SolidColorBrush x:Key="NavButtonHoverBackgroundBrush" Color="#ff404040" />
-    <SolidColorBrush x:Key="NavButtonCheckedBackgroundBrush" Color="#ffb8550e" />
-    <SolidColorBrush x:Key="NavButtonCheckedPressedBackgroundBrush" Color="#ffca814c" />
-    <SolidColorBrush x:Key="NavButtonCheckedHoverBackgroundBrush" Color="#ffc16b2d" />
+    <SolidColorBrush x:Key="NavButtonCheckedBackgroundBrush" Color="#ff608347" />
+    <SolidColorBrush x:Key="NavButtonCheckedPressedBackgroundBrush" Color="#ff78a559" />
+    <SolidColorBrush x:Key="NavButtonCheckedHoverBackgroundBrush" Color="#ff6c9450" />
 
 
     <x:Double x:Key="NavPaneSmallFontSize">16</x:Double>
@@ -316,7 +316,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <FontIcon Glyph="&#59189;" x:Name="CheckFontIcon" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" FontFamily="Segoe MDL2 Assets" Foreground="White" FontWeight="ExtraLight"/>
-                        <FontIcon Glyph="&#59188;" x:Name="CheckBackIcon" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" FontFamily="Segoe MDL2 Assets"/>
+                        <FontIcon Glyph="&#59188;" x:Name="CheckBackIcon" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" FontFamily="Segoe MDL2 Assets" Foreground="Black"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

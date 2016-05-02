@@ -45,6 +45,15 @@ namespace Kiwi_TV.Views
             {
                 SyncToggleSwitch.IsOn = true;
             }
+            
+            if (localSettings.Values["darkTheme"] is bool)
+            {
+                DarkThemeToggleSwitch.IsOn = (bool)localSettings.Values["darkTheme"];
+            }
+            else
+            {
+                DarkThemeToggleSwitch.IsOn = false;
+            }
         }
 
         private async void RestoreDefaultChannels_Click(object sender, RoutedEventArgs e)
@@ -85,6 +94,11 @@ namespace Kiwi_TV.Views
         private void SyncToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             localSettings.Values["syncData"] = SyncToggleSwitch.IsOn;
+        }
+
+        private void DarkThemeToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            localSettings.Values["darkTheme"] = DarkThemeToggleSwitch.IsOn;
         }
     }
 }

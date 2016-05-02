@@ -2,14 +2,15 @@
     x:Class="Kiwi_TV.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Kiwi_TV"
-    RequestedTheme="Light">
+    xmlns:local="using:Kiwi_TV">
     <Application.Resources>
         <ResourceDictionary>
 
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">
-                    <Color x:Key="SystemAccentColor">#ffff6a00</Color>
+                    <Color x:Key="SystemAccentColor">#ff81c057</Color>
+                    <Color x:Key="BarBackgroundColor">#fff0f0f0</Color>
+                    <Color x:Key="AppBackgroundColor">#ffe6e6e6</Color>
                     <!--Your accent color-->
 
                     <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{ThemeResource SystemAccentColor}" />
@@ -27,9 +28,15 @@
                     <SolidColorBrush x:Key="ContentDialogBorderThemeBrush" Color="{ThemeResource SystemAccentColor}" />
                     <SolidColorBrush x:Key="JumpListDefaultEnabledBackground" Color="{ThemeResource SystemAccentColor}" />
                     <Thickness x:Key="TextControlThemePadding">7,7,7,7</Thickness>
+
+                    <SolidColorBrush x:Key="BarBackgroundBrush" Color="{ThemeResource BarBackgroundColor}" />
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{ThemeResource AppBackgroundColor}" />
+                    <SolidColorBrush x:Key="ChannelShadowBrush" Color="Gray" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <Color x:Key="SystemAccentColor">#ffff6a00</Color>
+                    <Color x:Key="SystemAccentColor">#ff81c057</Color>
+                    <Color x:Key="BarBackgroundColor">#ff2b2b2b</Color>
+                    <Color x:Key="AppBackgroundColor">#ff212121</Color>
                     <!--Your accent color-->
 
                     <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{ThemeResource SystemAccentColor}" />
@@ -47,9 +54,15 @@
                     <SolidColorBrush x:Key="ContentDialogBorderThemeBrush" Color="{ThemeResource SystemAccentColor}" />
                     <SolidColorBrush x:Key="JumpListDefaultEnabledBackground" Color="{ThemeResource SystemAccentColor}" />
                     <Thickness x:Key="TextControlThemePadding">7,7,7,7</Thickness>
+
+                    <SolidColorBrush x:Key="BarBackgroundBrush" Color="{ThemeResource BarBackgroundColor}" />
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{ThemeResource AppBackgroundColor}" />
+                    <SolidColorBrush x:Key="ChannelShadowBrush" Color="Black" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <Color x:Key="SystemAccentColor">#ffff6a00</Color>
+                    <Color x:Key="SystemAccentColor">#ff81c057</Color>
+                    <Color x:Key="BarBackgroundColor">#fff0f0f0</Color>
+                    <Color x:Key="AppBackgroundColor">#ffe6e6e6</Color>
                     <!--Your accent color-->
 
                     <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{ThemeResource SystemAccentColor}" />
@@ -67,6 +80,10 @@
                     <SolidColorBrush x:Key="ContentDialogBorderThemeBrush" Color="{ThemeResource SystemAccentColor}" />
                     <SolidColorBrush x:Key="JumpListDefaultEnabledBackground" Color="{ThemeResource SystemAccentColor}" />
                     <Thickness x:Key="TextControlThemePadding">7,7,7,7</Thickness>
+
+                    <SolidColorBrush x:Key="BarBackgroundBrush" Color="{ThemeResource BarBackgroundColor}" />
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{ThemeResource AppBackgroundColor}" />
+                    <SolidColorBrush x:Key="ChannelShadowBrush" Color="Gray" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 

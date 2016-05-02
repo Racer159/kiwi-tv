@@ -10,22 +10,15 @@ using Kiwi_TV.API.Twitch.Models;
 namespace Kiwi_TV.Views.States
 {
     [DataContract]
-    class AddChannelViewModel : INotifyPropertyChanged
+    class CustomViewModel : INotifyPropertyChanged
     {
-        private int _mainPivotSelectedIndex;
         private string _customNameText;
         private string _customCategoryText;
         private string _customLanguageText;
         private string _customSourceURLText;
         private string _customImageURLText;
-        private string _twitchSearchText;
-        private string _twitchCategoryText;
-        private TwitchChannel[] _twitchChannels;
 
-        public AddChannelViewModel()
-        {
-            _twitchCategoryText = "Gaming";
-        }
+        public CustomViewModel() { }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,17 +26,6 @@ namespace Kiwi_TV.Views.States
         {
             if (null != PropertyChanged)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        [DataMember]
-        public int MainPivotSelectedIndex
-        {
-            get { return _mainPivotSelectedIndex; }
-            set
-            {
-                _mainPivotSelectedIndex = value;
-                NotifyPropertyChanged("MainPivotSelectedIndex");
-            }
         }
 
         [DataMember]
@@ -98,39 +80,6 @@ namespace Kiwi_TV.Views.States
             {
                 _customImageURLText = value;
                 NotifyPropertyChanged("CustomImageURLText");
-            }
-        }
-
-        [DataMember]
-        public string TwitchSearchText
-        {
-            get { return _twitchSearchText; }
-            set
-            {
-                _twitchSearchText = value;
-                NotifyPropertyChanged("TwitchSearchText");
-            }
-        }
-
-        [DataMember]
-        public string TwitchCategoryText
-        {
-            get { return _twitchCategoryText; }
-            set
-            {
-                _twitchCategoryText = value;
-                NotifyPropertyChanged("TwitchCategoryText");
-            }
-        }
-
-        [DataMember]
-        public TwitchChannel[] TwitchChannels
-        {
-            get { return _twitchChannels; }
-            set
-            {
-                _twitchChannels = value;
-                NotifyPropertyChanged("TwitchChannels");
             }
         }
     }

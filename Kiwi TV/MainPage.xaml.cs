@@ -64,7 +64,7 @@ namespace Kiwi_TV
 
         private void AddChannelButton_Checked(object sender, RoutedEventArgs e)
         {
-            ContentView.Navigate(typeof(Views.AddChannel), new AddChannelViewModel());
+            ContentView.Navigate(typeof(Views.AddChannel));
         }
 
         private void FeedbackButton_Checked(object sender, RoutedEventArgs e)

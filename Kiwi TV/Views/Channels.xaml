@@ -20,7 +20,7 @@
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="All Channels"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Background="{ThemeResource AppBarBackgroundThemeBrush}">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Name="ChannelFilters">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -59,9 +59,9 @@
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
                                                 <Border RightTapped="Border_RightTapped" Tag="{Binding}">
-                                                    <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="Gray" Margin="5" Background="White">
+                                                    <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White">
                                                         <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                        <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}" />
+                                                        <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Name}" />
                                                         <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
                                                         <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
                                                     </Grid>

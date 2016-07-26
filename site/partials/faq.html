@@ -2,88 +2,94 @@
 	<div class="page-header">
 		<h1>FAQ</h1>
 	</div>
-	<h2>How do I find video sources for custom channels?</h2>
-	<p>This question has two parts that depend on the source you are trying to get.  One is easier, and the other is more technical.  Which way you choose depends on what channel you are trying to add.</p>
 	
-	<div class="col-xs-12">
-		<h3>The Easy Way</h3>
-		<p>The easy way to accomplish this is if the source you are trying to add makes the .m3u8 link available on their website.  If this is the case, simply follow the example below for your channel, and you are good to go.</p>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 1</h4>
-			<p>The first step is to navigate to the site of your choice (in this case <a href="http://jblive.tv">jblive.tv</a>), and locate the "HLS" stream.</p>
-			<a href="site/images/faq/easy1.png"><img alt="Jupiter Broadcasting" src="site/images/faq/easy1.png" class="img-responsive"/></a>
+	<div class="col-md-12">
+		<h2>How do I find video sources for custom channels?</h2>
+		<p>This question has two parts that depend on the source you are trying to get.  One is easier, and the other is more technical.  Which way you choose depends on what channel you are trying to add.</p>
+		
+		<div class="col-xs-12">
+			<h3>The Easy Way</h3>
+			<p>The easy way to accomplish this is if the source you are trying to add makes the .m3u8 link available on their website.  If this is the case, simply follow the example below for your channel, and you are good to go.</p>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 1</h4>
+				<p>The first step is to navigate to the site of your choice (in this case <a href="http://jblive.tv">jblive.tv</a>), and locate the "HLS" stream.</p>
+				<a href="site/images/faq/easy1.png"><img alt="Jupiter Broadcasting" src="site/images/faq/easy1.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 2</h4>
+				<p>Next, copy that link into the video source url box, and ensure that the link ends with .m3u, mp4, .mkv or .m3u8.</p>
+				<a href="site/images/faq/easy2.png"><img alt="Copy into Video Source" src="site/images/faq/easy2.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-sm-12 hidden-md hidden-lg"></div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 3</h4>
+				<p>Then, select "Test Channel" to see if the channel will work in the player and is the channel you want to have.</p>
+				<a href="site/images/faq/easy3.png"><img alt="Test Channel" src="site/images/faq/easy3.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 4</h4>
+				<p>Finally, go back using the back button in the upper left, and fill out the rest of the channel information.  When you are ready, press "Add Channel" to add the custom channel.</p>
+				<a href="site/images/faq/easy4.png"><img alt="Add Channel" src="site/images/faq/easy4.png" class="img-responsive"/></a>
+			</div>
 		</div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 2</h4>
-			<p>Next, copy that link into the video source url box, and ensure that the link ends with .m3u, mp4, .mkv or .m3u8.</p>
-			<a href="site/images/faq/easy2.png"><img alt="Copy into Video Source" src="site/images/faq/easy2.png" class="img-responsive"/></a>
+		
+		<div class="col-xs-12">
+			<h3>The Hard Way</h3>
+			<p>If the easy way does not work for you, then you will have to find the video link manually.  Note that this can be kind of technical and may not work every time so be sure to be patient.</p>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 1</h4>
+				<p>The first step (again) is to navigate to the site of your choice (in this case <a href="https://www.rt.com/on-air/">rt.com/on-air/</a>) (preferably in the Chrome Browser).</p>
+				<a href="site/images/faq/hard1.png"><img alt="Russia Today" src="site/images/faq/hard1.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 2</h4>
+				<p>Next, open the developer tools window by pressing the F12 key, or by selecting Menu->More Tools->Developer tools.</p>
+				<a href="site/images/faq/hard2.png"><img alt="Developer Tools Window" src="site/images/faq/hard2.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-sm-12 hidden-md hidden-lg"></div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 3</h4>
+				<p>Select the "Network" tab in the developer tools window and refresh the page to capture all of the incoming traffic.</p>
+				<a href="site/images/faq/hard3.png"><img alt="Network Tab" src="site/images/faq/hard3.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 4</h4>
+				<p>Wait for the channel to begin playing (after any ads), and then type "m3u8" (you can try other file types as well) into the "Filter" box.</p>
+				<a href="site/images/faq/hard4.png"><img alt="Filter for m3u8" src="site/images/faq/hard4.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-sm-12 col-md-12 col-lg-12"></div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 5</h4>
+				<p>This will bring up a list of files that were loaded by the page.  You are looking for the overarching "playlist" file that comes in toward the beginning of the website's load time (toward the top of the dev window).</p>
+				<a href="site/images/faq/hard5.png"><img alt="File List" src="site/images/faq/hard5.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Step 6</h4>
+				<p>Then copy this link, and follow steps 2-4 of the "Easy Way" to get your channel up and running.</p>
+				<a href="site/images/faq/hard6.png"><img alt="Add Channel" src="site/images/faq/hard6.png" class="img-responsive"/></a>
+			</div>
+			<div class="col-sm-12 hidden-md hidden-lg"></div>
+			<div class="col-md-3 col-sm-6">
+				<h4>Notes</h4>
+				<p>These files may not always be called "playlist," so some fidling will be needed when choosing a file.  Also, if you choose a channel that runs using Adobe Flash only ".flv," this channel will not work with the current version of Kiwi TV.  It is also possible to add static (not live) video content such as .mp4, or .mkv files if you so wish.  Finally, this feature really exists to give you, the user, more power over the application, so please use it wisely (do not steal non-free content).</p>
+			</div>
 		</div>
-		<div class="col-sm-12 hidden-md hidden-lg"></div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 3</h4>
-			<p>Then, select "Test Channel" to see if the channel will work in the player and is the channel you want to have.</p>
-			<a href="site/images/faq/easy3.png"><img alt="Test Channel" src="site/images/faq/easy3.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 4</h4>
-			<p>Finally, go back using the back button in the upper left, and fill out the rest of the channel information.  When you are ready, press "Add Channel" to add the custom channel.</p>
-			<a href="site/images/faq/easy4.png"><img alt="Add Channel" src="site/images/faq/easy4.png" class="img-responsive"/></a>
-		</div>
+		<p>&nbsp;</p>
 	</div>
 	
-	<div class="col-xs-12">
-		<h3>The Hard Way</h3>
-		<p>If the easy way does not work for you, then you will have to find the video link manually.  Note that this can be kind of technical and may not work every time so be sure to be patient.</p>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 1</h4>
-			<p>The first step (again) is to navigate to the site of your choice (in this case <a href="https://www.rt.com/on-air/">rt.com/on-air/</a>) (preferably in the Chrome Browser).</p>
-			<a href="site/images/faq/hard1.png"><img alt="Russia Today" src="site/images/faq/hard1.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 2</h4>
-			<p>Next, open the developer tools window by pressing the F12 key, or by selecting Menu->More Tools->Developer tools.</p>
-			<a href="site/images/faq/hard2.png"><img alt="Developer Tools Window" src="site/images/faq/hard2.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-sm-12 hidden-md hidden-lg"></div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 3</h4>
-			<p>Select the "Network" tab in the developer tools window and refresh the page to capture all of the incoming traffic.</p>
-			<a href="site/images/faq/hard3.png"><img alt="Network Tab" src="site/images/faq/hard3.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 4</h4>
-			<p>Wait for the channel to begin playing (after any ads), and then type "m3u8" (you can try other file types as well) into the "Filter" box.</p>
-			<a href="site/images/faq/hard4.png"><img alt="Filter for m3u8" src="site/images/faq/hard4.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-sm-12 col-md-12 col-lg-12"></div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 5</h4>
-			<p>This will bring up a list of files that were loaded by the page.  You are looking for the overarching "playlist" file that comes in toward the beginning of the website's load time (toward the top of the dev window).</p>
-			<a href="site/images/faq/hard5.png"><img alt="File List" src="site/images/faq/hard5.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Step 6</h4>
-			<p>Then copy this link, and follow steps 2-4 of the "Easy Way" to get your channel up and running.</p>
-			<a href="site/images/faq/hard6.png"><img alt="Add Channel" src="site/images/faq/hard6.png" class="img-responsive"/></a>
-		</div>
-		<div class="col-sm-12 hidden-md hidden-lg"></div>
-		<div class="col-md-3 col-sm-6">
-			<h4>Notes</h4>
-			<p>These files may not always be called "playlist," so some fidling will be needed when choosing a file.  Also, if you choose a channel that runs using Adobe Flash only ".flv," this channel will not work with the current version of Kiwi TV.  It is also possible to add static (not live) video content such as .mp4, or .mkv files if you so wish.  Finally, this feature really exists to give you, the user, more power over the application, so please use it wisely (do not steal non-free content).</p>
-		</div>
+	<div class="col-md-12">
+		<h2>How do I find/add extended m3u8 files?</h2>
+		<p>To add extended m3u8 files, you must first download a .m3u, .m3u8, or .txt file that is in the extended m3u format.  This means that the file <i>must</i> start with <b>#EXTM3U</b>, and contain many entries starting with <b>#EXTINF:0,</b> with a video link on the next line.  Common places to find these files are through sites like <a href="http://pastebin.com">pastbin.com</a>.  Searching for something like "m3u" will generally result in a listing of these files, and you can peruse through them to find ones that have channels you want.  Do note, that many of the streams may not work due to them being from non-free sources, and it is highly discouraged to use Kiwi TV to pirate television channels.  Once you find a good file though, you can download it to your PC with one of the extensions listed before, and go to the "Load M3U File" page from Add Channels->Custom->Load EXT M3u File.  From here, just load the file, tap on a few channels to test them, remove any you don't want, and then add all of the channels.  If you find a list that works well, feel free to share it using the "Suggest Channels" button.</p>
 	</div>
 	
-	<p>&nbsp;</p>
+	<div class="col-md-12">
+		<h2>How do I restore a default channel I removed?</h2>
+		<p>In order to restore channels, you must go to Settings within the application, and select "Restore Default Channels" this will re-add any channels you deleted, and will unfavorite any default channels you have favorited.</p>
+	</div>
 	
-	<h2>How do I find/add extended m3u8 files?</h2>
-	<p>Stub</p>
-	
-	
-	<h2>How do I restore a default channel I removed?</h2>
-	<p>In order to restore channels, you must go to Settings within the application, and select "Restore Default Channels" this will re-add any channels you deleted, and will unfavorite any default channels you have favorited.</p>
-	
-	
-	<h2>How do I remove a channel I no longer want?</h2>
-	<p>You can do this by either right clicking (on PC), or long-pressing (on mobile) on the channel in the channel list.  When you do this, a menu will appear allowing you to remove the channel.</p>
+	<div class="col-md-12">
+		<h2>How do I remove a channel I no longer want?</h2>
+		<p>You can do this by either right clicking (on PC), or long-pressing (on mobile) on the channel in the channel list.  When you do this, a menu will appear allowing you to remove the channel.</p>
+	</div>
 	<br>
 </div>

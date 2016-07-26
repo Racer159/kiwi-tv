@@ -59,6 +59,7 @@ namespace Kiwi_TV.Views
                 }
                 else
                 {
+                    TitleText.Text = "All Channels";
                     SetLanguageList();
                 }
             }

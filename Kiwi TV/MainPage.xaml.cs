@@ -25,7 +25,7 @@ namespace Kiwi_TV
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
-            localSettings.Values["freshInstall"] = null;
+            
             if (localSettings.Values["freshInstall"] is bool)
             {
                 FavoritesButton.IsChecked = true;

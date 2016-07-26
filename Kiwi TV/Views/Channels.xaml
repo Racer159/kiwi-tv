@@ -18,7 +18,7 @@
 
     <Grid x:Name="MainChannelsGrid" SizeChanged="MainChannelsGrid_SizeChanged">
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
-            <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="All Channels"/>
+            <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text=""/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Name="ChannelFilters">

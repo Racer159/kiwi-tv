@@ -1,6 +1,4 @@
-﻿using Kiwi_TV.API.Twitch;
-using Kiwi_TV.API.Twitch.Models;
-using Kiwi_TV.Helpers;
+﻿using Kiwi_TV.Helpers;
 using Kiwi_TV.Models;
 using Kiwi_TV.Views.States;
 using System;
@@ -12,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -100,16 +99,42 @@ namespace Kiwi_TV.Views.ChannelSources
 
         private async void SuggestButton_Click(object sender, RoutedEventArgs e)
         {
-            object output = await MailHelper.SendFeedbackEmail("", "Suggestion", "Hi, I want to suggest you add '" + CustomName.Text +
-                "' as a default channel.  Below are the sources I used:\n\nImage: " + CustomImageURL.Text + "\nVideo: " + CustomSourceURL.Text + "\n\nThank you!");
-
-            if (!(output is Exception))
+            if (CustomSourceURL.Text != "")
             {
-                await new Windows.UI.Popups.MessageDialog("Successfully received your suggestion to add this channel as a default. Thank you!").ShowAsync();
+                MessageDialog dialog;
+                if (CustomName.Text != "")
+                {
+                    dialog = new MessageDialog("Are you sure you want to suggest " + CustomName.Text + " to be added as a default channel?", "Suggest Channel?");
+                }
+                else
+                {
+                    dialog = new MessageDialog("Are you sure you want to suggest this to be added as a default channel?", "Suggest Channel?");
+                }
+
+                dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
+                dialog.Commands.Add(new UICommand("No") { Id = 1 });
+
+                dialog.DefaultCommandIndex = 0;
+                dialog.CancelCommandIndex = 1;
+
+                if (await dialog.ShowAsync() == dialog.Commands[0])
+                {
+                    object output = await MailHelper.SendFeedbackEmail("", "Suggestion", "Hi, I want to suggest you add '" + CustomName.Text +
+                    "' as a default channel.  Below are the sources I used:\n\nImage: " + CustomImageURL.Text + "\nVideo: " + CustomSourceURL.Text + "\n\nThank you!");
+
+                    if (!(output is Exception))
+                    {
+                        await new MessageDialog("Successfully received your suggestion to add this channel as a default. Thank you!").ShowAsync();
+                    }
+                    else
+                    {
+                        await new MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
+                    }
+                }
             }
             else
             {
-                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
+                await new MessageDialog("Please enter a valid source, and then try your suggestion again.").ShowAsync();
             }
         }
 
@@ -143,6 +168,11 @@ namespace Kiwi_TV.Views.ChannelSources
         private void Language_LostFocus(object sender, RoutedEventArgs e)
         {
             languages.Clear();
+        }
+
+        private void FileButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Views.ChannelSources.File), new FileViewModel());
         }
     }
 }

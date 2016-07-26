@@ -2,6 +2,7 @@
 using Kiwi_TV.API.Twitch.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Kiwi_TV.API.Twitch
 {
@@ -32,6 +33,22 @@ namespace Kiwi_TV.API.Twitch
         {
             object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/search/channels?q=" + search, typeof(TwitchSearchResults));
             TwitchSearchResults results = response as TwitchSearchResults;
+            return results;
+        }
+        
+        public async static Task<TwitchSearchResults> RetrieveLiveStreams()
+        {
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/streams/", typeof(TwitchStreamList));
+            TwitchStreamList streamList = response as TwitchStreamList;
+
+            List<TwitchChannel> channels = new List<TwitchChannel>();
+            foreach (TwitchStream t in streamList.Streams)
+            {
+                if (channels.Count < 5) { channels.Add(t.Channel); }
+            }
+            TwitchSearchResults results = new TwitchSearchResults();
+            results.Channels = channels.ToArray();
+
             return results;
         }
 

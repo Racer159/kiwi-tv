@@ -47,5 +47,10 @@ namespace Kiwi_TV.Views
         {
             Frame.Navigate(typeof(Views.ChannelSources.Twitch), new TwitchViewModel());
         }
+
+        private void UStreamGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Views.ChannelSources.UStream), new UStreamViewModel());
+        }
     }
 }

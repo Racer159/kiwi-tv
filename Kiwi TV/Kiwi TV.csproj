@@ -101,6 +101,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Twitch\Models\TwitchSearchResults.cs" />
+    <Compile Include="API\Twitch\Models\TwitchStreamList.cs" />
+    <Compile Include="API\UStream\Models\UStreamChannelDesc.cs" />
+    <Compile Include="API\UStream\Models\UStreamChannel.cs" />
+    <Compile Include="API\UStream\Models\UStreamPageData.cs" />
+    <Compile Include="API\UStream\Models\UStreamPicture.cs" />
+    <Compile Include="API\UStream\Models\UStreamStats.cs" />
+    <Compile Include="API\UStream\UStreamAPI.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -129,6 +136,12 @@
     <Compile Include="Views\ChannelSources\Custom.xaml.cs">
       <DependentUpon>Custom.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChannelSources\File.xaml.cs">
+      <DependentUpon>File.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChannelSources\UStream.xaml.cs">
+      <DependentUpon>UStream.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChannelSources\Twitch.xaml.cs">
       <DependentUpon>Twitch.xaml</DependentUpon>
     </Compile>
@@ -141,10 +154,15 @@
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NewFeatures.xaml.cs">
+      <DependentUpon>NewFeatures.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StartTutorial.xaml.cs">
       <DependentUpon>StartTutorial.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\States\CustomViewModel.cs" />
+    <Compile Include="Views\States\FileViewModel.cs" />
+    <Compile Include="Views\States\UstreamViewModel.cs" />
     <Compile Include="Views\States\TwitchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +178,8 @@
     <Content Include="Assets\Favorite.png" />
     <Content Include="Assets\Live.png" />
     <Content Include="Assets\Loading.gif" />
+    <Content Include="Assets\M3U8.png" />
+    <Content Include="Assets\UStream.png" />
     <Content Include="Assets\Welcome.png" />
     <Content Include="Data\ChannelIcons\360north.png" />
     <Content Include="Data\ChannelIcons\arirangtv.png" />
@@ -174,9 +194,14 @@
     <Content Include="Data\ChannelIcons\euronews.png" />
     <Content Include="Data\ChannelIcons\evinetv.png" />
     <Content Include="Data\ChannelIcons\france24.png" />
+    <Content Include="Data\ChannelIcons\infowars.png" />
     <Content Include="Data\ChannelIcons\jupiterbroadcasting.png" />
+    <Content Include="Data\ChannelIcons\londonlive.png" />
+    <Content Include="Data\ChannelIcons\m2otv.png" />
     <Content Include="Data\ChannelIcons\nasatv.png" />
     <Content Include="Data\ChannelIcons\nasatviss.png" />
+    <Content Include="Data\ChannelIcons\nasatvmedia.png" />
+    <Content Include="Data\ChannelIcons\nhkworld.png" />
     <Content Include="Data\ChannelIcons\radiou.png" />
     <Content Include="Data\ChannelIcons\rtdocumentaries.png" />
     <Content Include="Data\ChannelIcons\russianmusicbox.png" />
@@ -187,8 +212,13 @@
     <Content Include="Data\ChannelIcons\weathernation.png" />
     <Content Include="Data\channels.txt" />
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Data\ChannelSources\custom-banner.png" />
     <Content Include="Data\ChannelSources\twitch-banner.png" />
     <Content Include="Data\ChannelSources\twitch-logo.png" />
+    <Content Include="Data\ChannelSources\ustream-banner.png" />
+    <Content Include="Data\ChannelSources\ustream-logo-dark.png" />
+    <Content Include="Data\ChannelSources\ustream-logo-light.png" />
+    <Content Include="Data\updates.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -224,6 +254,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ChannelSources\File.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChannelSources\UStream.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ChannelSources\Twitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -239,6 +277,10 @@
     <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewFeatures.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StartTutorial.xaml">
       <SubType>Designer</SubType>

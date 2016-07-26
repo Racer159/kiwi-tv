@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Kiwi_TV.API.UStream;
 
 namespace Kiwi_TV.Helpers
 {
@@ -13,7 +14,6 @@ namespace Kiwi_TV.Helpers
         public async static Task<List<Channel>> LoadChannels(bool favorite, bool justDefault)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            List<Channel> allChannels = new List<Channel>();
             StorageFolder currentFolder;
 
             if (localSettings.Values["syncData"] is bool && !(bool)localSettings.Values["syncData"])
@@ -38,34 +38,55 @@ namespace Kiwi_TV.Helpers
             {
                 channelsFile = (StorageFile)channelsItem;
             }
-            
-            IList<string> lines = await FileIO.ReadLinesAsync(channelsFile);
-            if (lines[0].Trim() == "#EXTM3U")
+
+            List<Channel> allChannels = await LoadChannelFile(channelsFile, favorite);
+
+            return allChannels;
+        }
+
+        public async static Task<List<Channel>> LoadChannelFile(StorageFile channelsFile, bool favorite)
+        {
+            List<Channel> allChannels = new List<Channel>();
+
+            try
             {
-                for (int i = 0; i < lines.Count; i++)
+                IList<string> lines = await FileIO.ReadLinesAsync(channelsFile);
+            
+                if (lines[0].Trim() == "#EXTM3U")
                 {
-                    if (lines[i].StartsWith("#EXTINF:"))
+                    for (int i = 0; i < lines.Count; i++)
                     {
-                        string[] data = lines[i].Split(',');
-                        if (data.Length == 7)
+                        if (lines[i].StartsWith("#EXTINF:"))
                         {
-                            List<String> langs = new List<String>();
-                            langs.AddRange(data[2].Trim().Split('-'));
-                            if (!favorite || data[4].Trim() == "y")
+                            string[] data = lines[i].Split(',');
+                            if (data.Length == 7 && i + 1 < lines.Count)
                             {
-                                string type = data[6].Trim();
-                                allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), type, false));
+                                List<String> langs = new List<String>();
+                                langs.AddRange(data[2].Trim().Split('-'));
+                                if (!favorite || data[4].Trim() == "y")
+                                {
+                                    string type = data[6].Trim();
+                                    allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), type, false));
+                                }
                             }
-                        }
-                        else if (data.Length > 0)
-                        {
-                            allChannels.Add(new Channel(data[1].Trim(), lines[i + 1].Trim()));
+                            else if (data.Length > 0 && i + 1 < lines.Count)
+                            {
+                                Channel c = new Channel(data[1].Trim(), lines[i + 1].Trim());
+                                if (c.Source != null)
+                                {
+                                    allChannels.Add(c);
+                                }
+                            }
                         }
                     }
                 }
-            }
 
-            return allChannels;
+                return allChannels;
+            }
+            catch
+            {
+                return new List<Channel>();
+            }
         }
 
         private async static Task SaveChannels(List<Channel> channels)
@@ -130,6 +151,15 @@ namespace Kiwi_TV.Helpers
             List<Channel> TempList = await LoadChannels(false, false);
 
             TempList.Add(channel);
+
+            await ChannelManager.SaveChannels(TempList);
+        }
+
+        public async static Task AddChannels(List<Channel> channels)
+        {
+            List<Channel> TempList = await LoadChannels(false, false);
+
+            TempList.AddRange(channels);
 
             await ChannelManager.SaveChannels(TempList);
         }
@@ -200,7 +230,10 @@ namespace Kiwi_TV.Helpers
                 switch (c.Type)
                 {
                     case "iptv":
-                        c.Live = true;
+                        c.Live = true; //await WebserviceHelper.Ping(c.Source);
+                        break;
+                    case "ustream":
+                        c.Live = await UStreamAPI.IsLive(UStreamAPI.GetChannelIdFromURL(c.Source.AbsolutePath));
                         break;
                     case "twitch":
                         c.Live = await TwitchAPI.IsLive(TwitchAPI.GetChannelNameFromURL(c.Source.AbsolutePath));
@@ -211,6 +244,24 @@ namespace Kiwi_TV.Helpers
             }
 
             return channels;
+        }
+
+        public async static void MigrateChannelList()
+        {
+            List<Channel> TempList = await LoadChannels(false, false);
+
+            if (TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }) == null)
+            {
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NASA TV ISS") && (c.Icon == "ms-appx:///Data/ChannelIcons/nasatviss.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Weather Nation") && (c.Icon == "ms-appx:///Data/ChannelIcons/weathernation.png"); }));
+
+                StorageFile updateFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/updates.txt"));
+
+                List<Channel> updates = await LoadChannelFile(updateFile, false);
+                TempList.AddRange(updates);
+
+                await ChannelManager.SaveChannels(TempList);
+            }
         }
     }
 }

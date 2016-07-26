@@ -23,12 +23,12 @@ namespace Kiwi_TV.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class StartTutorial : Page
+    public sealed partial class NewFeatures : Page
     {
         DeviceFormFactorType DeviceType;
         int currentPage = 0;
 
-        public StartTutorial()
+        public NewFeatures()
         {
             this.InitializeComponent();
             DeviceType = UWPHelper.GetDeviceFormFactorType();
@@ -40,6 +40,8 @@ namespace Kiwi_TV.Views
                 SubText.FontSize = 14;
                 ExampleImage.Height = 150;
             }
+
+            ChannelManager.MigrateChannelList();
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)
@@ -52,21 +54,21 @@ namespace Kiwi_TV.Views
             currentPage++;
             if (currentPage == 1)
             {
-                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Favorite.png"));
-                TitleText.Text = "Star your Favorite Channels";
-                SubText.Text = "Select the star in the upper right corner.";
+                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/UStream.png"));
+                TitleText.Text = "UStream Support";
+                SubText.Text = "Add new channels from UStream.tv";
             }
             else if (currentPage == 2)
             {
-                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Live.png"));
-                TitleText.Text = "See which Channels are Live";
-                SubText.Text = "Look for the red marker on channel tiles.";
+                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/M3U8.png"));
+                TitleText.Text = "Extended M3U8 Support";
+                SubText.Text = "Add channel lists from extended M3U8 files.";
             }
             else if (currentPage == 3)
             {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Add.png"));
-                TitleText.Text = "Add your own Channels";
-                SubText.Text = "Add channels from Twitch, UStream, and more.";
+                TitleText.Text = "Streamlined Channel Adding";
+                SubText.Text = "See which channels are live now, and test along the way.";
             }
             else if (currentPage == 4)
             {

@@ -20,7 +20,7 @@ namespace Kiwi_TV.Models
         public bool _favorite;
         public bool Favorite { get { return _favorite; } set { _favorite = value; NotifyPropertyChanged("Favorite"); } }
         public string _genre;
-        public string Genre { get { return _genre; } }
+        public string Genre { get { return _genre; } set { _genre = value; } }
         public string _type;
         public string Type { get { return _type; } }
         public bool _live;
@@ -42,7 +42,7 @@ namespace Kiwi_TV.Models
         {
             this._name = name;
             this._icon = "";
-            this._source = new Uri(source);
+            Uri.TryCreate(source, UriKind.RelativeOrAbsolute, out this._source);
             this._languages = new List<String>();
             this._favorite = false;
             this._genre = "Other";

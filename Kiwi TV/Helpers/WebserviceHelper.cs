@@ -29,5 +29,22 @@ namespace Kiwi_TV.Helpers
                 return null;
             }
         }
+
+        public async static Task<bool> Ping(Uri requestUrl)
+        {
+            try
+            {
+                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                
+                using (HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

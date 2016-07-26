@@ -1,11 +1,10 @@
 ﻿#EXTM3U
 
-// GET THE OTHER NASAs!
 #EXTINF:0, NASA TV, English, ms-appx:///Data/ChannelIcons/nasatv.png, n, Science/Technology, iptv
 http://nasatv-lh.akamaihd.net/i/NASA_101@319270/index_1000_av-p.m3u8
 
-#EXTINF:0, NASA TV ISS, English, ms-appx:///Data/ChannelIcons/nasatviss.png, n, Science/Technology, iptv
-http://iphone-streaming.ustream.tv/ustreamVideo/17074538/streams/live/playlist.m3u8
+#EXTINF:0, NASA TV ISS, English, ms-appx:///Data/ChannelIcons/nasatviss.png, n, Science/Technology, ustream
+http://iphone-streaming.ustream.tv/uhls/17074538/streams/live/playlist.m3u8
 
 #EXTINF:0, Russia Today, English, ms-appx:///Data/ChannelIcons/russiatoday.png, n, News, iptv
 https://rt-a.akamaihd.net/ch_01@325605/320p.m3u8
@@ -38,7 +37,7 @@ http://static.france24.com/live/F24_EN_LO_HLS/live_web.m3u8
 http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8
 
 #EXTINF:0, Weather Nation, English, ms-appx:///Data/ChannelIcons/weathernation.png, n, News, iptv
-http://kalsegsec-a.akamaihd.net:80/dc-1/m/ny-live-publish5/kLive/smil:1_oorxcge2_all.smil/playlist.m3u8
+http://cdnapi.kaltura.com/p/931702/sp/93170200/playManifest/entryId/1_oorxcge2/format/applehttp/protocol/http/uiConfId/28428751/a.m3u8
 
 #EXTINF:0, 360 North, English, ms-appx:///Data/ChannelIcons/360north.png, n, News, iptv
 http://state.ak.tvwmedia.net:1935/ktoo-live/_definst_/360north/playlist.m3u8
@@ -64,17 +63,26 @@ http://rtmp.infomaniak.ch/livecast/beats_1/playlist.m3u8
 #EXTINF:0, RadioU TV, English, ms-appx:///Data/ChannelIcons/radiou.png, n, Entertainment, iptv
 http://cdn.rbm.tv/rightbrainmedia-live-109/_definst_/smil:radioutv_all.smil/playlist.m3u8
 
+#EXTINF:0, NHK World, English, ms-appx:///Data/ChannelIcons/nhkworld.png, n, News, iptv
+http://nhkwglobal-i.akamaihd.net/hls/live/222714/nhkwglobal/index_1180.m3u8
+
+#EXTINF:0, London Live, English, ms-appx:///Data/ChannelIcons/londonlive.png, n, Entertainment, iptv
+http://bcoveliveios-i.akamaihd.net/hls/live/217434/3083279840001/master_900.m3u8
+
+#EXTINF:0, NASA Media, English, ms-appx:///Data/ChannelIcons/nasatvmedia.png, n, Science/Technology, ustream
+http://iphone-streaming.ustream.tv/uhls/10414700/streams/live/playlist.m3u8
+
+#EXTINF:0, M2O TV, English, ms-appx:///Data/ChannelIcons/m2otv.png, n, Entertainment, iptv
+http://m2otv-lh.akamaihd.net:80/i/m2oTv_1@186074/index_600_av-b.m3u8
+
+#EXTINF:0, Info Wars, English, ms-appx:///Data/ChannelIcons/infowars.png, n, News, iptv
+http://infowarslive-lh.akamaihd.net/i/infowarslivestream_1@353459/master.m3u8
+
 //#EXTINF:0, DW (Amerika), English, ms-appx:///Data/ChannelIcons/dwamerika.png, n, News, iptv
 //http://dwstream5-lh.akamaihd.net/i/dwstream5_live@124540/master.m3u8
 
 //#EXTINF:0, DW (Deutsch), German, ms-appx:///Data/ChannelIcons/dwdeutsch.png, n, News, iptv
 //http://dwstream6-lh.akamaihd.net/i/dwstream6_live@123962/master.m3u8
-
-//#EXTINF:0, Twitch Test2, English, ms-appx:///Data/ChannelIcons/test.png, n, Gaming, twitch
-//http://usher.ttvnw.net/api/channel/hls/mlg.m3u8
-
-//#EXTINF:0, UStream Test, English, ms-appx:///Data/ChannelIcons/test.png, n, Other, ustream
-//http://iphone-streaming.ustream.tv/uhls/4424524/streams/live/iphone/playlist.m3u8
 
 //#EXTINF:0, Animal Planet, English, ms-appx:///Data/ChannelIcons/test.png, n, Entertainment, iptv
 //http://iphone-streaming.ustream.tv/uhls/12762028/streams/live/iphone/playlist.m3u8

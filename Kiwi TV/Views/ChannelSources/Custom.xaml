@@ -23,8 +23,14 @@
         <Grid Name="GridViewIconSize" Tag="150" />
         <ScrollViewer Padding="20, 10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
             <StackPanel>
-                <TextBlock Text="Preview" FontSize="24" FontWeight="SemiLight" Margin="0,10" Width="850"/>
+                <Grid>
+                    <TextBlock Text="Preview" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
+                    <Button x:Name="FileButton" Content="Load EXTM3U File" HorizontalAlignment="Right" Margin="5" Width="144" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="FileButton_Click"/>
+                </Grid>
                 <TextBlock Text="This channel can be any available .m3u8, .mkv, .mov or .mp4 stream that is on the internet." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
+                <TextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,10">
+                    *If you have any questions regarding adding custom channels, it is recommended that you read the <Hyperlink NavigateUri="http://kiwi.racer159.com/#/faq">FAQ</Hyperlink>.
+                </TextBlock>
                 <GridView Name="ChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled">
                     <GridView.Items>
                         <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">

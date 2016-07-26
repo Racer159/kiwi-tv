@@ -32,19 +32,47 @@ namespace Kiwi_TV
             else
             {
                 localSettings.Values["freshInstall"] = false;
+                localSettings.Values["version12"] = false;
                 ContentView.Navigate(typeof(Views.StartTutorial), true);
             }
+            
+            if (!(localSettings.Values["version12"] is bool))
+            {
+                localSettings.Values["version12"] = false;
+                ContentView.Navigate(typeof(Views.NewFeatures), true);
+            }
+
             //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
             //{
             FeedbackButton.Visibility = Visibility.Visible;
             //}
+
             Windows.UI.ViewManagement.ApplicationView appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-            appView.TitleBar.ButtonBackgroundColor = Colors.White;
-            appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 230, 230, 230);
-            appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 204, 204, 204);
-            appView.TitleBar.ButtonForegroundColor = Colors.Black;
-            appView.TitleBar.ButtonHoverForegroundColor = Colors.Black;
-            appView.TitleBar.ButtonPressedForegroundColor = Colors.Black;
+            if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
+            {
+                appView.TitleBar.BackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.InactiveBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.ForegroundColor = Colors.White;
+                appView.TitleBar.InactiveForegroundColor = Colors.Gray;
+
+                appView.TitleBar.ButtonBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 64, 64, 64);
+                appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 96, 96, 96);
+                appView.TitleBar.ButtonInactiveBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.ButtonForegroundColor = Colors.White;
+                appView.TitleBar.ButtonHoverForegroundColor = Colors.White;
+                appView.TitleBar.ButtonPressedForegroundColor = Colors.White;
+                appView.TitleBar.ButtonInactiveForegroundColor = Colors.Gray;
+            }
+            else
+            {
+                appView.TitleBar.ButtonBackgroundColor = Colors.White;
+                appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 230, 230, 230);
+                appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 204, 204, 204);
+                appView.TitleBar.ButtonForegroundColor = Colors.Black;
+                appView.TitleBar.ButtonHoverForegroundColor = Colors.Black;
+                appView.TitleBar.ButtonPressedForegroundColor = Colors.Black;
+            }
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -95,7 +123,9 @@ namespace Kiwi_TV
             }
             NavPane.IsPaneOpen = false;
 
-            if (e.SourcePageType == typeof(Views.Player) || e.SourcePageType == typeof(Views.StartTutorial))
+            if (e.SourcePageType == typeof(Views.Player) || 
+                e.SourcePageType == typeof(Views.StartTutorial) || 
+                e.SourcePageType == typeof(Views.NewFeatures))
             {
                 NavPane.DisplayMode = SplitViewDisplayMode.Overlay;
 
@@ -124,7 +154,10 @@ namespace Kiwi_TV
             {
                 SettingsButton.IsChecked = true;
             }
-            else if (e.SourcePageType == typeof(Views.AddChannel))
+            else if (e.SourcePageType == typeof(Views.AddChannel) || 
+                e.SourcePageType == typeof(Views.ChannelSources.Custom) || 
+                e.SourcePageType == typeof(Views.ChannelSources.Twitch) || 
+                e.SourcePageType == typeof(Views.ChannelSources.UStream))
             {
                 AddChannelButton.IsChecked = true;
             }

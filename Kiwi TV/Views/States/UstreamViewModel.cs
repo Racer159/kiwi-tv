@@ -6,22 +6,24 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.ComponentModel;
 using Kiwi_TV.API.Twitch.Models;
+using Kiwi_TV.API.UStream.Models;
 
 namespace Kiwi_TV.Views.States
 {
     [DataContract]
-    class TwitchViewModel : INotifyPropertyChanged
+    class UStreamViewModel : INotifyPropertyChanged
     {
-        private string _twitchSearchText;
-        private string _twitchCategoryText;
-        private TwitchChannel[] _searchChannels;
-        private TwitchChannel _selectedSearch;
-        private TwitchChannel[] _liveChannels;
-        private TwitchChannel _selectedLive;
+        private string _ustreamSearchText;
+        private string _ustreamCategoryText;
+        private UStreamChannel[] _searchChannels;
+        private UStreamChannel _selectedSearch;
+        private UStreamChannel[] _liveChannels;
+        private UStreamChannel _selectedLive;
+        private string _logoPath;
 
-        public TwitchViewModel()
+        public UStreamViewModel()
         {
-            _twitchCategoryText = "Gaming";
+            _ustreamCategoryText = "Other";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,29 +35,29 @@ namespace Kiwi_TV.Views.States
         }
 
         [DataMember]
-        public string TwitchSearchText
+        public string UStreamSearchText
         {
-            get { return _twitchSearchText; }
+            get { return _ustreamSearchText; }
             set
             {
-                _twitchSearchText = value;
-                NotifyPropertyChanged("TwitchSearchText");
+                _ustreamSearchText = value;
+                NotifyPropertyChanged("UStreamSearchText");
             }
         }
 
         [DataMember]
-        public string TwitchCategoryText
+        public string UStreamCategoryText
         {
-            get { return _twitchCategoryText; }
+            get { return _ustreamCategoryText; }
             set
             {
-                _twitchCategoryText = value;
-                NotifyPropertyChanged("TwitchCategoryText");
+                _ustreamCategoryText = value;
+                NotifyPropertyChanged("UStreamCategoryText");
             }
         }
 
         [DataMember]
-        public TwitchChannel[] SearchChannels
+        public UStreamChannel[] SearchChannels
         {
             get { return _searchChannels; }
             set
@@ -66,7 +68,7 @@ namespace Kiwi_TV.Views.States
         }
 
         [DataMember]
-        public TwitchChannel SelectedSearch
+        public UStreamChannel SelectedSearch
         {
             get { return _selectedSearch; }
             set
@@ -77,7 +79,7 @@ namespace Kiwi_TV.Views.States
         }
 
         [DataMember]
-        public TwitchChannel[] LiveChannels
+        public UStreamChannel[] LiveChannels
         {
             get { return _liveChannels; }
             set
@@ -88,13 +90,24 @@ namespace Kiwi_TV.Views.States
         }
 
         [DataMember]
-        public TwitchChannel SelectedLive
+        public UStreamChannel SelectedLive
         {
             get { return _selectedLive; }
             set
             {
                 _selectedLive = value;
                 NotifyPropertyChanged("SelectedLive");
+            }
+        }
+
+        [DataMember]
+        public string LogoPath
+        {
+            get { return _logoPath; }
+            set
+            {
+                _logoPath = value;
+                NotifyPropertyChanged("LogoPath");
             }
         }
     }

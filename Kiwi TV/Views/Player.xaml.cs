@@ -31,7 +31,7 @@ namespace Kiwi_TV.Views
             this.InitializeTransportControls();
 
             MainPlayer.AreTransportControlsEnabled = true;
-            MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Black.png"));
+            MainPlayer.PosterSource = null;
             
             // ABC MainPlayer.Source = new Uri("http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8?sd=10&b=1200&rebase=on");
         }
@@ -114,8 +114,15 @@ namespace Kiwi_TV.Views
                 }
                 else
                 {
-                    MainPlayer.Source = nowPlaying.Source;
-                    SetLiveCheckBoxValue(true);
+                    try
+                    {
+                        MainPlayer.Source = nowPlaying.Source;
+                        SetLiveCheckBoxValue(true);
+                    }
+                    catch
+                    {
+                        SetLiveCheckBoxValue(false);
+                    }
                 }
             }
 
@@ -140,7 +147,10 @@ namespace Kiwi_TV.Views
             }
             else
             {
-                MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Bars.png"));
+                if (MainPlayer.PosterSource == null)
+                {
+                    MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Bars.png"));
+                }
                 ToolTipService.SetToolTip(LiveCheckBox, "Offline");
                 OfflineText.Visibility = Visibility.Visible;
             }

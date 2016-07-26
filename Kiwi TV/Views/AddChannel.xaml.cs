@@ -33,6 +33,7 @@ namespace Kiwi_TV.Views
 
             if (DeviceType == DeviceFormFactorType.Phone)
             {
+                TitleText.Margin = new Thickness(48, 0, 0, 0);
                 GridViewIconHeight.Tag = 115;
                 GridViewIconWidth.Tag = 230;
             }

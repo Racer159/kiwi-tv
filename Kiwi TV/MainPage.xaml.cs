@@ -25,6 +25,7 @@ namespace Kiwi_TV
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
+            localSettings.Values["freshInstall"] = null;
             if (localSettings.Values["freshInstall"] is bool)
             {
                 FavoritesButton.IsChecked = true;
@@ -66,12 +67,19 @@ namespace Kiwi_TV
             }
             else
             {
-                appView.TitleBar.ButtonBackgroundColor = Colors.White;
-                appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 230, 230, 230);
-                appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 204, 204, 204);
+                appView.TitleBar.BackgroundColor = ColorHelper.FromArgb(255, 240, 240, 240);
+                appView.TitleBar.InactiveBackgroundColor = ColorHelper.FromArgb(255, 240, 240, 240);
+                appView.TitleBar.ForegroundColor = Colors.Black;
+                appView.TitleBar.InactiveForegroundColor = Colors.Gray;
+
+                appView.TitleBar.ButtonBackgroundColor = ColorHelper.FromArgb(255, 240, 240, 240);
+                appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 220, 220, 220);
+                appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 200, 200, 200);
+                appView.TitleBar.ButtonInactiveBackgroundColor = ColorHelper.FromArgb(255, 240, 240, 240);
                 appView.TitleBar.ButtonForegroundColor = Colors.Black;
                 appView.TitleBar.ButtonHoverForegroundColor = Colors.Black;
                 appView.TitleBar.ButtonPressedForegroundColor = Colors.Black;
+                appView.TitleBar.ButtonInactiveForegroundColor = Colors.Gray;
             }
         }
 

@@ -67,7 +67,7 @@ namespace Kiwi_TV.Views
             else if (currentPage == 3)
             {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Add.png"));
-                TitleText.Text = "Streamlined Channel Adding";
+                TitleText.Text = "Streamlined Channel Add";
                 SubText.Text = "See which channels are live now, and test along the way.";
             }
             else if (currentPage == 4)

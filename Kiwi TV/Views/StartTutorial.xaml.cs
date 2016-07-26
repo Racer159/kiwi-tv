@@ -40,6 +40,8 @@ namespace Kiwi_TV.Views
                 SubText.FontSize = 14;
                 ExampleImage.Height = 150;
             }
+
+            ChannelManager.MigrateChannelList();
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)

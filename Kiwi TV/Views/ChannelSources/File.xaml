@@ -59,7 +59,7 @@
                         <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="Language_GotFocus" LostFocus="Language_LostFocus" PlaceholderText="Language" />
                     </Grid>
                 </Grid>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Name="CustomButtons" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="SuggestButton" Content="Suggest Channels" Margin="5" Width="144" Height="40" Padding="7" Click="SuggestButton_Click"/>
                     <Button x:Name="AddButton" Content="Add Channels" Margin="5" Width="144" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddButton_Click"/>
                 </StackPanel>

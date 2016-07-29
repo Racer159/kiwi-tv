@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -37,7 +36,13 @@ namespace Kiwi_TV.Views.ChannelSources
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleImage.Margin = new Thickness(48, 0, 0, 0);
+                ChannelFilters.Visibility = Visibility.Collapsed;
+                ShortSearchButton.Visibility = Visibility.Visible;
                 GridViewIconSize.Tag = 115;
+                CategoryTextWrap.Orientation = Orientation.Vertical;
+                CategoryWrap.Height = 83;
+                CategoryText.Margin = new Thickness(0, 5, 0, 0);
+                CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Left;
             }
         }
 
@@ -46,37 +51,26 @@ namespace Kiwi_TV.Views.ChannelSources
             if (e.Parameter is UStreamViewModel)
             {
                 _viewModel = (UStreamViewModel)e.Parameter;
-                this.DataContext = _viewModel;
-                if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
-                {
-                    _viewModel.LogoPath = "ms-appx:///Data/ChannelSources/ustream-logo-dark.png";
-                }
-                else
-                {
-                    _viewModel.LogoPath = "ms-appx:///Data/ChannelSources/ustream-logo-light.png";
-                }
-
-                if (this._viewModel.SearchChannels != null && this._viewModel.SearchChannels.Length > 0)
-                {
-                    CategoryWrap.Visibility = Visibility.Visible;
-                    LiveWrap.Visibility = Visibility.Collapsed;
-                }
-                else if (this._viewModel.LiveChannels != null && this._viewModel.LiveChannels.Length > 0)
-                {
-                    CategoryWrap.Visibility = Visibility.Visible;
-                    SearchWrap.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    await GetLiveNow();
-                }
-
-                
             }
             else
             {
                 _viewModel = new UStreamViewModel();
-                this.DataContext = _viewModel;
+            }
+
+            this.DataContext = _viewModel;
+
+            if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
+            {
+                _viewModel.LogoPath = "ms-appx:///Data/ChannelSources/ustream-logo-dark.png";
+            }
+            else
+            {
+                _viewModel.LogoPath = "ms-appx:///Data/ChannelSources/ustream-logo-light.png";
+            }
+
+            if (this._viewModel.Channels == null || this._viewModel.Channels.Length == 0)
+            {
+                await GetLiveNow();
             }
         }
 
@@ -98,39 +92,26 @@ namespace Kiwi_TV.Views.ChannelSources
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SearchWrap.Visibility == Visibility.Visible && SearchChannelsGridView.SelectedItem is UStreamChannel)
+            if (_viewModel.Selected != null)
             {
-                UStreamChannel selected = (UStreamChannel)SearchChannelsGridView.SelectedItem;
-                await ChannelManager.AddChannel(GenerateUStreamChannel(selected));
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + selected.Title).ShowAsync();
-            }
-            else if (LiveWrap.Visibility == Visibility.Visible && LiveNowGridView.SelectedItem is UStreamChannel)
-            {
-                UStreamChannel selected = (UStreamChannel)LiveNowGridView.SelectedItem;
-                await ChannelManager.AddChannel(GenerateUStreamChannel(selected));
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + selected.Title).ShowAsync();
+                await ChannelManager.AddChannel(GenerateUStreamChannel(_viewModel.Selected));
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + _viewModel.Selected.Title).ShowAsync();
             }
             else
             {
-                await new Windows.UI.Popups.MessageDialog("Please select a UStream channel to add.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("Please select a UStream.tv channel to add.").ShowAsync();
             }
         }
 
         private async void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SearchWrap.Visibility == Visibility.Visible && SearchChannelsGridView.SelectedItem is UStreamChannel)
+            if (_viewModel.Selected != null)
             {
-                UStreamChannel selected = (UStreamChannel)SearchChannelsGridView.SelectedItem;
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateUStreamChannel(selected), ""));
-            }
-            else if (LiveWrap.Visibility == Visibility.Visible && LiveNowGridView.SelectedItem is UStreamChannel)
-            {
-                UStreamChannel selected = (UStreamChannel)LiveNowGridView.SelectedItem;
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateUStreamChannel(selected), ""));
+                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateUStreamChannel(_viewModel.Selected), ""));
             }
             else
             {
-                await new Windows.UI.Popups.MessageDialog("Please select a UStream channel to test.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("Please select a UStream.tv channel to test.").ShowAsync();
             }
         }
 
@@ -154,50 +135,98 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        private void SearchChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _viewModel.SelectedSearch = (UStreamChannel)SearchChannelsGridView.SelectedItem;
-        }
-
-        private void LiveNowGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SearchWrap.Visibility == Visibility.Visible)
+            if (_viewModel.Selected != null)
             {
-                Frame.BackStack.Add(new PageStackEntry(typeof(Views.ChannelSources.UStream), new UStreamViewModel(), new DrillInNavigationTransitionInfo()));
                 CategoryWrap.Visibility = Visibility.Visible;
-                SearchWrap.Visibility = Visibility.Collapsed;
+                ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 104);
+            }
+            else
+            {
+                CategoryWrap.Visibility = Visibility.Collapsed;
+                ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 48);
             }
         }
 
         private async Task RunSearch()
         {
-            _viewModel.SearchChannels = new UStreamChannel[0];
+            _viewModel.Channels = new UStreamChannel[0];
 
             if (SearchBox.Text != "")
             {
-                if (LiveWrap.Visibility == Visibility.Visible)
+                Header.Text = "Search Results";
+                LoadingSpinner.Visibility = Visibility.Visible;
+                _viewModel.Channels = await UStreamAPI.RetrieveSearchResults(Uri.EscapeDataString(SearchBox.Text));
+                LoadingSpinner.Visibility = Visibility.Collapsed;
+
+                if (ChannelsGridView.Items.Count > 0)
                 {
-                    Frame.BackStack.Add(new PageStackEntry(typeof(Views.ChannelSources.UStream), new UStreamViewModel(), new DrillInNavigationTransitionInfo()));
-                    CategoryWrap.Visibility = Visibility.Visible;
-                    LiveWrap.Visibility = Visibility.Collapsed;
+                    ChannelsGridView.SelectedIndex = 0;
                 }
-
-                SearchLoadingSpinner.Visibility = Visibility.Visible;
-                _viewModel.SearchChannels = await UStreamAPI.RetrieveSearchResults(Uri.EscapeDataString(SearchBox.Text));
-                SearchLoadingSpinner.Visibility = Visibility.Collapsed;
-
-                if (SearchChannelsGridView.Items.Count > 0)
+                else
                 {
-                    SearchChannelsGridView.SelectedIndex = 0;
+                    NoResults.Visibility = Visibility.Visible;
                 }
             }
         }
 
         private async Task GetLiveNow()
         {
-            LiveLoadingSpinner.Visibility = Visibility.Visible;
-            _viewModel.LiveChannels = await UStreamAPI.RetrieveLiveStreams();
-            LiveLoadingSpinner.Visibility = Visibility.Collapsed;
+            LoadingSpinner.Visibility = Visibility.Visible;
+            _viewModel.Channels = await UStreamAPI.RetrieveLiveStreams();
+            LoadingSpinner.Visibility = Visibility.Collapsed;
+        }
+
+        private void MainChannelsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (MainChannelsGrid.ActualWidth < 550 && ChannelFilters.Visibility == Visibility.Visible)
+            {
+                ChannelFilters.Visibility = Visibility.Collapsed;
+                ShortSearchButton.Visibility = Visibility.Visible;
+                TitleImage.Visibility = Visibility.Visible;
+                CategoryTextWrap.Orientation = Orientation.Vertical;
+                CategoryWrap.Height = 83;
+                CategoryText.Margin = new Thickness(0, 5, 0, 0);
+                CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            else if (MainChannelsGrid.ActualWidth > 550 && ChannelFilters.Visibility == Visibility.Collapsed)
+            {
+                ChannelFilters.Visibility = Visibility.Visible;
+                ShortSearchButton.Visibility = Visibility.Collapsed;
+                CategoryTextWrap.Orientation = Orientation.Horizontal;
+                CategoryWrap.Height = 60;
+                CategoryText.Margin = new Thickness(0, 12, 0, 12);
+                CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Right;
+            }
+        }
+
+        private void ShortSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                ChannelFilters.Width = Frame.ActualWidth;
+            }
+
+            ChannelFilters.Visibility = Visibility.Visible;
+            ShortSearchButton.Visibility = Visibility.Collapsed;
+            TitleImage.Visibility = Visibility.Collapsed;
+            SearchBox.Focus(FocusState.Pointer);
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (SearchBox.FocusState == FocusState.Unfocused && TitleImage.Visibility == Visibility.Collapsed)
+            {
+                ShortSearchButton.Visibility = Visibility.Visible;
+                TitleImage.Visibility = Visibility.Visible;
+                ChannelFilters.Visibility = Visibility.Collapsed;
+
+                if (DeviceType == DeviceFormFactorType.Phone)
+                {
+                    ChannelFilters.Width = double.NaN;
+                }
+            }
         }
     }
 }

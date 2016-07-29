@@ -15,19 +15,32 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
-    <Grid MaxWidth="870" HorizontalAlignment="Left">
+
+    <Grid x:Name="MainChannelsGrid" SizeChanged="MainChannelsGrid_SizeChanged">
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Padding="14">
             <Image Name="TitleImage" Source="{Binding LogoPath}" Height="20" VerticalAlignment="Center"/>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
+            <Grid Name="ChannelFilters">
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,4">
+                    <TextBox x:Name="SearchBox" Background="#ffcdcdcd" Height="40" Width="260" TextAlignment="Left" KeyDown="SearchBox_KeyDown" BorderThickness="0" Padding="9" PlaceholderText="Search" LostFocus="SearchBox_LostFocus" Text="{Binding UStreamSearchText}"/>
+                    <Button x:Name="SearchButton" FontFamily="Segoe MDL2 Assets" Height="40" Width="40" Content="&#xE71E;" Click="SearchButton_Click" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+            <AppBarButton x:Name="ShortSearchButton" FontFamily="Segoe MDL2 Assets" Height="48" Width="48" Visibility="Collapsed" Click="ShortSearchButton_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE71E;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
         <Grid Name="GridViewIconSize" Tag="150" />
-        <ScrollViewer Padding="20, 10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+        <ScrollViewer Name="ChannelsScrollViewer" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Margin="0,0,0,48">
             <StackPanel>
-                <StackPanel Name="LiveWrap" Visibility="Visible">
-                    <TextBlock Text="Live Now" FontSize="24" FontWeight="SemiLight" Margin="0,10" Width="850"/>
-                    <TextBlock Text="Below are channels that are live now.  Select one to get started." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
-                    <Image Name="LiveLoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Collapsed"/>
-                    <GridView Name="LiveNowGridView" ItemsSource="{Binding LiveChannels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled" SelectionChanged="LiveNowGridView_SelectionChanged" SelectedItem="{Binding SelectedLive, Mode=TwoWay}">
+                <StackPanel Name="ChannelWrap" Visibility="Visible">
+                    <TextBlock Name="Header" Text="Live Now" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10" />
+                    <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Visibility="Collapsed"/>
+                    <TextBlock Name="NoResults" Text="No Results Found" Margin="20,20,20,10" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <GridView Name="ChannelsGridView" ItemsSource="{Binding Channels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled" SelectionChanged="ChannelsGridView_SelectionChanged" SelectedItem="{Binding Selected, Mode=TwoWay}" Margin="20,0,20,15">
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White" >
@@ -39,48 +52,23 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </StackPanel>
-                <StackPanel Name="SearchWrap" Visibility="Visible">
-                    <TextBlock Text="Search" FontSize="24" FontWeight="SemiLight" Margin="0,10" Width="850"/>
-                    <TextBlock Text="Just type something like 'nasa' into the search box to get started, then make a selection." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
-                    <Grid Margin="5,4,5,10" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="40" />
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="SearchBox" Text="{Binding UStreamSearchText, Mode=TwoWay}" PlaceholderText="Search" Padding="7" Height="40" Grid.Column="0" KeyDown="SearchBox_KeyDown"/>
-                        <Button x:Name="SearchButton" FontFamily="Segoe MDL2 Assets" Height="40" Width="40" Content="&#xE71E;" Click="SearchButton_Click" Grid.Column="1" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
-                    </Grid>
-                    <Image Name="SearchLoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Collapsed"/>
-                    <GridView Name="SearchChannelsGridView" ItemsSource="{Binding SearchChannels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled" SelectionChanged="SearchChannelsGridView_SelectionChanged" SelectedItem="{Binding SelectedSearch, Mode=TwoWay}">
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White" >
-                                    <TextBlock Foreground="Gray" Text="{Binding Title}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <Image Source="{Binding Picture.ExtraLarge}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Title}"/>
-                                    <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" IsEnabled="False" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
-                                    <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
-                                </Grid>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </StackPanel>
-                <StackPanel Name="CategoryWrap" Visibility="Collapsed">
-                    <TextBlock Text="Category" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Select a category for " TextWrapping="WrapWholeWords" Margin="0,0,5,10"/>
-                        <TextBlock Text="{Binding SelectedLive.Title}" TextWrapping="WrapWholeWords" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding SelectedSearch.Title}" TextWrapping="WrapWholeWords" Margin="0,0,0,10" FontWeight="Bold"/>
-                    </StackPanel>
-                    <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
-                        <AutoSuggestBox x:Name="CategoryBox" Text="{Binding UStreamCategoryText, Mode=TwoWay}" Height="40" GotFocus="CategoryBox_GotFocus" LostFocus="CategoryBox_LostFocus" PlaceholderText="Category" />
-                    </Grid>
-                    <StackPanel Name="ButtonWrap" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="TestButton" Content="Test Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7"  Click="TestButton_Click"/>
-                        <Button x:Name="AddButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddButton_Click"/>
-                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+        <Grid Name="CategoryWrap" Background="{ThemeResource BarBackgroundBrush}" VerticalAlignment="Bottom" Margin="0,0,0,48" Height="60" Visibility="Collapsed">
+            <StackPanel Name="CategoryTextWrap" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal" Name="CategoryText" HorizontalAlignment="Left" Margin="0,12,0,12">
+                    <TextBlock Text="Select a category for " TextWrapping="WrapWholeWords" Margin="5,0,5,0"/>
+                    <TextBlock Text="{Binding Selected.Title}" TextWrapping="WrapWholeWords" Margin="0,0,15,0" FontWeight="Bold"/>
+                </StackPanel>
+                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0" Width="260">
+                    <AutoSuggestBox x:Name="CategoryBox" Text="{Binding UStreamCategoryText, Mode=TwoWay}" Height="40" GotFocus="CategoryBox_GotFocus" LostFocus="CategoryBox_LostFocus" PlaceholderText="Category" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
+            <AppBarButton Name="TestButton" Label="Test"  Click="TestButton_Click" Icon="Play"/>
+            <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+        </CommandBar>
     </Grid>
 </Page>

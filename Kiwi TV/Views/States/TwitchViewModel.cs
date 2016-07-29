@@ -14,10 +14,8 @@ namespace Kiwi_TV.Views.States
     {
         private string _twitchSearchText;
         private string _twitchCategoryText;
-        private TwitchChannel[] _searchChannels;
-        private TwitchChannel _selectedSearch;
-        private TwitchChannel[] _liveChannels;
-        private TwitchChannel _selectedLive;
+        private TwitchChannel[] _channels;
+        private TwitchChannel _selected;
 
         public TwitchViewModel()
         {
@@ -55,46 +53,24 @@ namespace Kiwi_TV.Views.States
         }
 
         [DataMember]
-        public TwitchChannel[] SearchChannels
+        public TwitchChannel[] Channels
         {
-            get { return _searchChannels; }
+            get { return _channels; }
             set
             {
-                _searchChannels = value;
-                NotifyPropertyChanged("SearchChannels");
+                _channels = value;
+                NotifyPropertyChanged("Channels");
             }
         }
 
         [DataMember]
-        public TwitchChannel SelectedSearch
+        public TwitchChannel Selected
         {
-            get { return _selectedSearch; }
+            get { return _selected; }
             set
             {
-                _selectedSearch = value;
-                NotifyPropertyChanged("SelectedSearch");
-            }
-        }
-
-        [DataMember]
-        public TwitchChannel[] LiveChannels
-        {
-            get { return _liveChannels; }
-            set
-            {
-                _liveChannels = value;
-                NotifyPropertyChanged("LiveChannels");
-            }
-        }
-
-        [DataMember]
-        public TwitchChannel SelectedLive
-        {
-            get { return _selectedLive; }
-            set
-            {
-                _selectedLive = value;
-                NotifyPropertyChanged("SelectedLive");
+                _selected = value;
+                NotifyPropertyChanged("Selected");
             }
         }
     }

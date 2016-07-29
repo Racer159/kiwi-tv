@@ -35,8 +35,9 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="SystemAccentColor">#ff81c057</Color>
-                    <Color x:Key="BarBackgroundColor">#ff2b2b2b</Color>
-                    <Color x:Key="AppBackgroundColor">#ff212121</Color>
+                    <Color x:Key="BarBackgroundColor">#ff1F1F1F</Color>
+                    <Color x:Key="AppBackgroundColor">#ff111111</Color>
+                    <Color x:Key="ChannelBorderColor">#ff2B2B2B</Color>
                     <!--Your accent color-->
 
                     <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{ThemeResource SystemAccentColor}" />
@@ -57,7 +58,7 @@
 
                     <SolidColorBrush x:Key="BarBackgroundBrush" Color="{ThemeResource BarBackgroundColor}" />
                     <SolidColorBrush x:Key="AppBackgroundBrush" Color="{ThemeResource AppBackgroundColor}" />
-                    <SolidColorBrush x:Key="ChannelShadowBrush" Color="Black" />
+                    <SolidColorBrush x:Key="ChannelShadowBrush" Color="{ThemeResource ChannelBorderColor}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <Color x:Key="SystemAccentColor">#ff81c057</Color>

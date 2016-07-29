@@ -14,27 +14,34 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid>
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Feedback"/>
         </StackPanel>
-        <ScrollViewer Padding="10" BorderThickness="0" VerticalScrollBarVisibility="Auto" MaxWidth="850" HorizontalAlignment="Left">
-            <StackPanel>
-                <TextBlock Name="FeedbackHeader" Text="Feedback" FontSize="24" FontWeight="SemiLight" Margin="10" Width="850"/>
-                <Grid Margin="10,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Width="200" HorizontalAlignment="Left">
-                    <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Padding="7" Height="40" Width="200"  HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBox>
-                </Grid>
-                <StackPanel x:Name="TypeStackPanel" Orientation="Horizontal" Margin="10,4">
-                    <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" />
-                    <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                </StackPanel>
-                <Grid Margin="10,4" Background="#ffc0c0c0" Height="180" VerticalAlignment="Top">
-                    <TextBox x:Name="FeedbackBox" Height="180" Padding="7" PlaceholderText="Enter your feedback here." TextWrapping="Wrap"></TextBox>
-                </Grid>
-                <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Right" Margin="10,4" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}"  Click="SubmitButton_Click"></Button>
+        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,48">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="48"/>
+                <RowDefinition Height="48"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="FeedbackHeader" Text="Feedback" FontSize="24" FontWeight="SemiLight" Margin="20, 20, 20, 10" Grid.Row="0" MaxWidth="1200"/>
+            <Grid Margin="20,4" Height="40" Grid.Row="1" MaxWidth="1200">
+                <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Padding="7" Height="40" Width="260" HorizontalAlignment="Left" Background="#ffc0c0c0" ></TextBox>
+            </Grid>
+            <StackPanel x:Name="TypeStackPanel" Orientation="Horizontal" Margin="20,4" Grid.Row="2" MaxWidth="1200">
+                <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" IsChecked="True"/>
+                <RadioButton x:Name="LikeButton" Content="Like" HorizontalAlignment="Left" Margin="-15,0,0,0"/>
+                <RadioButton x:Name="DislikeButton" Content="Dislike" HorizontalAlignment="Left" Margin="-30,0,0,0"/>
             </StackPanel>
-        </ScrollViewer>
+            <Grid Margin="20,4,20,20" Background="#ffc0c0c0" Grid.Row="3" MaxHeight="720" MaxWidth="1200">
+                <TextBox x:Name="FeedbackBox" Padding="7" PlaceholderText="Enter your feedback here." TextWrapping="Wrap"></TextBox>
+            </Grid>
+        </Grid>
+
+        <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
+            <AppBarButton Name="SubmitButton" Label="Submit"  Click="SubmitButton_Click" Icon="Accept" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+        </CommandBar>
     </Grid>
 </Page>

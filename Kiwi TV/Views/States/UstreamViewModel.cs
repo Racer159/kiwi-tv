@@ -15,10 +15,8 @@ namespace Kiwi_TV.Views.States
     {
         private string _ustreamSearchText;
         private string _ustreamCategoryText;
-        private UStreamChannel[] _searchChannels;
-        private UStreamChannel _selectedSearch;
-        private UStreamChannel[] _liveChannels;
-        private UStreamChannel _selectedLive;
+        private UStreamChannel[] _channels;
+        private UStreamChannel _selected;
         private string _logoPath;
 
         public UStreamViewModel()
@@ -57,46 +55,24 @@ namespace Kiwi_TV.Views.States
         }
 
         [DataMember]
-        public UStreamChannel[] SearchChannels
+        public UStreamChannel[] Channels
         {
-            get { return _searchChannels; }
+            get { return _channels; }
             set
             {
-                _searchChannels = value;
-                NotifyPropertyChanged("SearchChannels");
+                _channels = value;
+                NotifyPropertyChanged("Channels");
             }
         }
 
         [DataMember]
-        public UStreamChannel SelectedSearch
+        public UStreamChannel Selected
         {
-            get { return _selectedSearch; }
+            get { return _selected; }
             set
             {
-                _selectedSearch = value;
-                NotifyPropertyChanged("SelectedSearch");
-            }
-        }
-
-        [DataMember]
-        public UStreamChannel[] LiveChannels
-        {
-            get { return _liveChannels; }
-            set
-            {
-                _liveChannels = value;
-                NotifyPropertyChanged("LiveChannels");
-            }
-        }
-
-        [DataMember]
-        public UStreamChannel SelectedLive
-        {
-            get { return _selectedLive; }
-            set
-            {
-                _selectedLive = value;
-                NotifyPropertyChanged("SelectedLive");
+                _selected = value;
+                NotifyPropertyChanged("Selected");
             }
         }
 

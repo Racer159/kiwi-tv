@@ -44,7 +44,13 @@ namespace Kiwi_TV.Views.ChannelSources
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleImage.Margin = new Thickness(48, 0, 0, 0);
+                ChannelFilters.Visibility = Visibility.Collapsed;
+                ShortSearchButton.Visibility = Visibility.Visible;
                 GridViewIconSize.Tag = 115;
+                CategoryTextWrap.Orientation = Orientation.Vertical;
+                CategoryWrap.Height = 83;
+                CategoryText.Margin = new Thickness(0, 5, 0, 0);
+                CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Left;
             }
         }
 
@@ -53,27 +59,17 @@ namespace Kiwi_TV.Views.ChannelSources
             if (e.Parameter is TwitchViewModel)
             {
                 _viewModel = (TwitchViewModel)e.Parameter;
-                this.DataContext = _viewModel;
-
-                if (this._viewModel.SearchChannels != null && this._viewModel.SearchChannels.Length > 0)
-                {
-                    CategoryWrap.Visibility = Visibility.Visible;
-                    LiveWrap.Visibility = Visibility.Collapsed;
-                }
-                else if (this._viewModel.LiveChannels != null && this._viewModel.LiveChannels.Length > 0)
-                {
-                    CategoryWrap.Visibility = Visibility.Visible;
-                    SearchWrap.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    await GetLiveNow();
-                }
             }
             else
             {
                 _viewModel = new TwitchViewModel();
-                this.DataContext = _viewModel;
+            }
+
+            this.DataContext = _viewModel;
+
+            if (this._viewModel.Channels == null || this._viewModel.Channels.Length == 0)
+            {
+                await GetLiveNow();
             }
         }
 
@@ -95,17 +91,10 @@ namespace Kiwi_TV.Views.ChannelSources
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SearchWrap.Visibility == Visibility.Visible && SearchChannelsGridView.SelectedItem is TwitchChannel)
+            if (_viewModel.Selected != null)
             {
-                TwitchChannel selected = (TwitchChannel)SearchChannelsGridView.SelectedItem;
-                await ChannelManager.AddChannel(GenerateTwitchChannel(selected));
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + selected.DisplayName).ShowAsync();
-            }
-            else if (LiveWrap.Visibility == Visibility.Visible && LiveNowGridView.SelectedItem is TwitchChannel)
-            {
-                TwitchChannel selected = (TwitchChannel)LiveNowGridView.SelectedItem;
-                await ChannelManager.AddChannel(GenerateTwitchChannel(selected));
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + selected.DisplayName).ShowAsync();
+                await ChannelManager.AddChannel(GenerateTwitchChannel(_viewModel.Selected));
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + _viewModel.Selected.DisplayName).ShowAsync();
             }
             else
             {
@@ -115,15 +104,9 @@ namespace Kiwi_TV.Views.ChannelSources
 
         private async void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SearchWrap.Visibility == Visibility.Visible && SearchChannelsGridView.SelectedItem is TwitchChannel)
+            if (_viewModel.Selected != null)
             {
-                TwitchChannel selected = (TwitchChannel)SearchChannelsGridView.SelectedItem;
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateTwitchChannel(selected), ""));
-            }
-            else if (LiveWrap.Visibility == Visibility.Visible && LiveNowGridView.SelectedItem is TwitchChannel)
-            {
-                TwitchChannel selected = (TwitchChannel)LiveNowGridView.SelectedItem;
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateTwitchChannel(selected), ""));
+                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(GenerateTwitchChannel(_viewModel.Selected), ""));
             }
             else
             {
@@ -151,52 +134,101 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        private void SearchChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _viewModel.SelectedSearch = (TwitchChannel)SearchChannelsGridView.SelectedItem;
-        }
-
-        private void LiveNowGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SearchWrap.Visibility == Visibility.Visible)
+            if (_viewModel.Selected != null)
             {
-                Frame.BackStack.Add(new PageStackEntry(typeof(Views.ChannelSources.Twitch), new TwitchViewModel(), new DrillInNavigationTransitionInfo()));
                 CategoryWrap.Visibility = Visibility.Visible;
-                SearchWrap.Visibility = Visibility.Collapsed;
+                ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 104);
+            }
+            else
+            {
+                CategoryWrap.Visibility = Visibility.Collapsed;
+                ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 48);
             }
         }
 
         private async Task RunSearch()
         {
-            _viewModel.SearchChannels = new TwitchChannel[0];
+            _viewModel.Channels = new TwitchChannel[0];
 
             if (SearchBox.Text != "")
             {
-                if (LiveWrap.Visibility == Visibility.Visible)
-                {
-                    Frame.BackStack.Add(new PageStackEntry(typeof(Views.ChannelSources.Twitch), new TwitchViewModel(), new DrillInNavigationTransitionInfo()));
-                    CategoryWrap.Visibility = Visibility.Visible;
-                    LiveWrap.Visibility = Visibility.Collapsed;
-                }
-
-                SearchLoadingSpinner.Visibility = Visibility.Visible;
+                Header.Text = "Search Results";
+                LoadingSpinner.Visibility = Visibility.Visible;
                 TwitchSearchResults results = await TwitchAPI.RetrieveSearchResults(Uri.EscapeDataString(SearchBox.Text));
-                SearchLoadingSpinner.Visibility = Visibility.Collapsed;
-                _viewModel.SearchChannels = results.Channels;
-                if (SearchChannelsGridView.Items.Count > 0)
+                LoadingSpinner.Visibility = Visibility.Collapsed;
+                _viewModel.Channels = results.Channels;
+
+                if (ChannelsGridView.Items.Count > 0)
                 {
-                    SearchChannelsGridView.SelectedIndex = 0;
+                    ChannelsGridView.SelectedIndex = 0;
+                }
+                else
+                {
+                    NoResults.Visibility = Visibility.Visible;
                 }
             }
         }
 
         private async Task GetLiveNow()
         {
-            _viewModel.LiveChannels = new TwitchChannel[0];
-            LiveLoadingSpinner.Visibility = Visibility.Visible;
+            _viewModel.Channels = new TwitchChannel[0];
+            LoadingSpinner.Visibility = Visibility.Visible;
             TwitchSearchResults results = await TwitchAPI.RetrieveLiveStreams();
-            LiveLoadingSpinner.Visibility = Visibility.Collapsed;
-            _viewModel.LiveChannels = results.Channels;
+            LoadingSpinner.Visibility = Visibility.Collapsed;
+            _viewModel.Channels = results.Channels;
+        }
+
+        private void MainChannelsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (MainChannelsGrid.ActualWidth < 550 && ChannelFilters.Visibility == Visibility.Visible)
+            {
+                ChannelFilters.Visibility = Visibility.Collapsed;
+                ShortSearchButton.Visibility = Visibility.Visible;
+                TitleImage.Visibility = Visibility.Visible;
+                CategoryTextWrap.Orientation = Orientation.Vertical;
+                CategoryWrap.Height = 83;
+                CategoryText.Margin = new Thickness(0, 5, 0, 0);
+                CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            else if (MainChannelsGrid.ActualWidth > 550 && ChannelFilters.Visibility == Visibility.Collapsed)
+            {
+                ChannelFilters.Visibility = Visibility.Visible;
+                ShortSearchButton.Visibility = Visibility.Collapsed;
+                CategoryTextWrap.Orientation = Orientation.Horizontal;
+                CategoryWrap.Height = 60;
+                CategoryText.Margin = new Thickness(0, 12, 0, 12);
+                CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Right;
+            }
+        }
+
+        private void ShortSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                ChannelFilters.Width = Frame.ActualWidth;
+            }
+
+            ChannelFilters.Visibility = Visibility.Visible;
+            ShortSearchButton.Visibility = Visibility.Collapsed;
+            TitleImage.Visibility = Visibility.Collapsed;
+            SearchBox.Focus(FocusState.Pointer);
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (SearchBox.FocusState == FocusState.Unfocused && TitleImage.Visibility == Visibility.Collapsed)
+            {
+                ShortSearchButton.Visibility = Visibility.Visible;
+                TitleImage.Visibility = Visibility.Visible;
+                ChannelFilters.Visibility = Visibility.Collapsed;
+
+                if (DeviceType == DeviceFormFactorType.Phone)
+                {
+                    ChannelFilters.Width = double.NaN;
+                }
+            }
         }
     }
 }

@@ -16,62 +16,68 @@
         </ResourceDictionary>
     </Page.Resources>
     
-    <Grid MaxWidth="850" HorizontalAlignment="Left">
-        <StackPanel Orientation="Horizontal" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top">
+    <Grid>
+        <Grid Margin="0,-48,0,0" Height="48" VerticalAlignment="Top">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Custom Channel"/>
-        </StackPanel>
-        <Grid Name="GridViewIconSize" Tag="150" />
-        <ScrollViewer Padding="20, 10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+        </Grid>
+        <CommandBar HorizontalAlignment="Right" ClosedDisplayMode="Compact" Margin="0,-48,0,0" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
+            <AppBarButton Name="FileButton" Label="Load EXTM3U File" Click="FileButton_Click" Icon="OpenLocal" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+        </CommandBar>
+        <Grid Name="GridViewIconSize" Tag="150"/>
+        <Grid Name="GridViewWrapSize" Tag="155"/>
+        <ScrollViewer BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Margin="0,0,0,48">
             <StackPanel>
-                <Grid>
-                    <TextBlock Text="Preview" FontSize="24" FontWeight="SemiLight" Margin="0,10"/>
-                    <Button x:Name="FileButton" Content="Load EXTM3U File" HorizontalAlignment="Right" Margin="5" Width="144" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="FileButton_Click"/>
+                <TextBlock Text="Preview" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10" MaxWidth="1200"/>
+                <Grid Margin="20,0" MaxWidth="1200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding ElementName=GridViewWrapSize, Path=Tag}" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,10">
+                        This can be any .m3u8, .mkv or .mp4 stream on the internet. If you have any questions, it is recommended to read the <Hyperlink NavigateUri="http://kiwi.racer159.com/#/faq">FAQ</Hyperlink>.
+                        </TextBlock>
+                    </StackPanel>
+                    <GridView Name="ChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled" Grid.Column="0">
+                        <GridView.Items>
+                            <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}">
+                                <TextBlock Foreground="Gray" Text="{Binding ElementName=CustomName, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Image Name="ChannelImage" Source="{Binding ElementName=CustomImageURL, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" IsEnabled="False" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
+                                <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+                            </Grid>
+                        </GridView.Items>
+                    </GridView>
                 </Grid>
-                <TextBlock Text="This channel can be any available .m3u8, .mkv, .mov or .mp4 stream that is on the internet." TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
-                <TextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,10">
-                    *If you have any questions regarding adding custom channels, it is recommended that you read the <Hyperlink NavigateUri="http://kiwi.racer159.com/#/faq">FAQ</Hyperlink>.
-                </TextBlock>
-                <GridView Name="ChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled">
-                    <GridView.Items>
-                        <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">
-                            <TextBlock Foreground="Gray" Text="{Binding ElementName=CustomName, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <Image Name="ChannelImage" Source="{Binding ElementName=CustomImageURL, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" IsEnabled="False" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
-                            <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
-                        </Grid>
-                    </GridView.Items>
-                </GridView>
-                <TextBlock Text="Channel Info" FontSize="24" FontWeight="SemiLight" Margin="0,10" Width="850"/>
-                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                <TextBlock Text="Channel Info" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10" MaxWidth="1200"/>
+                <Grid Margin="20,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" MaxWidth="1200">
                     <TextBox x:Name="CustomName" Text="{Binding CustomNameText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Channel Name"/>
                 </Grid>
-                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                <Grid Margin="20,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" MaxWidth="1200">
                     <TextBox x:Name="CustomSourceURL" Text="{Binding CustomSourceURLText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Video Source URL" />
                 </Grid>
-                <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" >
+                <Grid Margin="20,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" MaxWidth="1200">
                     <TextBox x:Name="CustomImageURL" Text="{Binding CustomImageURLText, Mode=TwoWay}" Height="40" Padding="7" PlaceholderText="Channel Logo URL" />
                 </Grid>
-                <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="10"/>
-                <Grid>
+                <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="20,10" MaxWidth="1200"/>
+                <Grid MaxWidth="1200" Margin="20,0,20,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
+                    <Grid Margin="0,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
                         <AutoSuggestBox x:Name="CustomCategory" Text="{Binding CustomCategoryText, Mode=TwoWay}" Height="40" GotFocus="Category_GotFocus" LostFocus="Category_LostFocus" PlaceholderText="Category" />
                     </Grid>
-                    <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
+                    <Grid Margin="5,4,0,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
                         <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="Language_GotFocus" LostFocus="Language_LostFocus" PlaceholderText="Language" />
                     </Grid>
                 </Grid>
-                <StackPanel Name="CustomButtons" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="SuggestButton" Content="Suggest Channel" HorizontalAlignment="Right"  Margin="5" Width="128" Height="40" Padding="7" Click="SuggestButton_Click"/>
-                        <Button x:Name="TestButton" Content="Test Channel" HorizontalAlignment="Right"  Margin="5" Width="128" Height="40" Padding="7" Click="TestButton_Click"/>
-                    </StackPanel>
-                    <Button x:Name="AddButton" Content="Add Channel" HorizontalAlignment="Right" Margin="5" Width="128" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddButton_Click"/>
-                </StackPanel>
             </StackPanel>
         </ScrollViewer>
+        <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
+            <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
+            <AppBarButton Name="TestButton" Label="Test"  Click="TestButton_Click" Icon="Play"/>
+            <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+        </CommandBar>
     </Grid>
 </Page>

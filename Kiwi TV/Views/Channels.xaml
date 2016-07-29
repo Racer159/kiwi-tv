@@ -21,20 +21,13 @@
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text=""/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
-            <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Name="ChannelFilters">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="160"></ColumnDefinition>
-                    <ColumnDefinition x:Name="SearchBoxGridWidth" Width="260"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid Background="#ffcdcdcd" Height="40" Margin="5,4" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding ElementName=LanguagesBox, Path=Visibility}">
-                    <ComboBox x:Name="LanguagesBox" Height="40" SelectionChanged="LanguagesBox_SelectionChanged" BorderThickness="0" Padding="9" LostFocus="SearchBox_LostFocus" HorizontalAlignment="Stretch" >
-                        <ComboBoxItem IsSelected="True">All Languages</ComboBoxItem>
-                    </ComboBox>
-                </Grid>
-                <TextBox x:Name="SearchBox" Background="#ffcdcdcd" Height="40" TextAlignment="Left" Margin="5,4" TextChanged="SearchBox_TextChanged" BorderThickness="0" Padding="9" PlaceholderText="Search" LostFocus="SearchBox_LostFocus" HorizontalAlignment="Stretch" Grid.Column="2"/>
+            <Grid Name="ChannelFilters">
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,4">
+                    <TextBox x:Name="SearchBox" Background="#ffcdcdcd" Height="40" Width="260" TextAlignment="Left" KeyDown="SearchBox_KeyDown" BorderThickness="0" Padding="9" PlaceholderText="Search" LostFocus="SearchBox_LostFocus"/>
+                    <Button x:Name="SearchButton" FontFamily="Segoe MDL2 Assets" Height="40" Width="40" Content="&#xE71E;" Click="SearchButton_Click" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+                </StackPanel>
             </Grid>
-            <AppBarButton x:Name="SearchButton" FontFamily="Segoe MDL2 Assets" Height="48" Width="48" Visibility="Collapsed" Click="SearchButton_Click">
+            <AppBarButton x:Name="ShortSearchButton" FontFamily="Segoe MDL2 Assets" Height="48" Width="48" Visibility="Collapsed" Click="ShortSearchButton_Click">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE71E;"/>
                 </AppBarButton.Icon>
@@ -43,19 +36,19 @@
         
         <Grid Name="GridViewIconSize" Tag="150" />
 
-        <ScrollViewer Grid.Row="1" Padding="20" BorderThickness="0" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" BorderThickness="0" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Visible" VerticalAlignment="Center"/>
                 <StackPanel>
-                    <TextBlock Name="NoContentHeader" Text="You currently don't have any favorites, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords"/>
-                    <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords"/>
+                    <TextBlock Name="NoContentHeader" Text="You currently don't have any favorites, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
+                    <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
 
                     <ItemsControl Name="CategoriesItemsControl">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="0,0,0,10"/>
-                                    <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}" ScrollViewer.VerticalScrollMode="Disabled">
+                                    <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10"/>
+                                    <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}" ScrollViewer.VerticalScrollMode="Disabled" Margin="20,0,20,-10">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
                                                 <Border RightTapped="Border_RightTapped" Tag="{Binding}">

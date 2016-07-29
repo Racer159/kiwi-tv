@@ -21,7 +21,7 @@ namespace Kiwi_TV.API.UStream
             object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax/search.json?q=" + search + "&type=live&category=all&location=anywhere", typeof(UStreamPageData));
             UStreamPageData pageData = response as UStreamPageData;
             
-            UStreamChannel[] results = await ParsePageContent(pageData.PageContent, 10);
+            UStreamChannel[] results = await ParsePageContent(pageData.PageContent);
 
             return results;
         }
@@ -31,7 +31,7 @@ namespace Kiwi_TV.API.UStream
             object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax-alwayscache/explore/all/all.json?subCategory=&type=no-offline&location=anywhere", typeof(UStreamPageData));
             UStreamPageData pageData = response as UStreamPageData;
 
-            UStreamChannel[] results = await ParsePageContent(pageData.PageContent, 5);
+            UStreamChannel[] results = await ParsePageContent(pageData.PageContent);
 
             return results;
         }
@@ -56,7 +56,7 @@ namespace Kiwi_TV.API.UStream
             }
         }
 
-        private async static Task<UStreamChannel[]> ParsePageContent(string pageContent, int limit)
+        private async static Task<UStreamChannel[]> ParsePageContent(string pageContent)
         {
             List<string> channelIds = new List<string>();
 
@@ -70,7 +70,7 @@ namespace Kiwi_TV.API.UStream
 
             List<UStreamChannel> channels = new List<UStreamChannel>();
 
-            for (int i = 0; i < limit && i < channelIds.Count; i++)
+            for (int i = 0; i < channelIds.Count; i++)
             {
                 UStreamChannel c = await UStreamAPI.RetreiveChannelDescription(channelIds[i]);
                 channels.Add(c);

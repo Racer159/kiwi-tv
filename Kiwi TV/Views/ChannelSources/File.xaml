@@ -16,22 +16,34 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid MaxWidth="850" HorizontalAlignment="Left">
+    <Grid>
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Load M3U File"/>
         </StackPanel>
+        <CommandBar HorizontalAlignment="Right" ClosedDisplayMode="Compact" Margin="0,-48,0,0" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
+            <AppBarButton Name="OpenButton" Label="Open File" Click="OpenButton_Click" Icon="OpenFile" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+        </CommandBar>
         <Grid Name="GridViewIconSize" Tag="150" />
-        <ScrollViewer Padding="20, 10" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-            <StackPanel>
-                <Grid Width="850"></Grid>
-                <Grid>
-                    <TextBlock Text="Channels" FontSize="24" FontWeight="SemiLight" Margin="0,10" />
-                    <Button x:Name="OpenButton" Content="Open File" HorizontalAlignment="Right" Margin="5" Width="144" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="OpenButton_Click"/>
+        <ScrollViewer BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Margin="0,0,0,48">
+            <StackPanel HorizontalAlignment="Stretch">
+                <TextBlock Text="Channels" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10"  MaxWidth="1200"/>
+                <TextBlock Text="Below are the channels parsed from the chosen file.  Tap on a channel to test it in the player. Right (Long) tap to delete any unwanted channels. " TextWrapping="WrapWholeWords" Margin="20,0,20,10" MaxWidth="1200"/>
+                <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="20,10,20,10" MaxWidth="1200"/>
+                <Grid Margin="20,0,20,0" MaxWidth="1200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="0,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
+                        <AutoSuggestBox x:Name="CustomCategory" Text="{Binding CustomCategoryText, Mode=TwoWay}" Height="40" GotFocus="Category_GotFocus" LostFocus="Category_LostFocus" PlaceholderText="Category" />
+                    </Grid>
+                    <Grid Margin="5,4,0,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
+                        <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="Language_GotFocus" LostFocus="Language_LostFocus" PlaceholderText="Language" />
+                    </Grid>
                 </Grid>
-                <TextBlock Text="Below are the channels parsed from the chosen file.  Tap on a channel to test it in the player. Right (Long) tap to delete any unwanted channels. " TextWrapping="WrapWholeWords" Margin="0,0,0,10"/>
-                <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="10"/>
-                <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Collapsed"/>
-                <GridView Name="ChannelsGridView" ItemsSource="{Binding FileChannels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled" SelectionChanged="ChannelsGridView_SelectionChanged">
+                <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="20,10,20,10" MaxWidth="1200"/>
+                <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Collapsed" MaxWidth="1200"/>
+                <GridView Name="ChannelsGridView" ItemsSource="{Binding FileChannels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled" SelectionChanged="ChannelsGridView_SelectionChanged" Margin="20,0,20,20" MaxWidth="1200">
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <Border RightTapped="Border_RightTapped" Tag="{Binding}">
@@ -46,24 +58,12 @@
                     </GridView.ItemTemplate>
                 </GridView>
                 <TextBlock Name="NoChannels" Text="No Channels" TextWrapping="WrapWholeWords" Margin="0,0,0,10" HorizontalAlignment="Center"/>
-                <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="10"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
-                        <AutoSuggestBox x:Name="CustomCategory" Text="{Binding CustomCategoryText, Mode=TwoWay}" Height="40" GotFocus="Category_GotFocus" LostFocus="Category_LostFocus" PlaceholderText="Category" />
-                    </Grid>
-                    <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
-                        <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="Language_GotFocus" LostFocus="Language_LostFocus" PlaceholderText="Language" />
-                    </Grid>
-                </Grid>
-                <StackPanel Name="CustomButtons" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="SuggestButton" Content="Suggest Channels" Margin="5" Width="144" Height="40" Padding="7" Click="SuggestButton_Click"/>
-                    <Button x:Name="AddButton" Content="Add Channels" Margin="5" Width="144" Height="40" Padding="7" Foreground="White" Background="{StaticResource HamburgerBackgroundBrush}" Click="AddButton_Click"/>
-                </StackPanel>
             </StackPanel>
         </ScrollViewer>
+        
+        <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
+            <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
+            <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+        </CommandBar>
     </Grid>
 </Page>

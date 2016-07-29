@@ -44,7 +44,7 @@ namespace Kiwi_TV.API.Twitch
             List<TwitchChannel> channels = new List<TwitchChannel>();
             foreach (TwitchStream t in streamList.Streams)
             {
-                if (channels.Count < 5) { channels.Add(t.Channel); }
+                channels.Add(t.Channel);
             }
             TwitchSearchResults results = new TwitchSearchResults();
             results.Channels = channels.ToArray();

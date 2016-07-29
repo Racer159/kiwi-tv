@@ -37,7 +37,6 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
                 GridViewIconSize.Tag = 115;
-                CustomButtons.Orientation = Orientation.Vertical;
             }
         }
 

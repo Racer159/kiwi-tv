@@ -51,15 +51,15 @@ namespace Kiwi_TV
             Windows.UI.ViewManagement.ApplicationView appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
             if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
             {
-                appView.TitleBar.BackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
-                appView.TitleBar.InactiveBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.BackgroundColor = ColorHelper.FromArgb(255, 31, 31, 31);
+                appView.TitleBar.InactiveBackgroundColor = ColorHelper.FromArgb(255, 31, 31, 31);
                 appView.TitleBar.ForegroundColor = Colors.White;
                 appView.TitleBar.InactiveForegroundColor = Colors.Gray;
 
-                appView.TitleBar.ButtonBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
-                appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 64, 64, 64);
-                appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 96, 96, 96);
-                appView.TitleBar.ButtonInactiveBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.ButtonBackgroundColor = ColorHelper.FromArgb(255, 32, 31, 31);
+                appView.TitleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 43, 43, 43);
+                appView.TitleBar.ButtonPressedBackgroundColor = ColorHelper.FromArgb(255, 64, 64, 64);
+                appView.TitleBar.ButtonInactiveBackgroundColor = ColorHelper.FromArgb(255, 31, 31, 31);
                 appView.TitleBar.ButtonForegroundColor = Colors.White;
                 appView.TitleBar.ButtonHoverForegroundColor = Colors.White;
                 appView.TitleBar.ButtonPressedForegroundColor = Colors.White;

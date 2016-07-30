@@ -49,7 +49,7 @@
         <ScrollViewer Grid.Row="1" BorderThickness="0" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Visible" VerticalAlignment="Center"/>
-                <StackPanel>
+                <StackPanel Margin="0,0,0,15">
                     <TextBlock Name="NoContentHeader" Text="You currently don't have any favorites, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
                     <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
 

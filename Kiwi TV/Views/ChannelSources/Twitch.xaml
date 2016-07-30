@@ -44,7 +44,7 @@
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White" >
-                                    <TextBlock Foreground="Gray" Text="{Binding DisplayName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Foreground="Gray" Text="{Binding DisplayName}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
                                     <Image Source="{Binding Logo}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding DisplayName}"/>
                                     <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" IsEnabled="False" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
                                     <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>

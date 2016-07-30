@@ -21,10 +21,13 @@
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Load M3U File"/>
         </StackPanel>
         <CommandBar HorizontalAlignment="Right" ClosedDisplayMode="Compact" Margin="0,-48,0,0" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
-            <AppBarButton Name="OpenButton" Label="Open File" Click="OpenButton_Click" Icon="OpenFile" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+            <AppBarButton x:Name="MultiDeleteButton" Click="MultiDeleteButton_Click" Icon="Delete" Visibility="Collapsed" Label="Delete" Width="48"/>
+            <AppBarSeparator Name="MultiSelectSeparator" Visibility="Collapsed"/>
+            <AppBarToggleButton x:Name="MultiSelectButton" Label="Multi-Select" Click="MultiSelectButton_Click" Icon="AllApps" Width="48"/>
+            <AppBarButton Name="OpenButton" Label="Open File" Click="OpenButton_Click" Icon="OpenFile" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White" Width="48"/>
         </CommandBar>
         <Grid Name="GridViewIconSize" Tag="150" />
-        <ScrollViewer BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Margin="0,0,0,48">
+        <ScrollViewer Name="ChannelsScrollViewer" BorderThickness="0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Margin="0,0,0,48">
             <StackPanel HorizontalAlignment="Stretch">
                 <TextBlock Text="Channels" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10"  MaxWidth="1200"/>
                 <TextBlock Text="Below are the channels parsed from the chosen file.  Tap on a channel to test it in the player. Right (Long) tap to delete any unwanted channels. " TextWrapping="WrapWholeWords" Margin="20,0,20,10" MaxWidth="1200"/>
@@ -48,19 +51,26 @@
                         <DataTemplate>
                             <Border RightTapped="Border_RightTapped" Tag="{Binding}">
                                 <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White" >
-                                    <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
                                     <Image Source="{Binding Icon}" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Name}"/>
                                     <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" IsEnabled="False" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
-                                    <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
+                                    <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <TextBlock Name="NoChannels" Text="No Channels" TextWrapping="WrapWholeWords" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                <TextBlock Name="NoChannels" Text="No Channels" TextWrapping="WrapWholeWords" Margin="0,-10,0,10" HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
-        
+
+        <Grid Name="ProgressWrap" Background="{ThemeResource BarBackgroundBrush}" VerticalAlignment="Bottom" Margin="0,0,0,48" Height="60" Visibility="Collapsed">
+            <StackPanel Name="CategoryTextWrap" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,12,0,12">
+                <TextBlock Text="Loading Live Status" TextWrapping="WrapWholeWords" Margin="20,0,20,0"/>
+                <TextBlock Name="ProgressFraction" Text="0/0" TextWrapping="WrapWholeWords" Margin="0,0,15,0" FontWeight="Bold"/>
+            </StackPanel>
+            <ProgressBar Name="LiveStatusProgressBar" Margin="20,20,20,0"/>
+        </Grid>
         <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
             <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
             <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>

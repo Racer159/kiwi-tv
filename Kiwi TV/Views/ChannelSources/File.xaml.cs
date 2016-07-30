@@ -25,6 +25,8 @@ namespace Kiwi_TV.Views.ChannelSources
         ObservableCollection<string> categories = new ObservableCollection<string>();
         ObservableCollection<string> languages = new ObservableCollection<string>();
         FileViewModel _viewModel;
+        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        List<Channel> ChannelList = new List<Channel>();
 
         public File()
         {
@@ -126,7 +128,8 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 NoChannels.Visibility = Visibility.Collapsed;
                 LoadingSpinner.Visibility = Visibility.Visible;
-                _viewModel.FileChannels = new ObservableCollection<Channel>(await ChannelManager.LoadChannelFile(file, false));
+                ChannelList = await ChannelManager.LoadChannelFile(file, false);
+                _viewModel.FileChannels = new ObservableCollection<Channel>(ChannelList);
                 LoadingSpinner.Visibility = Visibility.Collapsed;
 
                 if (_viewModel.FileChannels.Count == 0)
@@ -134,11 +137,33 @@ namespace Kiwi_TV.Views.ChannelSources
                     NoChannels.Visibility = Visibility.Visible;
                 }
             }
+
+            if (localSettings.Values["m3u8LiveCheck"] is bool && (bool)localSettings.Values["m3u8LiveCheck"])
+            {
+                ProgressWrap.Visibility = Visibility.Visible;
+                ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 104);
+            }
+
+            Progress<ProgressTaskAsync> progress = new Progress<ProgressTaskAsync>();
+
+            progress.ProgressChanged += (s, p) =>
+                {
+                    LiveStatusProgressBar.Value = p.ProgressPercentage;
+                    ProgressFraction.Text = p.Text;
+                };
+
+            ChannelList = await ChannelManager.SetLive(ChannelList, true, progress);
+
+            if (localSettings.Values["m3u8LiveCheck"] is bool && (bool)localSettings.Values["m3u8LiveCheck"])
+            {
+                ProgressWrap.Visibility = Visibility.Collapsed;
+                ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 48);
+            }
         }
 
         private void ChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is GridView && ((GridView)sender).SelectedItem is Channel)
+            if (sender is GridView && ((GridView)sender).SelectedItem is Channel && !(bool)MultiSelectButton.IsChecked)
             {
                 Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>((Channel)((GridView)sender).SelectedItem, ""));
             }
@@ -209,6 +234,55 @@ namespace Kiwi_TV.Views.ChannelSources
             else
             {
                 await new MessageDialog("Please load channels from a file, and try your suggestion again.").ShowAsync();
+            }
+        }
+
+        private void MultiSelectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((bool)MultiSelectButton.IsChecked)
+            {
+                MultiDeleteButton.Visibility = Visibility.Visible;
+                MultiSelectSeparator.Visibility = Visibility.Visible;
+                ChannelsGridView.SelectionMode = ListViewSelectionMode.Multiple;
+
+                if (DeviceType == DeviceFormFactorType.Phone)
+                {
+                    TitleText.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                MultiDeleteButton.Visibility = Visibility.Collapsed;
+                MultiSelectSeparator.Visibility = Visibility.Collapsed;
+                ChannelsGridView.SelectionMode = ListViewSelectionMode.None;
+                ChannelsGridView.SelectionMode = ListViewSelectionMode.Single;
+
+                if (DeviceType == DeviceFormFactorType.Phone)
+                {
+                    TitleText.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private async void MultiDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new MessageDialog("This will remove any selected channels from the channel import list.", "Delete Channels?");
+
+            dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
+            dialog.Commands.Add(new UICommand("No") { Id = 1 });
+
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+
+            if (await dialog.ShowAsync() == dialog.Commands[0])
+            {
+                List<Channel> TempList = new List<Channel>(_viewModel.FileChannels);
+                for ( int i = 0; i < ChannelsGridView.SelectedItems.Count; i++)
+                {
+                    _viewModel.FileChannels.Remove((Channel)ChannelsGridView.SelectedItems.ElementAt(i));
+                    i--;
+                }
+                ChannelsGridView.Focus(FocusState.Programmatic);
             }
         }
     }

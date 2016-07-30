@@ -126,6 +126,7 @@
     <Compile Include="API\Twitch\Models\TwitchPreview.cs" />
     <Compile Include="API\Twitch\Models\TwitchStream.cs" />
     <Compile Include="API\Twitch\Models\TwitchStreamDesc.cs" />
+    <Compile Include="Models\ProgressTaskAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\AddChannel.xaml.cs">
       <DependentUpon>AddChannel.xaml</DependentUpon>

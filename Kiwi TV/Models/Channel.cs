@@ -47,7 +47,7 @@ namespace Kiwi_TV.Models
             this._favorite = false;
             this._genre = "Other";
             this._type = "iptv";
-            this._live = true;
+            this._live = false;
         }
 
         public Channel()
@@ -59,7 +59,7 @@ namespace Kiwi_TV.Models
             this._favorite = false;
             this._genre = "";
             this._type = "";
-            this._live = true;
+            this._live = false;
         }
 
         public int CompareTo(Channel other)

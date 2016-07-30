@@ -21,6 +21,16 @@
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text=""/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
+            <StackPanel Name="MultiSelectOptions" Orientation="Horizontal" Visibility="Collapsed">
+                <AppBarButton x:Name="MultiDeleteButton" Height="48" Width="48" Click="MultiDeleteButton_Click" Icon="Delete"/>
+                <AppBarButton x:Name="MultiShareButton" Height="48" Width="48" Click="MultiShareButton_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE72D;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator/>
+            </StackPanel>
+            <AppBarToggleButton x:Name="MultiSelectButton" Height="48" Width="48" Click="MultiSelectButton_Click" Icon="AllApps"/>
             <Grid Name="ChannelFilters">
                 <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,4">
                     <TextBox x:Name="SearchBox" Background="#ffcdcdcd" Height="40" Width="260" TextAlignment="Left" KeyDown="SearchBox_KeyDown" BorderThickness="0" Padding="9" PlaceholderText="Search" LostFocus="SearchBox_LostFocus"/>
@@ -48,14 +58,14 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10"/>
-                                    <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}" ScrollViewer.VerticalScrollMode="Disabled" Margin="20,0,20,-10">
+                                    <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}" ScrollViewer.VerticalScrollMode="Disabled" Margin="20,0,20,-10" SelectionMode="{Binding SelectionMode}">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
                                                 <Border RightTapped="Border_RightTapped" Tag="{Binding}">
                                                     <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White">
-                                                        <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
                                                         <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Name}" />
-                                                        <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding Name}"></CheckBox>
+                                                        <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding}"></CheckBox>
                                                         <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
                                                     </Grid>
                                                 </Border>

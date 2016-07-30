@@ -54,6 +54,15 @@ namespace Kiwi_TV.Views
             {
                 DarkThemeToggleSwitch.IsOn = false;
             }
+
+            if (localSettings.Values["m3u8LiveCheck"] is bool)
+            {
+                M3U8LiveCheckToggleSwitch.IsOn = (bool)localSettings.Values["m3u8LiveCheck"];
+            }
+            else
+            {
+                M3U8LiveCheckToggleSwitch.IsOn = false;
+            }
         }
 
         private async void RestoreDefaultChannels_Click(object sender, RoutedEventArgs e)
@@ -99,6 +108,11 @@ namespace Kiwi_TV.Views
         private void DarkThemeToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             localSettings.Values["darkTheme"] = DarkThemeToggleSwitch.IsOn;
+        }
+
+        private void M3U8LiveCheckToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            localSettings.Values["m3u8LiveCheck"] = M3U8LiveCheckToggleSwitch.IsOn;
         }
     }
 }

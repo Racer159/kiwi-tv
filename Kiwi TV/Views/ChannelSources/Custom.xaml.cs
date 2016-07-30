@@ -59,6 +59,25 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 _viewModel = new CustomViewModel();
             }
+
+            if (_viewModel.EditMode)
+            {
+                SuggestButton.Visibility = Visibility.Collapsed;
+                FileButton.Visibility = Visibility.Collapsed;
+                AddButton.Visibility = Visibility.Collapsed;
+                SaveButton.Visibility = Visibility.Visible;
+                TitleText.Text = "Edit Channel";
+                CustomSourceURL.IsEnabled = false;
+
+                if (_viewModel.EditChannel != null && _viewModel.CustomNameText == null)
+                {
+                    _viewModel.CustomCategoryText = _viewModel.EditChannel.Genre;
+                    _viewModel.CustomImageURLText = _viewModel.EditChannel.Icon;
+                    _viewModel.CustomLanguageText = _viewModel.EditChannel.Languages.ElementAtOrDefault(0);
+                    _viewModel.CustomNameText = _viewModel.EditChannel.Name;
+                    _viewModel.CustomSourceURLText = _viewModel.EditChannel.Source.AbsoluteUri;
+                }
+            }
         }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
@@ -173,6 +192,35 @@ namespace Kiwi_TV.Views.ChannelSources
         private void FileButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Views.ChannelSources.File), new FileViewModel());
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new MessageDialog("Are you sure you want to save this channel?", "Save " + _viewModel.CustomNameText + "?");
+
+            dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
+            dialog.Commands.Add(new UICommand("No") { Id = 1 });
+
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+
+            if (await dialog.ShowAsync() == dialog.Commands[0])
+            {
+                Uri source;
+                Uri.TryCreate(CustomSourceURL.Text, UriKind.RelativeOrAbsolute, out source);
+                if (source.IsAbsoluteUri)
+                {
+                    await ChannelManager.RemoveChannel(_viewModel.EditChannel);
+                    Channel c = GenerateCustomChannel();
+                    c.Favorite = _viewModel.EditChannel.Favorite;
+                    await ChannelManager.AddChannel(c);
+                    await new Windows.UI.Popups.MessageDialog("Successfully saved " + CustomName.Text).ShowAsync();
+                }
+                else
+                {
+                    await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot save that channel because the specified video URL is invalid.").ShowAsync();
+                }
+            }
         }
     }
 }

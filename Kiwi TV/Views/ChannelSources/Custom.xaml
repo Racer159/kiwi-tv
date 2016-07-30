@@ -21,7 +21,7 @@
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Custom Channel"/>
         </Grid>
         <CommandBar HorizontalAlignment="Right" ClosedDisplayMode="Compact" Margin="0,-48,0,0" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
-            <AppBarButton Name="FileButton" Label="Load EXTM3U File" Click="FileButton_Click" Icon="OpenLocal" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+            <AppBarButton Name="FileButton" Label="Load EXTM3U File" Click="FileButton_Click" Icon="OpenLocal" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White" Width="48"/>
         </CommandBar>
         <Grid Name="GridViewIconSize" Tag="150"/>
         <Grid Name="GridViewWrapSize" Tag="155"/>
@@ -41,7 +41,7 @@
                     <GridView Name="ChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled" Grid.Column="0">
                         <GridView.Items>
                             <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}">
-                                <TextBlock Foreground="Gray" Text="{Binding ElementName=CustomName, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Foreground="Gray" Text="{Binding ElementName=CustomName, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
                                 <Image Name="ChannelImage" Source="{Binding ElementName=CustomImageURL, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="FavoriteCheckBox" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" IsEnabled="False" Style="{StaticResource FavoriteCheckBox}"></CheckBox>
                                 <CheckBox x:Name="LiveCheckBox" IsChecked="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
@@ -78,6 +78,7 @@
             <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
             <AppBarButton Name="TestButton" Label="Test"  Click="TestButton_Click" Icon="Play"/>
             <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
+            <AppBarButton Name="SaveButton" Label="Save"  Click="SaveButton_Click" Icon="Save" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White" Visibility="Collapsed"/>
         </CommandBar>
     </Grid>
 </Page>

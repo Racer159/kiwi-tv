@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.ComponentModel;
-using Kiwi_TV.API.Twitch.Models;
+using Kiwi_TV.Models;
 
 namespace Kiwi_TV.Views.States
 {
@@ -17,6 +12,8 @@ namespace Kiwi_TV.Views.States
         private string _customLanguageText;
         private string _customSourceURLText;
         private string _customImageURLText;
+        private bool _editMode = false;
+        private Channel _editChannel;
 
         public CustomViewModel() { }
 
@@ -80,6 +77,28 @@ namespace Kiwi_TV.Views.States
             {
                 _customImageURLText = value;
                 NotifyPropertyChanged("CustomImageURLText");
+            }
+        }
+
+        [DataMember]
+        public bool EditMode
+        {
+            get { return _editMode; }
+            set
+            {
+                _editMode = value;
+                NotifyPropertyChanged("EditMode");
+            }
+        }
+
+        [DataMember]
+        public Channel EditChannel
+        {
+            get { return _editChannel; }
+            set
+            {
+                _editChannel = value;
+                NotifyPropertyChanged("EditChannel");
             }
         }
     }

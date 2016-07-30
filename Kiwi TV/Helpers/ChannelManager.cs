@@ -102,7 +102,14 @@ namespace Kiwi_TV.Helpers
             {
                 currentFolder = ApplicationData.Current.RoamingFolder;
             }
+            
+            StorageFile channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
 
+            await SaveChannelFile(channels, channelsFile);
+        }
+
+        private async static Task SaveChannelFile(List<Channel> channels, StorageFile channelsFile)
+        {
             String file = "#EXTM3U\n\n";
 
             foreach (Channel c in channels)
@@ -118,7 +125,7 @@ namespace Kiwi_TV.Helpers
                 //Icon
                 file += ", " + c.Icon + ", ";
                 //Favorite
-                if (c.Favorite) { file += "y";  } else { file += "n"; }
+                if (c.Favorite) { file += "y"; } else { file += "n"; }
                 //Genre
                 file += ", " + c.Genre + ", ";
                 //Type
@@ -127,8 +134,42 @@ namespace Kiwi_TV.Helpers
                 file += c.Source + "\n\n";
             }
 
-            StorageFile channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
+            file += "version1.3";
+
             await FileIO.WriteTextAsync(channelsFile, file);
+        }
+
+        private async static Task<string> GetVersionInfo()
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            StorageFolder currentFolder;
+
+            if (localSettings.Values["syncData"] is bool && !(bool)localSettings.Values["syncData"])
+            {
+                currentFolder = ApplicationData.Current.LocalFolder;
+            }
+            else
+            {
+                currentFolder = ApplicationData.Current.RoamingFolder;
+            }
+
+
+            IStorageItem channelsItem = await currentFolder.TryGetItemAsync("channels.txt");
+            StorageFile channelsFile;
+
+            if (channelsItem == null || !(channelsItem is StorageFile))
+            {
+                channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteLinesAsync(channelsFile, System.IO.File.ReadAllLines("Data/channels.txt"));
+            }
+            else
+            {
+                channelsFile = (StorageFile)channelsItem;
+            }
+
+            IList<string> lines = await FileIO.ReadLinesAsync(channelsFile);
+
+            if (lines.Count > 0) { return lines[lines.Count - 1]; } else { return ""; }
         }
 
         public async static Task SaveFavorite(string channelName, bool favorited)
@@ -169,6 +210,18 @@ namespace Kiwi_TV.Helpers
             List<Channel> TempList = await LoadChannels(false, false);
 
             TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Source == channel.Source) && (c.Name == channel.Name) && (c.Icon == channel.Icon) && (c.Genre == channel.Genre); }));
+
+            await ChannelManager.SaveChannels(TempList);
+        }
+
+        public async static Task RemoveChannels(List<Channel> channels)
+        {
+            List<Channel> TempList = await LoadChannels(false, false);
+
+            foreach (Channel channel in channels)
+            {
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Source == channel.Source) && (c.Name == channel.Name) && (c.Icon == channel.Icon) && (c.Genre == channel.Genre); }));
+            }
 
             await ChannelManager.SaveChannels(TempList);
         }
@@ -223,14 +276,30 @@ namespace Kiwi_TV.Helpers
             }
         }
 
-        public async static Task<List<Channel>> SetLive(List<Channel> channels)
+        public async static Task<List<Channel>> SetLive(List<Channel> channels, bool m3u8LiveCheck, IProgress<ProgressTaskAsync> progress)
         {
-            foreach (Channel c in channels)
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            
+            ProgressTaskAsync p = new ProgressTaskAsync();
+            p.ProgressPercentage = 0;
+            p.Text = 0 + "/" + channels.Count;
+            progress.Report(p);
+
+            for ( int i = 0; i < channels.Count; i++)
             {
+                Channel c = channels[i];
+
                 switch (c.Type)
                 {
                     case "iptv":
-                        c.Live = true; //await WebserviceHelper.Ping(c.Source);
+                        if (m3u8LiveCheck && localSettings.Values["m3u8LiveCheck"] is bool && (bool)localSettings.Values["m3u8LiveCheck"])
+                        {
+                            c.Live = await WebserviceHelper.Ping(c.Source);
+                        }
+                        else
+                        {
+                            c.Live = true;
+                        }
                         break;
                     case "ustream":
                         c.Live = await UStreamAPI.IsLive(UStreamAPI.GetChannelIdFromURL(c.Source.AbsolutePath));
@@ -241,16 +310,29 @@ namespace Kiwi_TV.Helpers
                     default:
                         break;
                 }
+
+                p = new ProgressTaskAsync();
+                p.ProgressPercentage = (channels.Count < 0 ? 0 : (100 * (i+1)) / channels.Count);
+                p.Text = (i+1) + "/" + channels.Count;
+                progress.Report(p);
             }
 
             return channels;
         }
 
+        public async static Task<StorageFile> GetFileToShare(List<Channel> shareChannels)
+        {
+            StorageFile shareFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("share.m3u8", CreationCollisionOption.ReplaceExisting);
+            await SaveChannelFile(shareChannels, shareFile);
+            return shareFile;
+        }
+
         public async static void MigrateChannelList()
         {
             List<Channel> TempList = await LoadChannels(false, false);
+            string version = await GetVersionInfo();
 
-            if (TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }) == null)
+            if (TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }) == null && version != "version1.3")
             {
                 TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NASA TV ISS") && (c.Icon == "ms-appx:///Data/ChannelIcons/nasatviss.png"); }));
                 TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Weather Nation") && (c.Icon == "ms-appx:///Data/ChannelIcons/weathernation.png"); }));

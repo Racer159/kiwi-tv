@@ -14,7 +14,7 @@ namespace Kiwi_TV.Views.States
     class FileViewModel : INotifyPropertyChanged
     {
 
-        private ObservableCollection<Channel> _fileChannels;
+        private ObservableCollection<Channel> _fileChannels = new ObservableCollection<Channel>();
         private string _customCategoryText;
         private string _customLanguageText;
 

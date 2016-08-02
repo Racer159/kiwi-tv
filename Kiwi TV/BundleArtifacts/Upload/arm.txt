@@ -1,2 +1,2 @@
-MainPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\bin\ARM\Release\Upload\Kiwi TV_1.3.1.0_ARM.appx
-SymbolPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\AppPackages\Kiwi TV_1.3.1.0\Kiwi TV_1.3.1.0_ARM.appxsym
+MainPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\bin\ARM\Release\Upload\Kiwi TV_1.3.2.0_ARM.appx
+SymbolPackage=C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\AppPackages\Kiwi TV_1.3.2.0\Kiwi TV_1.3.2.0_ARM.appxsym

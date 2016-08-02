@@ -42,9 +42,12 @@ namespace Kiwi_TV.API.Twitch
             TwitchStreamList streamList = response as TwitchStreamList;
 
             List<TwitchChannel> channels = new List<TwitchChannel>();
-            foreach (TwitchStream t in streamList.Streams)
+            if (streamList != null)
             {
-                channels.Add(t.Channel);
+                foreach (TwitchStream t in streamList.Streams)
+                {
+                    channels.Add(t.Channel);
+                }
             }
             TwitchSearchResults results = new TwitchSearchResults();
             results.Channels = channels.ToArray();

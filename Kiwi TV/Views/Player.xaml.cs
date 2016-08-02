@@ -21,6 +21,7 @@ namespace Kiwi_TV.Views
     /// </summary>
     public sealed partial class Player : Page
     {
+        DeviceFormFactorType DeviceType;
         Channel nowPlaying = new Channel();
         private DisplayRequest dispRequest = null;
         SystemMediaTransportControls systemControls;
@@ -29,11 +30,15 @@ namespace Kiwi_TV.Views
         {
             this.InitializeComponent();
             this.InitializeTransportControls();
+            DeviceType = UWPHelper.GetDeviceFormFactorType();
 
             MainPlayer.AreTransportControlsEnabled = true;
             MainPlayer.PosterSource = null;
-            
-            // ABC MainPlayer.Source = new Uri("http://abclive.abcnews.com/i/abc_live4@136330/index_1200_av-b.m3u8?sd=10&b=1200&rebase=on");
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                Background.Margin = new Thickness(-48, 0, -48, -27);
+                Background.Padding = new Thickness(48, 0, 48, 27);
+            }
         }
 
         void InitializeTransportControls()
@@ -198,6 +203,14 @@ namespace Kiwi_TV.Views
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void MainPlayer_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                MainPlayer.IsFullWindow = true;
             }
         }
     }

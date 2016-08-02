@@ -40,6 +40,15 @@ namespace Kiwi_TV.Views.ChannelSources
             this.InitializeComponent();
             CategoryBox.ItemsSource = categories;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
+            
+            categories.Add("News");
+            categories.Add("Science/Technology");
+            categories.Add("Entertainment");
+            categories.Add("Sports");
+            categories.Add("Gaming");
+            categories.Add("Other");
+            CategoryBox.ItemsSource = categories;
+            CategoryBox.SelectedItem = "Gaming";
 
             if (DeviceType == DeviceFormFactorType.Phone)
             {
@@ -51,6 +60,15 @@ namespace Kiwi_TV.Views.ChannelSources
                 CategoryWrap.Height = 83;
                 CategoryText.Margin = new Thickness(0, 5, 0, 0);
                 CategoryTextWrap.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            else if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                CategoryWrap.Margin = new Thickness(0, 0, -48, 48);
+                CategoryWrap.Padding = new Thickness(0, 0, 48, 0);
+                GridViewIconSize.Tag = 115;
+                ChannelsGridView.SingleSelectionFollowsFocus = false;
+                ChannelsGridView.XYFocusDown = AddButton;
+                ChannelsGridView.XYFocusUp = SearchBox;
             }
         }
 
@@ -71,22 +89,6 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 await GetLiveNow();
             }
-        }
-
-        private void CategoryBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            categories.Clear();
-            categories.Add("News");
-            categories.Add("Science/Technology");
-            categories.Add("Entertainment");
-            categories.Add("Sports");
-            categories.Add("Gaming");
-            categories.Add("Other");
-        }
-
-        private void CategoryBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            categories.Clear();
         }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
@@ -118,7 +120,8 @@ namespace Kiwi_TV.Views.ChannelSources
         {
             List<string> languages = new List<string>();
             languages.Add(TwitchAPI.ConvertLanguageCode(selected.Language));
-            return new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, CategoryBox.Text, "twitch", true);
+            string category = CategoryBox.SelectedItem == null ? "None" : CategoryBox.SelectedItem.ToString();
+            return new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, category, "twitch", true);
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -158,7 +161,10 @@ namespace Kiwi_TV.Views.ChannelSources
                 LoadingSpinner.Visibility = Visibility.Visible;
                 TwitchSearchResults results = await TwitchAPI.RetrieveSearchResults(Uri.EscapeDataString(SearchBox.Text));
                 LoadingSpinner.Visibility = Visibility.Collapsed;
-                _viewModel.Channels = results.Channels;
+                if (results != null)
+                {
+                    _viewModel.Channels = results.Channels;
+                }
 
                 if (ChannelsGridView.Items.Count > 0)
                 {

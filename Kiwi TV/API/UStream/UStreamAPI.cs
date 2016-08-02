@@ -9,6 +9,8 @@ namespace Kiwi_TV.API.UStream
 {
     class UStreamAPI
     {
+        private static Regex ustreamRegex = new Regex("data-mediaid=\\\"([0-9]+)\\\"", RegexOptions.Compiled);
+
         public async static Task<UStreamChannel> RetreiveChannelDescription(string channelId)
         {
             object response = await WebserviceHelper.MakeRequest("https://api.ustream.tv/channels/" + channelId + ".json", typeof(UStreamChannelDesc));
@@ -20,10 +22,16 @@ namespace Kiwi_TV.API.UStream
         {
             object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax/search.json?q=" + search + "&type=live&category=all&location=anywhere", typeof(UStreamPageData));
             UStreamPageData pageData = response as UStreamPageData;
-            
-            UStreamChannel[] results = await ParsePageContent(pageData.PageContent);
 
-            return results;
+            if (pageData != null)
+            {
+                UStreamChannel[] results = await ParsePageContent(pageData.PageContent);
+                return results;
+            }
+            else
+            {
+                return new UStreamChannel[0];
+            }
         }
 
         public async static Task<UStreamChannel[]> RetrieveLiveStreams()
@@ -31,9 +39,15 @@ namespace Kiwi_TV.API.UStream
             object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax-alwayscache/explore/all/all.json?subCategory=&type=no-offline&location=anywhere", typeof(UStreamPageData));
             UStreamPageData pageData = response as UStreamPageData;
 
-            UStreamChannel[] results = await ParsePageContent(pageData.PageContent);
-
-            return results;
+            if (pageData != null)
+            {
+                UStreamChannel[] results = await ParsePageContent(pageData.PageContent);
+                return results;
+            }
+            else
+            {
+                return new UStreamChannel[0];
+            }
         }
 
         public async static Task<bool> IsLive(string channelId)
@@ -58,21 +72,13 @@ namespace Kiwi_TV.API.UStream
 
         private async static Task<UStreamChannel[]> ParsePageContent(string pageContent)
         {
-            List<string> channelIds = new List<string>();
-
-            Regex regex = new Regex("data-mediaid=\\\"([0-9]*)\\\"");
-            MatchCollection matches = regex.Matches(pageContent);
+            MatchCollection matches = ustreamRegex.Matches(pageContent);
+            
+            List<UStreamChannel> channels = new List<UStreamChannel>();
 
             for (int i = 0; i < matches.Count; i++)
             {
-                channelIds.Add(matches[i].Groups[1].Value);
-            }
-
-            List<UStreamChannel> channels = new List<UStreamChannel>();
-
-            for (int i = 0; i < channelIds.Count; i++)
-            {
-                UStreamChannel c = await UStreamAPI.RetreiveChannelDescription(channelIds[i]);
+                UStreamChannel c = await UStreamAPI.RetreiveChannelDescription(matches[i].Groups[1].Value);
                 channels.Add(c);
             }
 

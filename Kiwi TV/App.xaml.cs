@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kiwi_TV.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Kiwi_TV
     sealed partial class App : Application
     {
         Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        DeviceFormFactorType DeviceType;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -30,6 +32,18 @@ namespace Kiwi_TV
         /// </summary>
         public App()
         {
+            DeviceType = UWPHelper.GetDeviceFormFactorType();
+
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+            }
+
+            if (!(localSettings.Values["darkTheme"] is bool) && DeviceType == DeviceFormFactorType.Xbox)
+            {
+                localSettings.Values["darkTheme"] = true;
+            }
+
             if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
             {
                 this.RequestedTheme = ApplicationTheme.Dark;

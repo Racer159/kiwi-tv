@@ -40,6 +40,17 @@ namespace Kiwi_TV.Views
                 SubText.FontSize = 14;
                 ExampleImage.Height = 150;
             }
+            else if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                ExampleImage.Margin = new Thickness(10, -100, 10, 10);
+                TitleText.Margin = new Thickness(10, 100, 10, 10);
+                SubText.Margin = new Thickness(10, 170, 10, 10);
+                ButtonWrap.Margin = new Thickness(10, 250, 10, 10);
+                TitleText.FontSize = 20;
+                SubText.FontSize = 14;
+                ExampleImage.Height = 150;
+                GreenWrap.Margin = new Thickness(-48, -75, -48, -27);
+            }
 
             ChannelManager.MigrateChannelList();
         }
@@ -80,6 +91,14 @@ namespace Kiwi_TV.Views
             else if (currentPage == 5)
             {
                 Frame.Navigate(typeof(Views.Channels), false);
+            }
+        }
+
+        private void Next_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                Next.Focus(FocusState.Keyboard);
             }
         }
     }

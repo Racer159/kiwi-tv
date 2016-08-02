@@ -38,7 +38,7 @@
                         This can be any .m3u8, .mkv or .mp4 stream on the internet. If you have any questions, it is recommended to read the <Hyperlink NavigateUri="http://kiwi.racer159.com/#/faq">FAQ</Hyperlink>.
                         </TextBlock>
                     </StackPanel>
-                    <GridView Name="ChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled" Grid.Column="0">
+                    <GridView Name="ChannelsGridView" ScrollViewer.VerticalScrollMode="Disabled" Grid.Column="0" Loaded="ChannelsGridView_Loaded">
                         <GridView.Items>
                             <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}">
                                 <TextBlock Foreground="Gray" Text="{Binding ElementName=CustomName, Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
@@ -66,14 +66,16 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Margin="0,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0">
-                        <AutoSuggestBox x:Name="CustomCategory" Text="{Binding CustomCategoryText, Mode=TwoWay}" Height="40" GotFocus="Category_GotFocus" LostFocus="Category_LostFocus" PlaceholderText="Category" />
+                        <ComboBox Name="CustomCategory" Height="40" SelectedItem="{Binding CustomCategoryText, Mode=TwoWay}" HorizontalAlignment="Stretch" PlaceholderText="Category"/>
                     </Grid>
                     <Grid Margin="5,4,0,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="1">
-                        <AutoSuggestBox x:Name="CustomLanguage" Text="{Binding CustomLanguageText, Mode=TwoWay}" Height="40" GotFocus="Language_GotFocus" LostFocus="Language_LostFocus" PlaceholderText="Language" />
+                        <ComboBox Name="CustomLanguage" Height="40" SelectedItem="{Binding CustomLanguageText, Mode=TwoWay}" HorizontalAlignment="Stretch" PlaceholderText="Language"/>
                     </Grid>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
+        
+        <Grid Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" ></Grid>
         <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
             <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
             <AppBarButton Name="TestButton" Label="Test"  Click="TestButton_Click" Icon="Play"/>

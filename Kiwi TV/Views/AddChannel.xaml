@@ -24,17 +24,17 @@
         <Grid Name="GridViewIconWidth" Tag="300" />
 
         <ScrollViewer Grid.Row="1" BorderThickness="0" VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Left">
-            <GridView Name="SourcesGridView" ScrollViewer.VerticalScrollMode="Disabled" Margin="20">
+            <GridView Name="SourcesGridView" ScrollViewer.VerticalScrollMode="Disabled" Margin="20" ItemClick="SourcesGridView_ItemClick" IsItemClickEnabled="True" Loaded="SourcesGridView_Loaded">
                 <GridView.Items>
-                    <Grid Name="CustomGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Tapped="CustomGrid_Tapped">
+                    <Grid Name="CustomGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">
                         <TextBlock Foreground="Gray" Text="Custom Channel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="ms-appx:///Data/ChannelSources/custom-banner.png"/>
                     </Grid>
-                    <Grid Name="TwitchGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Tapped="TwitchGrid_Tapped">
+                    <Grid Name="TwitchGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">
                         <TextBlock Foreground="Gray" Text="Twitch.tv" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="ms-appx:///Data/ChannelSources/twitch-banner.png"/>
                     </Grid>
-                    <Grid Name="UStreamGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Tapped="UStreamGrid_Tapped">
+                    <Grid Name="UStreamGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">
                         <TextBlock Foreground="Gray" Text="USTREAM" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="ms-appx:///Data/ChannelSources/ustream-banner.png"/>
                     </Grid>

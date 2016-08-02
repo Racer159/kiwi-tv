@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
             <TextBlock Name="FeedbackHeader" Text="Feedback" FontSize="24" FontWeight="SemiLight" Margin="20, 20, 20, 10" Grid.Row="0" MaxWidth="1200"/>
             <Grid Margin="20,4" Height="40" Grid.Row="1" MaxWidth="1200">
-                <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Padding="7" Height="40" Width="260" HorizontalAlignment="Left" Background="#ffc0c0c0" ></TextBox>
+                <TextBox x:Name="EmailBox" PlaceholderText="Email (Optional)" Padding="7" Height="40" Width="260" HorizontalAlignment="Left" Background="#ffc0c0c0" Loaded="EmailBox_Loaded"></TextBox>
             </Grid>
             <StackPanel x:Name="TypeStackPanel" Orientation="Horizontal" Margin="20,4" Grid.Row="2" MaxWidth="1200">
                 <RadioButton x:Name="SuggestButton" Content="Suggest" HorizontalAlignment="Left" IsChecked="True"/>
@@ -39,8 +39,8 @@
                 <TextBox x:Name="FeedbackBox" Padding="7" PlaceholderText="Enter your feedback here." TextWrapping="Wrap"></TextBox>
             </Grid>
         </Grid>
-
-        <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
+        <Grid Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" ></Grid>
+        <CommandBar Background="{ThemeResource BarBackgroundBrush}" VerticalAlignment="Bottom">
             <AppBarButton Name="SubmitButton" Label="Submit"  Click="SubmitButton_Click" Icon="Accept" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
         </CommandBar>
     </Grid>

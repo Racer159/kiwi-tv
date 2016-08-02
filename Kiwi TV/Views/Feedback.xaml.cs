@@ -34,6 +34,13 @@ namespace Kiwi_TV.Views
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
             }
+            else if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                DislikeButton.Margin = new Thickness(5, 0, 0, 0);
+                LikeButton.Margin = new Thickness(5,0,0,0);
+                EmailBox.XYFocusDown = SuggestButton;
+                SuggestButton.XYFocusDown = FeedbackBox;
+            }
         }
 
         private async void SubmitButton_Click(object sender, RoutedEventArgs e)
@@ -52,6 +59,14 @@ namespace Kiwi_TV.Views
             else
             {
                 await new Windows.UI.Popups.MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your feedback later.").ShowAsync();
+            }
+        }
+
+        private void EmailBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                EmailBox.Focus(FocusState.Keyboard);
             }
         }
     }

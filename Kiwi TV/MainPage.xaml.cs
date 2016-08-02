@@ -25,7 +25,28 @@ namespace Kiwi_TV
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
-            
+
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                NavPane.Margin = new Thickness(0, 48, -48, -27);
+                MainAppBar.Margin = new Thickness(-48, -27, -48, 0);
+                MainAppBar.Height = 75;
+                HamburgerButton.Margin = new Thickness(48, 27, 0, 0);
+                NavPane.CompactPaneLength = 48;
+                ContentView.Margin = new Thickness(0, 0, 48, 27);
+                NavButtons.Margin = new Thickness(0, 0, 0, 27);
+                FavoritesButton.XYFocusUp = HamburgerButton;
+                FeedbackButton.XYFocusDown = SettingsButton;
+                SettingsButton.XYFocusUp = FeedbackButton;
+
+                HamburgerButton.UseSystemFocusVisuals = false;
+                FavoritesButton.UseSystemFocusVisuals = false;
+                ChannelsButton.UseSystemFocusVisuals = false;
+                AddChannelButton.UseSystemFocusVisuals = false;
+                FeedbackButton.UseSystemFocusVisuals = false;
+                SettingsButton.UseSystemFocusVisuals = false;
+            }
+
             if (localSettings.Values["freshInstall"] is bool)
             {
                 FavoritesButton.IsChecked = true;
@@ -177,6 +198,14 @@ namespace Kiwi_TV
             {
                 e.Handled = true;
                 ContentView.GoBack();
+            }
+        }
+
+        private void Grid_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Xbox && (e.Key == Windows.System.VirtualKey.GamepadView || e.Key == Windows.System.VirtualKey.NavigationView))
+            {
+                NavPane.IsPaneOpen = !NavPane.IsPaneOpen;
             }
         }
     }

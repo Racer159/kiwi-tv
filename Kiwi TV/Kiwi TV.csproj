@@ -11,7 +11,7 @@
     <AssemblyName>Kiwi TV</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14388.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -176,12 +176,16 @@
     <Content Include="Assets\Add.png" />
     <Content Include="Assets\Bars.png" />
     <Content Include="Assets\Black.png" />
+    <Content Include="Assets\Buttons.png" />
     <Content Include="Assets\Favorite.png" />
     <Content Include="Assets\Live.png" />
     <Content Include="Assets\Loading.gif" />
     <Content Include="Assets\M3U8.png" />
+    <Content Include="Assets\Menu.png" />
     <Content Include="Assets\UStream.png" />
     <Content Include="Assets\Welcome.png" />
+    <Content Include="Assets\X.png" />
+    <Content Include="Assets\Y.png" />
     <Content Include="Data\ChannelIcons\360north.png" />
     <Content Include="Data\ChannelIcons\arirangtv.png" />
     <Content Include="Data\ChannelIcons\beatztv.png" />

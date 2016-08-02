@@ -13,6 +13,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../KiwiTVStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <CollectionViewSource x:Name="CategoryGroupList" Source="{x:Bind CategoryList}" IsSourceGrouped="True" ItemsPath="Channels"/>
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -46,38 +49,42 @@
         
         <Grid Name="GridViewIconSize" Tag="150" />
 
-        <ScrollViewer Grid.Row="1" BorderThickness="0" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Name="MainScrollViewer" Grid.Row="1" BorderThickness="0" VerticalScrollBarVisibility="Auto" >
             <Grid>
                 <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Visible" VerticalAlignment="Center"/>
                 <StackPanel Margin="0,0,0,15">
                     <TextBlock Name="NoContentHeader" Text="You currently don't have any favorites, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
                     <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
 
-                    <ItemsControl Name="CategoriesItemsControl">
-                        <ItemsControl.ItemTemplate>
+                    <GridView Name="ChannelsGridView" ItemsSource="{Binding Source={StaticResource CategoryGroupList}}" ScrollViewer.VerticalScrollMode="Disabled" Margin="20,0,20,0" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ChannelsGridView_ItemClick" IsTabStop="False" KeyDown="ChannelsGridView_KeyDown" Loaded="ChannelsGridView_Loaded">
+                        <GridView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="20,20,20,10"/>
-                                    <GridView Name="ChannelsGridView" SelectionChanged="ChannelsGridView_SelectionChanged" ItemsSource="{Binding Path=Channels, Mode=OneWay}" ScrollViewer.VerticalScrollMode="Disabled" Margin="20,0,20,-10" SelectionMode="{Binding SelectionMode}">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border RightTapped="Border_RightTapped" Tag="{Binding}">
-                                                    <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White">
-                                                        <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
-                                                        <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Name}" />
-                                                        <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding}"></CheckBox>
-                                                        <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}"></CheckBox>
-                                                    </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
-                                </StackPanel>
+                                <Border RightTapped="Border_RightTapped" Tag="{Binding}">
+                                    <Grid Width="{Binding ElementName=GridViewIconSize, Path=Tag}" Height="{Binding ElementName=GridViewIconSize, Path=Tag}" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5" Background="White">
+                                        <TextBlock Foreground="Gray" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+                                        <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Name}" />
+                                        <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,-45,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding}" IsTabStop="False"></CheckBox>
+                                        <CheckBox x:Name="LiveCheckBox" IsChecked="{Binding Path=Live, UpdateSourceTrigger=Explicit, Mode=OneWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="32" Width="32" Margin="0,8,-45,0" IsEnabled="False" Style="{StaticResource LiveCheckBox}" IsTabStop="False"></CheckBox>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </GridView.ItemTemplate>
+
+                        <GridView.GroupStyle>
+                            <GroupStyle HeaderContainerStyle="{ThemeResource ChannelGroupHeader}">
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Name="CategoryHeader" Text="{Binding Name}" FontSize="24" FontWeight="SemiLight" Margin="-10,10,0,5"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </GridView.GroupStyle>
+                    </GridView>
                 </StackPanel>
             </Grid>
         </ScrollViewer>
+        <StackPanel Name="GamepadButtons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Height="32" Visibility="Collapsed">
+            <Image Source="ms-appx:///Assets/Buttons.png" Margin="5"/>
+        </StackPanel>
     </Grid>
 </Page>

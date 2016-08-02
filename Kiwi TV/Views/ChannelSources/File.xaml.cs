@@ -11,6 +11,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,10 +36,34 @@ namespace Kiwi_TV.Views.ChannelSources
             CustomLanguage.ItemsSource = languages;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
 
+            categories.Add("News");
+            categories.Add("Science/Technology");
+            categories.Add("Entertainment");
+            categories.Add("Sports");
+            categories.Add("Gaming");
+            categories.Add("Other");
+            CustomCategory.ItemsSource = categories;
+
+            languages.Add("English");
+            languages.Add("French");
+            languages.Add("Spanish");
+            languages.Add("German");
+            languages.Add("Russian");
+            languages.Add("Arabic");
+            CustomLanguage.ItemsSource = languages;
+
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
                 GridViewIconSize.Tag = 115;
+            }
+            else if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                GridViewIconSize.Tag = 115;
+                ProgressWrap.Margin = new Thickness(0, 0, -48, 48);
+                ProgressWrap.Padding = new Thickness(0, 0, 48, 0);
+                ChannelsGridView.SingleSelectionFollowsFocus = false;
+                ChannelsGridView.XYFocusDown = AddButton;
             }
         }
 
@@ -60,41 +85,10 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        private void Category_GotFocus(object sender, RoutedEventArgs e)
-        {
-            categories.Clear();
-            categories.Add("News");
-            categories.Add("Science/Technology");
-            categories.Add("Entertainment");
-            categories.Add("Sports");
-            categories.Add("Gaming");
-            categories.Add("Other");
-        }
-
-        private void Category_LostFocus(object sender, RoutedEventArgs e)
-        {
-            categories.Clear();
-        }
-
-        private void Language_GotFocus(object sender, RoutedEventArgs e)
-        {
-            languages.Clear();
-            languages.Add("English");
-            languages.Add("French");
-            languages.Add("Spanish");
-            languages.Add("German");
-            languages.Add("Russian");
-            languages.Add("Arabic");
-        }
-
-        private void Language_LostFocus(object sender, RoutedEventArgs e)
-        {
-            languages.Clear();
-        }
-
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new MessageDialog("Are you sure you want to add all of the above " + CustomLanguage.Text + " channels to the " + CustomCategory.Text + " category?", "Add Channels?");
+            var dialog = new MessageDialog("Are you sure you want to add all of the above " + (CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString()) + 
+                " channels to the " + (CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString()) + " category?", "Add Channels?");
 
             dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
             dialog.Commands.Add(new UICommand("No") { Id = 1 });
@@ -106,8 +100,8 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 for (int i = 0; i < _viewModel.FileChannels.Count; i++)
                 {
-                    _viewModel.FileChannels[i].Languages.Add(CustomLanguage.Text);
-                    _viewModel.FileChannels[i].Genre = CustomCategory.Text;
+                    _viewModel.FileChannels[i].Languages.Add(CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString());
+                    _viewModel.FileChannels[i].Genre = CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString();
                 }
                 await ChannelManager.AddChannels(_viewModel.FileChannels.ToList());
                 await new Windows.UI.Popups.MessageDialog("Successfully added the above channels to your channel list.").ShowAsync();
@@ -161,14 +155,6 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        private void ChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is GridView && ((GridView)sender).SelectedItem is Channel && !(bool)MultiSelectButton.IsChecked)
-            {
-                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>((Channel)((GridView)sender).SelectedItem, ""));
-            }
-        }
-
         private async void DeleteChannel(Channel channel)
         {
             var dialog = new MessageDialog("This will remove this channel from the channel import list.", "Delete " + channel.Name + "?");
@@ -183,7 +169,7 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 List<Channel> TempList = new List<Channel>(_viewModel.FileChannels);
                 _viewModel.FileChannels.RemoveAt(TempList.FindIndex(delegate (Channel c) { return (c.Source == channel.Source) && (c.Name == channel.Name) && (c.Icon == channel.Icon) && (c.Genre == channel.Genre); }));
-                ChannelsGridView.Focus(FocusState.Programmatic);
+
             }
         }
 
@@ -244,6 +230,7 @@ namespace Kiwi_TV.Views.ChannelSources
                 MultiDeleteButton.Visibility = Visibility.Visible;
                 MultiSelectSeparator.Visibility = Visibility.Visible;
                 ChannelsGridView.SelectionMode = ListViewSelectionMode.Multiple;
+                ChannelsGridView.IsItemClickEnabled = false;
 
                 if (DeviceType == DeviceFormFactorType.Phone)
                 {
@@ -256,6 +243,7 @@ namespace Kiwi_TV.Views.ChannelSources
                 MultiSelectSeparator.Visibility = Visibility.Collapsed;
                 ChannelsGridView.SelectionMode = ListViewSelectionMode.None;
                 ChannelsGridView.SelectionMode = ListViewSelectionMode.Single;
+                ChannelsGridView.IsItemClickEnabled = true;
 
                 if (DeviceType == DeviceFormFactorType.Phone)
                 {
@@ -277,12 +265,62 @@ namespace Kiwi_TV.Views.ChannelSources
             if (await dialog.ShowAsync() == dialog.Commands[0])
             {
                 List<Channel> TempList = new List<Channel>(_viewModel.FileChannels);
-                for ( int i = 0; i < ChannelsGridView.SelectedItems.Count; i++)
+                for (int i = 0; i < ChannelsGridView.SelectedItems.Count; i++)
                 {
                     _viewModel.FileChannels.Remove((Channel)ChannelsGridView.SelectedItems.ElementAt(i));
                     i--;
                 }
-                ChannelsGridView.Focus(FocusState.Programmatic);
+            }
+        }
+
+        private void ChannelsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (!(bool)MultiSelectButton.IsChecked)
+            {
+                Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(e.ClickedItem as Channel, ""));
+            }
+        }
+        private async void ChannelsGridView_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Menu || e.Key == Windows.System.VirtualKey.Application ||
+                (DeviceType == DeviceFormFactorType.Xbox && (e.Key == Windows.System.VirtualKey.GamepadMenu || e.Key == Windows.System.VirtualKey.NavigationMenu)))
+            {
+                foreach (Channel channel in _viewModel.FileChannels)
+                {
+                    GridViewItem g = (GridViewItem)ChannelsGridView.ContainerFromItem(channel);
+                    FocusState f = g.FocusState;
+                    if (f == FocusState.Keyboard)
+                    {
+                        PopupMenu popup = new PopupMenu();
+
+                        UICommand delete = new UICommand("Delete", delegate (IUICommand command) { DeleteChannel(channel); });
+                        popup.Commands.Add(delete);
+
+                        GeneralTransform gt = g.TransformToVisual((FrameworkElement)((FrameworkElement)((FrameworkElement)((FrameworkElement)Frame.Parent).Parent).Parent).Parent);
+
+                        await popup.ShowAsync(gt.TransformPoint(new Windows.Foundation.Point(40, 0)));
+                    }
+                }
+            }
+            else if (DeviceType == DeviceFormFactorType.Xbox && e.Key == Windows.System.VirtualKey.GamepadX)
+            {
+                foreach (Channel channel in _viewModel.FileChannels)
+                {
+                    GridViewItem g = (GridViewItem)ChannelsGridView.ContainerFromItem(channel);
+                    FocusState f = g.FocusState;
+                    if (f == FocusState.Keyboard)
+                    {
+                        DeleteChannel(channel);
+                    }
+                }
+            }
+        }
+
+        private void OpenButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                OpenButton.Focus(FocusState.Keyboard);
             }
         }
     }

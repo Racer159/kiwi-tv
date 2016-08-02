@@ -29,6 +29,26 @@
         <Setter Property="FontSize" Value="{ThemeResource NavPaneSmallFontSize}" />
     </Style>
 
+    <Style TargetType="GridViewHeaderItem" x:Key="ChannelGroupHeader">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewHeaderItem">
+                    <Grid>
+                        <ContentControl x:Name="HeaderContent" 
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" 
+                                    Content="{TemplateBinding Content}" 
+                                    IsTabStop="False" 
+                                    Margin="{TemplateBinding Padding}" 
+                                    TabIndex="0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="AppBarButton" x:Key="HamburgerButtonStyle">
         <Setter Property="Background" Value="{ThemeResource HamburgerBackgroundBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource NavPaneForegroundBrush}" />
@@ -80,8 +100,13 @@
                             <VisualStateGroup x:Name="FocusStates">
                                 <VisualState x:Name="Focused">
                                     <Storyboard>
-                                        <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisualWhite" Storyboard.TargetProperty="Opacity" To="1" />
-                                        <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Opacity" To="1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unfocused" />
@@ -109,14 +134,14 @@
                             </Grid.Resources>
 
                             <!-- background -->
-                            <Grid x:Name="NotCheckedBackground" Grid.ColumnSpan="4">
+                            <Grid x:Name="NotCheckedBackground" Grid.ColumnSpan="4" Margin="-48,0,0,0">
                                 <Rectangle x:Name="PressedBackground" Visibility="Collapsed" Fill="{StaticResource HamburgerPressedBackgroundBrush}"/>
                                 <Rectangle x:Name="HoverBackground" Visibility="Collapsed" Fill="{StaticResource HamburgerHoverBackgroundBrush}"/>
                             </Grid>
 
                             <!-- focus -->
-                            <Rectangle x:Name="FocusVisualWhite" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashOffset="1.5" Style="{StaticResource FocusVisual}" />
-                            <Rectangle x:Name="FocusVisualBlack" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashOffset="0.5" Style="{StaticResource FocusVisual}" />
+                            <!-- x:Name="FocusVisualWhite" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashOffset="1.5" Style="{StaticResource FocusVisual}" />
+                            <Rectangle x:Name="FocusVisualBlack" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashOffset="0.5" Style="{StaticResource FocusVisual}" /-->
 
                             <!-- glyph -->
                             <TextBlock x:Name="Glyph" Text="&#xe700;" Style="{StaticResource NavPaneTextBlockStyle}" FontSize="{StaticResource NavPaneLargeFontSize}" />
@@ -208,8 +233,20 @@
                             <VisualStateGroup x:Name="FocusStates">
                                 <VisualState x:Name="Focused">
                                     <Storyboard>
-                                        <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisualWhite" Storyboard.TargetProperty="Opacity" To="1" />
-                                        <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Opacity" To="1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CheckedPressedBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unfocused" />
@@ -237,18 +274,14 @@
                             </Grid.Resources>
 
                             <!-- background -->
-                            <Grid x:Name="NotCheckedBackground" Grid.ColumnSpan="4">
+                            <Grid x:Name="NotCheckedBackground" Grid.ColumnSpan="4" Margin="-48,0,0,0">
                                 <Rectangle x:Name="PressedBackground" Visibility="Collapsed" Fill="{StaticResource NavButtonPressedBackgroundBrush}"/>
                                 <Rectangle x:Name="HoverBackground" Visibility="Collapsed" Fill="{StaticResource NavButtonHoverBackgroundBrush}"/>
                             </Grid>
-                            <Grid x:Name="CheckedBackground" Grid.ColumnSpan="4" Visibility="Collapsed" Background="{StaticResource NavButtonCheckedBackgroundBrush}">
+                            <Grid x:Name="CheckedBackground" Grid.ColumnSpan="4" Visibility="Collapsed" Background="{StaticResource NavButtonCheckedBackgroundBrush}" Margin="-48,0,0,0">
                                 <Rectangle x:Name="CheckedPressedBackground" Visibility="Collapsed" Fill="{StaticResource NavButtonCheckedPressedBackgroundBrush}"/>
                                 <Rectangle x:Name="CheckedHoverBackground" Visibility="Collapsed" Fill="{StaticResource NavButtonCheckedHoverBackgroundBrush}"/>
                             </Grid>
-
-                            <!-- focus -->
-                            <Rectangle x:Name="FocusVisualWhite" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashOffset="1.5" Style="{StaticResource FocusVisual}" />
-                            <Rectangle x:Name="FocusVisualBlack" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashOffset="0.5" Style="{StaticResource FocusVisual}" />
 
                             <!-- glyph -->
                             <TextBlock x:Name="Glyph" Text="{TemplateBinding Tag}" Style="{StaticResource NavPaneTextBlockStyle}" FontSize="{StaticResource NavPaneSmallFontSize}" />

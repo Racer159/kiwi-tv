@@ -15,9 +15,9 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid KeyDown="Grid_KeyDown">
         <Grid>
-            <StackPanel Orientation="Horizontal" Background="{ThemeResource BarBackgroundBrush}">
+            <StackPanel Name="MainAppBar" Orientation="Horizontal" Background="{ThemeResource BarBackgroundBrush}" VerticalAlignment="Top">
                 <AppBarButton Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Click="HamburgerButton_Click" Width="48" Height="48"
                           Style="{StaticResource HamburgerButtonStyle}"
                           HorizontalAlignment="Left" VerticalAlignment="Top" >
@@ -26,13 +26,17 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
             </StackPanel>
+            <Grid Margin="-48,0,0,-27" Width="48" HorizontalAlignment="Left" Background="{ThemeResource NavPaneBackgroundBrush}">
+                <Grid Background="{ThemeResource HamburgerBackgroundBrush}" Width="48" Height="48" VerticalAlignment="Top"></Grid>
+                <Grid Width="48" Height="76" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}"></Grid>
+            </Grid>
         </Grid>
 
         <SplitView x:Name="NavPane" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                 CompactPaneLength="48" OpenPaneLength="250" Margin="0,48,0,0" 
                 PaneBackground="{ThemeResource NavPaneBackgroundBrush}" Background="{ThemeResource AppBackgroundBrush}">
             <SplitView.Pane>
-                <Grid>
+                <Grid Name="NavButtons">
                     <StackPanel VerticalAlignment="Top">
                         <!-- Favorites Button -->
                         <RadioButton x:Name="FavoritesButton" Tag="&#xE728;" Content="Favorites" Style="{StaticResource NavPaneNavButtonStyle}" Checked="FavoritesButton_Checked" IsChecked="False" />

@@ -37,21 +37,37 @@ namespace Kiwi_TV.Views
                 GridViewIconHeight.Tag = 115;
                 GridViewIconWidth.Tag = 230;
             }
+            else if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                GridViewIconHeight.Tag = 115;
+                GridViewIconWidth.Tag = 230;
+                SourcesGridView.SingleSelectionFollowsFocus = false;
+            }
         }
 
-        private void CustomGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        private void SourcesGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame.Navigate(typeof(Views.ChannelSources.Custom), new CustomViewModel());
+            int index = SourcesGridView.Items.IndexOf(e.ClickedItem);
+            if (index == 0)
+            {
+                Frame.Navigate(typeof(Views.ChannelSources.Custom), new CustomViewModel());
+            }
+            else if (index ==1)
+            {
+                Frame.Navigate(typeof(Views.ChannelSources.Twitch), new TwitchViewModel());
+            }
+            else if (index == 2)
+            {
+                Frame.Navigate(typeof(Views.ChannelSources.UStream), new UStreamViewModel());
+            }
         }
 
-        private void TwitchGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        private void SourcesGridView_Loaded(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Views.ChannelSources.Twitch), new TwitchViewModel());
-        }
-
-        private void UStreamGrid_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(Views.ChannelSources.UStream), new UStreamViewModel());
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                SourcesGridView.Focus(FocusState.Keyboard);
+            }
         }
     }
 }

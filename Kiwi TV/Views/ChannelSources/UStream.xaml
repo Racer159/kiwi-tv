@@ -62,10 +62,12 @@
                     <TextBlock Text="{Binding Selected.Title}" TextWrapping="WrapWholeWords" Margin="0,0,15,0" FontWeight="Bold"/>
                 </StackPanel>
                 <Grid Margin="5,4,5,4" Background="#ffc0c0c0" Height="40" VerticalAlignment="Top" Grid.Column="0" Width="260">
-                    <AutoSuggestBox x:Name="CategoryBox" Text="{Binding UStreamCategoryText, Mode=TwoWay}" Height="40" GotFocus="CategoryBox_GotFocus" LostFocus="CategoryBox_LostFocus" PlaceholderText="Category" />
+                    <ComboBox Name="CategoryBox" Height="40" SelectedItem="{Binding UStreamCategoryText, Mode=TwoWay}" HorizontalAlignment="Stretch" PlaceholderText="Category"/>
                 </Grid>
             </StackPanel>
         </Grid>
+        
+        <Grid Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" ></Grid>
         <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
             <AppBarButton Name="TestButton" Label="Test"  Click="TestButton_Click" Icon="Play"/>
             <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>

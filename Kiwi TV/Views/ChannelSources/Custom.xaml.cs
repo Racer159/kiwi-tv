@@ -39,10 +39,32 @@ namespace Kiwi_TV.Views.ChannelSources
             CustomCategory.ItemsSource = categories;
             CustomLanguage.ItemsSource = languages;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
+            
+            categories.Add("News");
+            categories.Add("Science/Technology");
+            categories.Add("Entertainment");
+            categories.Add("Sports");
+            categories.Add("Gaming");
+            categories.Add("Other");
+            CustomCategory.ItemsSource = categories;
+            
+            languages.Add("English");
+            languages.Add("French");
+            languages.Add("Spanish");
+            languages.Add("German");
+            languages.Add("Russian");
+            languages.Add("Arabic");
+            CustomLanguage.ItemsSource = languages;
+
 
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
+                GridViewIconSize.Tag = 115;
+                GridViewWrapSize.Tag = 120;
+            }
+            else if (DeviceType == DeviceFormFactorType.Xbox)
+            {
                 GridViewIconSize.Tag = 115;
                 GridViewWrapSize.Tag = 120;
             }
@@ -112,8 +134,9 @@ namespace Kiwi_TV.Views.ChannelSources
         private Channel GenerateCustomChannel()
         {
             List<string> languages = new List<string>();
-            languages.Add(CustomLanguage.Text);
-            return new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, CustomCategory.Text, "iptv", true);
+            languages.Add(CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString());
+            string category = CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString();
+            return new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, category, "iptv", true);
         }
 
         private async void SuggestButton_Click(object sender, RoutedEventArgs e)
@@ -157,38 +180,6 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        private void Category_GotFocus(object sender, RoutedEventArgs e)
-        {
-            categories.Clear();
-            categories.Add("News");
-            categories.Add("Science/Technology");
-            categories.Add("Entertainment");
-            categories.Add("Sports");
-            categories.Add("Gaming");
-            categories.Add("Other");
-        }
-
-        private void Category_LostFocus(object sender, RoutedEventArgs e)
-        {
-            categories.Clear();
-        }
-
-        private void Language_GotFocus(object sender, RoutedEventArgs e)
-        {
-            languages.Clear();
-            languages.Add("English");
-            languages.Add("French");
-            languages.Add("Spanish");
-            languages.Add("German");
-            languages.Add("Russian");
-            languages.Add("Arabic");
-        }
-
-        private void Language_LostFocus(object sender, RoutedEventArgs e)
-        {
-            languages.Clear();
-        }
-
         private void FileButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Views.ChannelSources.File), new FileViewModel());
@@ -220,6 +211,14 @@ namespace Kiwi_TV.Views.ChannelSources
                 {
                     await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot save that channel because the specified video URL is invalid.").ShowAsync();
                 }
+            }
+        }
+
+        private void ChannelsGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceType == DeviceFormFactorType.Xbox)
+            {
+                ChannelsGridView.Focus(FocusState.Keyboard);
             }
         }
     }

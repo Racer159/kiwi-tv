@@ -38,6 +38,7 @@ namespace Kiwi_TV
                 FavoritesButton.XYFocusUp = HamburgerButton;
                 FeedbackButton.XYFocusDown = SettingsButton;
                 SettingsButton.XYFocusUp = FeedbackButton;
+                XboxNavBarPadding.Visibility = Visibility.Visible;
 
                 HamburgerButton.UseSystemFocusVisuals = false;
                 FavoritesButton.UseSystemFocusVisuals = false;

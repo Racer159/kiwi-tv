@@ -64,6 +64,7 @@ namespace Kiwi_TV.Views.ChannelSources
                 ProgressWrap.Padding = new Thickness(0, 0, 48, 0);
                 ChannelsGridView.SingleSelectionFollowsFocus = false;
                 ChannelsGridView.XYFocusDown = AddButton;
+                XboxCommandWrap.Visibility = Visibility.Visible;
             }
         }
 

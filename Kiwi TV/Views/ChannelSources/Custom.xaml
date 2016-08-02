@@ -74,8 +74,8 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-        
-        <Grid Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" ></Grid>
+
+        <Grid Name="XboxCommandWrap" Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" Visibility="Collapsed"></Grid>
         <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
             <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
             <AppBarButton Name="TestButton" Label="Test"  Click="TestButton_Click" Icon="Play"/>

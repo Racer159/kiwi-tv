@@ -67,6 +67,7 @@ namespace Kiwi_TV.Views.ChannelSources
             {
                 GridViewIconSize.Tag = 115;
                 GridViewWrapSize.Tag = 120;
+                XboxCommandWrap.Visibility = Visibility.Visible;
             }
         }
 

@@ -40,6 +40,7 @@ namespace Kiwi_TV.Views
                 LikeButton.Margin = new Thickness(5,0,0,0);
                 EmailBox.XYFocusDown = SuggestButton;
                 SuggestButton.XYFocusDown = FeedbackBox;
+                XboxCommandWrap.Visibility = Visibility.Visible;
             }
         }
 

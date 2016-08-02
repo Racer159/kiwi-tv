@@ -71,8 +71,8 @@
             </StackPanel>
             <ProgressBar Name="LiveStatusProgressBar" Margin="20,20,20,0"/>
         </Grid>
-        
-        <Grid Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" ></Grid>
+
+        <Grid Name="XboxCommandWrap" Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" Visibility="Collapsed"></Grid>
         <CommandBar VerticalAlignment="Bottom" Background="{ThemeResource BarBackgroundBrush}">
             <AppBarButton Name="SuggestButton" Label="Suggest"  Click="SuggestButton_Click" Icon="Send"/>
             <AppBarButton Name="AddButton" Label="Add"  Click="AddButton_Click" Icon="Add" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>

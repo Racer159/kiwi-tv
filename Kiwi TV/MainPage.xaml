@@ -26,7 +26,7 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
             </StackPanel>
-            <Grid Margin="-48,0,0,-27" Width="48" HorizontalAlignment="Left" Background="{ThemeResource NavPaneBackgroundBrush}">
+            <Grid Name="XboxNavBarPadding" Margin="-48,0,0,-27" Width="48" HorizontalAlignment="Left" Background="{ThemeResource NavPaneBackgroundBrush}" Visibility="Collapsed">
                 <Grid Background="{ThemeResource HamburgerBackgroundBrush}" Width="48" Height="48" VerticalAlignment="Top"></Grid>
                 <Grid Width="48" Height="76" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}"></Grid>
             </Grid>

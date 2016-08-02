@@ -39,7 +39,7 @@
                 <TextBox x:Name="FeedbackBox" Padding="7" PlaceholderText="Enter your feedback here." TextWrapping="Wrap"></TextBox>
             </Grid>
         </Grid>
-        <Grid Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" ></Grid>
+        <Grid Name="XboxCommandWrap" Background="{ThemeResource BarBackgroundBrush}" Height="75" Margin="0,0,-48,-27" VerticalAlignment="Bottom" Visibility="Collapsed"></Grid>
         <CommandBar Background="{ThemeResource BarBackgroundBrush}" VerticalAlignment="Bottom">
             <AppBarButton Name="SubmitButton" Label="Submit"  Click="SubmitButton_Click" Icon="Accept" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White"/>
         </CommandBar>

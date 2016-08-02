@@ -215,6 +215,7 @@
     <Content Include="Data\ChannelIcons\test.png" />
     <Content Include="Data\ChannelIcons\tvshoppingnetwork.png" />
     <Content Include="Data\ChannelIcons\weathernation.png" />
+    <Content Include="Data\ChannelIcons\wftv.png" />
     <Content Include="Data\channels.txt" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Data\ChannelSources\custom-banner.png" />
@@ -224,6 +225,7 @@
     <Content Include="Data\ChannelSources\ustream-logo-dark.png" />
     <Content Include="Data\ChannelSources\ustream-logo-light.png" />
     <Content Include="Data\updates.txt" />
+    <Content Include="Data\updates2.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

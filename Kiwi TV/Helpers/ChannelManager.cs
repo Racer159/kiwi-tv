@@ -134,7 +134,7 @@ namespace Kiwi_TV.Helpers
                 file += c.Source + "\n\n";
             }
 
-            file += "version1.3";
+            file += "version1.3.1";
 
             await FileIO.WriteTextAsync(channelsFile, file);
         }
@@ -332,7 +332,7 @@ namespace Kiwi_TV.Helpers
             List<Channel> TempList = await LoadChannels(false, false);
             string version = await GetVersionInfo();
 
-            if (TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }) == null && version != "version1.3")
+            if (TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }) == null && (version != "version1.3" || version != "version1.3.1"))
             {
                 TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NASA TV ISS") && (c.Icon == "ms-appx:///Data/ChannelIcons/nasatviss.png"); }));
                 TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Weather Nation") && (c.Icon == "ms-appx:///Data/ChannelIcons/weathernation.png"); }));
@@ -341,9 +341,20 @@ namespace Kiwi_TV.Helpers
 
                 List<Channel> updates = await LoadChannelFile(updateFile, false);
                 TempList.AddRange(updates);
-
-                await ChannelManager.SaveChannels(TempList);
             }
+
+            if (version != "version1.3.1")
+            {
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "RT Documentaries") && (c.Icon == "ms-appx:///Data/ChannelIcons/rtdocumentaries.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Russia Today") && (c.Icon == "ms-appx:///Data/ChannelIcons/russiatoday.png"); }));
+
+                StorageFile updateFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/updates2.txt"));
+
+                List<Channel> updates = await LoadChannelFile(updateFile, false);
+                TempList.AddRange(updates);
+            }
+
+            await ChannelManager.SaveChannels(TempList);
         }
     }
 }

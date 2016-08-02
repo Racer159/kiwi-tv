@@ -56,13 +56,21 @@ namespace Kiwi_TV
             {
                 localSettings.Values["freshInstall"] = false;
                 localSettings.Values["version12"] = false;
+                localSettings.Values["version13"] = false;
                 ContentView.Navigate(typeof(Views.StartTutorial), true);
             }
             
             if (!(localSettings.Values["version12"] is bool))
             {
                 localSettings.Values["version12"] = false;
+                localSettings.Values["version13"] = false;
                 ContentView.Navigate(typeof(Views.NewFeatures), true);
+            }
+
+            if (!(localSettings.Values["version13"] is bool))
+            {
+                localSettings.Values["version13"] = false;
+                ChannelManager.MigrateChannelList();
             }
 
             //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)

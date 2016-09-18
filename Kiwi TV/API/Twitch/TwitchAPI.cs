@@ -10,35 +10,35 @@ namespace Kiwi_TV.API.Twitch
     {
         public async static Task<TwitchAccessToken> RetireveAccessToken(string channelName)
         {
-            object response = await WebserviceHelper.MakeRequest("http://api.twitch.tv/api/channels/" + channelName + "/access_token", typeof(TwitchAccessToken));
+            object response = await WebserviceHelper.MakeRequest("http://api.twitch.tv/api/channels/" + channelName + "/access_token?client_id=kgomr6iz3wk1c7n5z504sryi3j4tklc", typeof(TwitchAccessToken));
             TwitchAccessToken token = response as TwitchAccessToken;
             return token;
         }
 
         public async static Task<TwitchStreamDesc> RetreiveStreamDescription(string channelName)
         {
-            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/streams/" + channelName, typeof(TwitchStreamDesc));
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=kgomr6iz3wk1c7n5z504sryi3j4tklc", typeof(TwitchStreamDesc));
             TwitchStreamDesc streamDesc = response as TwitchStreamDesc;
             return streamDesc;
         }
 
         public async static Task<TwitchChannel> RetreiveChannelDescription(string channelName)
         {
-            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/channels/" + channelName, typeof(TwitchChannel));
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/channels/" + channelName + "?client_id=kgomr6iz3wk1c7n5z504sryi3j4tklc", typeof(TwitchChannel));
             TwitchChannel channelDesc = response as TwitchChannel;
             return channelDesc;
         }
 
         public async static Task<TwitchSearchResults> RetrieveSearchResults(string search)
         {
-            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/search/channels?q=" + search, typeof(TwitchSearchResults));
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/search/channels?q=" + search + "&client_id=kgomr6iz3wk1c7n5z504sryi3j4tklc", typeof(TwitchSearchResults));
             TwitchSearchResults results = response as TwitchSearchResults;
             return results;
         }
         
         public async static Task<TwitchSearchResults> RetrieveLiveStreams()
         {
-            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/streams/", typeof(TwitchStreamList));
+            object response = await WebserviceHelper.MakeRequest("https://api.twitch.tv/kraken/streams?client_id=kgomr6iz3wk1c7n5z504sryi3j4tklc", typeof(TwitchStreamList));
             TwitchStreamList streamList = response as TwitchStreamList;
 
             List<TwitchChannel> channels = new List<TwitchChannel>();

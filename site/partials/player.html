@@ -1,18 +1,5 @@
 <div class="col-xs-12">
 	<div class="container text-center">
-		<script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>
 		<video id="video"></video>
-		<script>
-			console.log(Hls.isSupported());
-			if(Hls.isSupported()) {
-				var video = document.getElementById('video');
-				var hls = new Hls();
-				hls.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
-				hls.attachMedia(video);
-				hls.on(Hls.Events.MANIFEST_PARSED,function() {
-				video.play();
-			});
-		}
-		</script>
 	</div>
 </div>

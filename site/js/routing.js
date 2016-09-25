@@ -13,5 +13,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 		url: '/faq',
 		templateUrl: 'site/partials/faq.html',
 		controller: 'FaqController'
+	}).state('player', {
+		url: '/player?video',
+		templateUrl: 'site/partials/player.html',
+		controller: 'PlayerController'
 	});
 });

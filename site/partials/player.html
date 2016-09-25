@@ -1,5 +1,9 @@
 <div class="col-xs-12">
 	<div class="container text-center">
-		<video width="1024" height="600" autoplay controls src="{{video}}"/>
+		<video class="video-js vjs-default-skin" id="video-player" width="1024" height="600" autoplay controls src="{{video}}"/>
+		<script>
+			var player = videojs('video-player');
+			player.play();
+		</script>
 	</div>
 </div>

@@ -8,6 +8,7 @@ app.controller('PlayerController', function($scope, $log, $stateParams, $sce) {
 		var hls = new Hls();
 		hls.loadSource($scope.video);
 		hls.attachMedia(video);
+		
 		hls.on(Hls.Events.MANIFEST_PARSED,function() {
 			video.play();
 		});

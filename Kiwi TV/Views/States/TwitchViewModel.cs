@@ -9,6 +9,9 @@ using Kiwi_TV.API.Twitch.Models;
 
 namespace Kiwi_TV.Views.States
 {
+    /// <summary>
+    /// Represents the data backend for the Twitch.tv page
+    /// </summary>
     [DataContract]
     class TwitchViewModel : INotifyPropertyChanged
     {

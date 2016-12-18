@@ -1,31 +1,28 @@
 ﻿using Kiwi_TV.Helpers;
-using Kiwi_TV.Models;
-using Kiwi_TV.Views.States;
-using System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace Kiwi_TV
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The main page for the application
     /// </summary>
     public sealed partial class MainPage : Page
     {
         DeviceFormFactorType DeviceType;
         Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
+        /* Instantiate the page and setup device specific options */
         public MainPage()
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
 
+            // Setup changes for the Xbox
             if (DeviceType == DeviceFormFactorType.Xbox)
             {
                 NavPane.Margin = new Thickness(0, 48, -48, -27);
@@ -48,6 +45,7 @@ namespace Kiwi_TV
                 SettingsButton.UseSystemFocusVisuals = false;
             }
 
+            // Start the start tutorial or new features tutorials
             if (localSettings.Values["freshInstall"] is bool)
             {
                 FavoritesButton.IsChecked = true;
@@ -55,22 +53,14 @@ namespace Kiwi_TV
             else
             {
                 localSettings.Values["freshInstall"] = false;
-                localSettings.Values["version12"] = false;
-                localSettings.Values["version13"] = false;
+                localSettings.Values["version14"] = false;
                 ContentView.Navigate(typeof(Views.StartTutorial), true);
             }
-            
-            if (!(localSettings.Values["version12"] is bool))
-            {
-                localSettings.Values["version12"] = false;
-                localSettings.Values["version13"] = false;
-                ContentView.Navigate(typeof(Views.NewFeatures), true);
-            }
 
-            if (!(localSettings.Values["version13"] is bool))
+            if (!(localSettings.Values["version14"] is bool))
             {
-                localSettings.Values["version13"] = false;
-                ChannelManager.MigrateChannelList();
+                localSettings.Values["version14"] = false;
+                ContentView.Navigate(typeof(Views.NewFeatures), true);
             }
 
             //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
@@ -78,6 +68,7 @@ namespace Kiwi_TV
             FeedbackButton.Visibility = Visibility.Visible;
             //}
 
+            // Setup the title bar based off of the theme
             Windows.UI.ViewManagement.ApplicationView appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
             if (localSettings.Values["darkTheme"] is bool && (bool)localSettings.Values["darkTheme"])
             {
@@ -113,37 +104,44 @@ namespace Kiwi_TV
             }
         }
 
+        /* Open or close the nav pane when the hamburger button is clicked */
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavPane.IsPaneOpen = !NavPane.IsPaneOpen;
         }
 
+        /* Navigate to the favorites page when the favorites button is checked */
         private void FavoritesButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.Channels), true);
         }
 
+        /* Navigate to the all channels page when the channels button is checked */
         private void ChannelsButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.Channels), false);
         }
 
+        /* Navigate to the add channels page when the add channel button is checked */
         private void AddChannelButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.AddChannel));
         }
 
+        /* Navigate to the feedback page when the feedback button is checked */
         private void FeedbackButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.Feedback));
             //await Microsoft.Services.Store.Engagement.Feedback.LaunchFeedbackAsync();
         }
 
+        /* Navigate to the settings page when the settings button is checked */
         private void SettingsButton_Checked(object sender, RoutedEventArgs e)
         {
             ContentView.Navigate(typeof(Views.Settings));
         }
 
+        /* Change display based off of current page */
         private void ContentView_Navigated(object sender, NavigationEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
@@ -201,6 +199,7 @@ namespace Kiwi_TV
             }
         }
 
+        /* Navigate back when the back button is pressed */
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             if (ContentView != null && ContentView.CanGoBack)
@@ -209,7 +208,8 @@ namespace Kiwi_TV
                 ContentView.GoBack();
             }
         }
-
+        
+        /* Open and close the nav pane when the view button is pressed */
         private void Grid_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox && (e.Key == Windows.System.VirtualKey.GamepadView || e.Key == Windows.System.VirtualKey.NavigationView))

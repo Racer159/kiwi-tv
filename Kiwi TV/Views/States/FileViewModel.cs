@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Kiwi_TV.Views.States
 {
+    /// <summary>
+    /// Represents the data backend for the M3U8 File page
+    /// </summary>
     [DataContract]
     class FileViewModel : INotifyPropertyChanged
     {

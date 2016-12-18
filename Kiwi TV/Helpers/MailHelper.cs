@@ -7,6 +7,9 @@ using Windows.Web.Http.Filters;
 
 namespace Kiwi_TV.Helpers
 {
+    /// <summary>
+    /// A helper to handle authorization with MailGun
+    /// </summary>
     public class PlugInFilter : IHttpFilter
     {
         private IHttpFilter innerFilter;
@@ -40,8 +43,12 @@ namespace Kiwi_TV.Helpers
         }
     }
 
+    /// <summary>
+    /// A helper to send out feedback emails
+    /// </summary>
     class MailHelper
     {
+        /* Sends out a feedback email to the given email with the given message */
         public static async Task<object> SendFeedbackEmail(string Email, string Type, string Message)
         {
             try {

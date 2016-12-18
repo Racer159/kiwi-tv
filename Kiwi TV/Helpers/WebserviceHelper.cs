@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 
 namespace Kiwi_TV.Helpers
 {
+    /// <summary>
+    /// A helper to interact with various webservices
+    /// </summary>
     class WebserviceHelper
     {
+        /* Makes a request to a webservice */
         public async static Task<object> MakeRequest(string requestUrl, Type responseType)
         {
             try
@@ -30,6 +34,7 @@ namespace Kiwi_TV.Helpers
             }
         }
 
+        /* Pings a given URL to see if it responds */
         public async static Task<bool> Ping(Uri requestUrl)
         {
             try

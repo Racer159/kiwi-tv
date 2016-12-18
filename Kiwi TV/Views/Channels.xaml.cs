@@ -12,12 +12,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Kiwi_TV.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page used to display a grid of channels
     /// </summary>
     public sealed partial class Channels : Page
     {
@@ -27,6 +25,7 @@ namespace Kiwi_TV.Views
         List<StorageFile> Sharefiles = new List<StorageFile>();
         Channel FocusedChannel = new Channel();
 
+        /* Instantiate the page and setup device specific options */
         public Channels()
         {
             this.InitializeComponent();
@@ -53,6 +52,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Load channels based on whether this is the favorites page or not */
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is bool)
@@ -77,6 +77,7 @@ namespace Kiwi_TV.Views
             ChannelList = await ChannelManager.SetLive(ChannelList, false, progress);
         }
 
+        /* Refresh the channel list when a search is ran */
         private void RefreshChannelList(List<Channel> channelList, string search)
         {
             if (channelList.Count == 0)
@@ -117,6 +118,7 @@ namespace Kiwi_TV.Views
             ChannelManager.LoadCategories(channelList, CategoryList);
         }
 
+        /* Favorite a channel when its favorites button is checked */
         private void FavoriteCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if(sender is CheckBox)
@@ -125,6 +127,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Show/hide UI elements when the size of the page changes */
         private void MainChannelsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (MainChannelsGrid.ActualWidth < 550 && ChannelFilters.Visibility == Visibility.Visible)
@@ -140,6 +143,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Expand the search options when the short search button is clicked */
         private void ShortSearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Phone)
@@ -159,6 +163,7 @@ namespace Kiwi_TV.Views
             SearchBox.Focus(FocusState.Pointer);
         }
 
+        /* Collapse the search options when the short search box loses focus */
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (SearchBox.FocusState == FocusState.Unfocused && TitleText.Visibility == Visibility.Collapsed)
@@ -174,6 +179,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Refresh the channels when the search button is clicked */
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (SearchBox != null)
@@ -182,6 +188,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Refresh the channels when enter is pressed in the search box */
         private void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
@@ -190,6 +197,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Display the right-click menu for a selected channel */
         private async void Border_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             if (sender is Border && ((Border)sender).Tag is Channel)
@@ -218,6 +226,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Delete a channel from the channel list */
         private async void DeleteChannel(Channel channel)
         {
             var dialog = new MessageDialog("This will remove this channel from all channel lists.", "Delete " + channel.Name + "?");
@@ -248,6 +257,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Edit a channel in the channel list */
         private void EditChannel(Channel channel)
         {
             if (DeviceType == DeviceFormFactorType.Xbox) { ElementSoundPlayer.Play(ElementSoundKind.Invoke); }
@@ -257,6 +267,7 @@ namespace Kiwi_TV.Views
             Frame.Navigate(typeof(Views.ChannelSources.Custom), cvm);
         }
 
+        /* Favorite a channel in the channel list */
         private async void FavoriteChannel(Channel channel, bool favorite)
         {
             if (DeviceType == DeviceFormFactorType.Xbox) { ElementSoundPlayer.Play(ElementSoundKind.Invoke); }
@@ -264,6 +275,7 @@ namespace Kiwi_TV.Views
             await ChannelManager.SaveFavorite(channel.Name, favorite);
         }
 
+        /* Enable multi-select in the channels grid */
         private void MultiSelectButton_Click(object sender, RoutedEventArgs e)
         {
             if ((bool)MultiSelectButton.IsChecked)
@@ -284,6 +296,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Disable multi-select in the channels grid */
         private void HideMultiSelectOptions()
         {
             MultiSelectOptions.Visibility = Visibility.Collapsed;
@@ -297,6 +310,7 @@ namespace Kiwi_TV.Views
             ChannelsGridView.IsItemClickEnabled = true;
         }
 
+        /* Delete multiple channels at once */
         private async void MultiDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new MessageDialog("This will remove any selected channels from all channel lists.", "Delete Channels?");
@@ -336,6 +350,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Share multiple channels at once */
         private async void MultiShareButton_Click(object sender, RoutedEventArgs e)
         {
             List<Channel> shareChannels = new List<Channel>();
@@ -351,6 +366,7 @@ namespace Kiwi_TV.Views
             DataTransferManager.ShowShareUI();
         }
 
+        /* Handle the data transfer for sharing */
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
@@ -359,6 +375,7 @@ namespace Kiwi_TV.Views
             request.Data.SetStorageItems(Sharefiles);
         }
 
+        /* Navigate to the player page when a channel is selected */
         private void ChannelsGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (!(bool)MultiSelectButton.IsChecked)
@@ -368,6 +385,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Handle right-click and other options for Xbox/Keyboard users */
         private async void ChannelsGridView_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Menu || e.Key == Windows.System.VirtualKey.Application ||
@@ -431,6 +449,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Focus on the channels grid when on Xbox */
         private void ChannelsGridView_Loaded(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox && ChannelList.Count > 0)

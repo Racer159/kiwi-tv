@@ -4,27 +4,16 @@ using Kiwi_TV.Views.States;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Kiwi_TV.Views.ChannelSources
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page that allows a custom channel to be added to the channel list
     /// </summary>
     public sealed partial class Custom : Page
     {
@@ -32,7 +21,8 @@ namespace Kiwi_TV.Views.ChannelSources
         ObservableCollection<string> categories = new ObservableCollection<string>();
         ObservableCollection<string> languages = new ObservableCollection<string>();
         CustomViewModel _viewModel;
-
+        
+        /* Instantiate the page and setup device specific options */
         public Custom()
         {
             this.InitializeComponent();
@@ -40,23 +30,6 @@ namespace Kiwi_TV.Views.ChannelSources
             CustomLanguage.ItemsSource = languages;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
             
-            categories.Add("News");
-            categories.Add("Science/Technology");
-            categories.Add("Entertainment");
-            categories.Add("Sports");
-            categories.Add("Gaming");
-            categories.Add("Other");
-            CustomCategory.ItemsSource = categories;
-            
-            languages.Add("English");
-            languages.Add("French");
-            languages.Add("Spanish");
-            languages.Add("German");
-            languages.Add("Russian");
-            languages.Add("Arabic");
-            CustomLanguage.ItemsSource = languages;
-
-
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
@@ -71,8 +44,26 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        /* Handle the data context (view model) provided when navigated to */
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Load category list from category file
+            List<string> categoriesFile = await CategoryHelper.LoadCategories();
+            foreach (string category in categoriesFile)
+            {
+                categories.Add(category);
+            }
+            CustomCategory.ItemsSource = categories;
+
+            // Set languages list
+            languages.Add("English");
+            languages.Add("French");
+            languages.Add("Spanish");
+            languages.Add("German");
+            languages.Add("Russian");
+            languages.Add("Arabic");
+            CustomLanguage.ItemsSource = languages;
+
             if (e.Parameter is CustomViewModel)
             {
                 _viewModel = (CustomViewModel)e.Parameter;
@@ -83,6 +74,7 @@ namespace Kiwi_TV.Views.ChannelSources
                 _viewModel = new CustomViewModel();
             }
 
+            // Switch UI elements if editting existing channel
             if (_viewModel.EditMode)
             {
                 SuggestButton.Visibility = Visibility.Collapsed;
@@ -90,7 +82,6 @@ namespace Kiwi_TV.Views.ChannelSources
                 AddButton.Visibility = Visibility.Collapsed;
                 SaveButton.Visibility = Visibility.Visible;
                 TitleText.Text = "Edit Channel";
-                CustomSourceURL.IsEnabled = false;
 
                 if (_viewModel.EditChannel != null && _viewModel.CustomNameText == null)
                 {
@@ -103,6 +94,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Add the provided channel information the the channel list */
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Uri source;
@@ -118,6 +110,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Test the provided channel information in the player */
         private async void TestButton_Click(object sender, RoutedEventArgs e)
         {
             Uri source;
@@ -132,6 +125,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Create a channel object from the provided channel information */
         private Channel GenerateCustomChannel()
         {
             List<string> languages = new List<string>();
@@ -140,6 +134,7 @@ namespace Kiwi_TV.Views.ChannelSources
             return new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, category, "iptv", true);
         }
 
+        /* Send the provided channel information as a suggestion */
         private async void SuggestButton_Click(object sender, RoutedEventArgs e)
         {
             if (CustomSourceURL.Text != "")
@@ -181,11 +176,13 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Navigate to the Custom File page */
         private void FileButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Views.ChannelSources.File), new FileViewModel());
         }
 
+        /* Save the provided channel information to the channel list */
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new MessageDialog("Are you sure you want to save this channel?", "Save " + _viewModel.CustomNameText + "?");
@@ -214,7 +211,8 @@ namespace Kiwi_TV.Views.ChannelSources
                 }
             }
         }
-
+        
+        /* Set the focus state of the channel preview gridview for Xbox */
         private void ChannelsGridView_Loaded(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox)

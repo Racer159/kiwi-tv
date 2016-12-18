@@ -6,27 +6,16 @@ using Kiwi_TV.Views.States;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Kiwi_TV.Views.ChannelSources
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page that allows adding a Twitch.tv channel
     /// </summary>
     public sealed partial class Twitch : Page
     {
@@ -35,21 +24,13 @@ namespace Kiwi_TV.Views.ChannelSources
         ObservableCollection<string> languages = new ObservableCollection<string>();
         TwitchViewModel _viewModel;
 
+        /* Instantiate the page and setup device specific options */
         public Twitch()
         {
             this.InitializeComponent();
             CategoryBox.ItemsSource = categories;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
             
-            categories.Add("News");
-            categories.Add("Science/Technology");
-            categories.Add("Entertainment");
-            categories.Add("Sports");
-            categories.Add("Gaming");
-            categories.Add("Other");
-            CategoryBox.ItemsSource = categories;
-            CategoryBox.SelectedItem = "Gaming";
-
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleImage.Margin = new Thickness(48, 0, 0, 0);
@@ -73,8 +54,18 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Handle the data context (view model) provided when navigated to */
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Load category list from category file
+            List<string> categoriesFile = await CategoryHelper.LoadCategories();
+            foreach (string category in categoriesFile)
+            {
+                categories.Add(category);
+            }
+            CategoryBox.ItemsSource = categories;
+            if (categories.Contains("Gaming")) { CategoryBox.SelectedItem = "Gaming"; }
+
             if (e.Parameter is TwitchViewModel)
             {
                 _viewModel = (TwitchViewModel)e.Parameter;
@@ -92,6 +83,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Add the provided channel information the the channel list */
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Selected != null)
@@ -105,6 +97,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Test the provided channel information in the player */
         private async void TestButton_Click(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Selected != null)
@@ -117,6 +110,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Create a channel object from the provided channel information */
         private Channel GenerateTwitchChannel(TwitchChannel selected)
         {
             List<string> languages = new List<string>();
@@ -125,11 +119,13 @@ namespace Kiwi_TV.Views.ChannelSources
             return new Channel(selected.DisplayName, selected.Logo, "http://usher.ttvnw.net/api/channel/hls/" + selected.Name + ".m3u8", languages, false, category, "twitch", true);
         }
 
+        /* Run the search when the search button is pressed */
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             await RunSearch();
         }
 
+        /* Run the search when the enter key is pressed */
         private async void SearchBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
@@ -138,6 +134,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Show additional options when a channel is selected */
         private void ChannelsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Selected != null)
@@ -152,6 +149,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Run a search on Twitch.tv */
         private async Task RunSearch()
         {
             _viewModel.Channels = new TwitchChannel[0];
@@ -178,6 +176,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Get the currently live channels */
         private async Task GetLiveNow()
         {
             _viewModel.Channels = new TwitchChannel[0];
@@ -187,6 +186,7 @@ namespace Kiwi_TV.Views.ChannelSources
             _viewModel.Channels = results.Channels;
         }
 
+        /* Show/hide UI elements when the size of the page changes */
         private void MainChannelsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (MainChannelsGrid.ActualWidth < 550 && ChannelFilters.Visibility == Visibility.Visible)
@@ -210,6 +210,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Expand the search options when the short search button is clicked */
         private void ShortSearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Phone)
@@ -223,6 +224,7 @@ namespace Kiwi_TV.Views.ChannelSources
             SearchBox.Focus(FocusState.Pointer);
         }
 
+        /* Collapse the search options when the short search box loses focus */
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (SearchBox.FocusState == FocusState.Unfocused && TitleImage.Visibility == Visibility.Collapsed)

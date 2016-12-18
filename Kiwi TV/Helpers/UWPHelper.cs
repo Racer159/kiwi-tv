@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.System.Profile;
-using Windows.UI.ViewManagement;
+﻿using Windows.System.Profile;
 
 namespace Kiwi_TV.Helpers
 {
+    /// <summary>
+    /// A helper to determine the current device type
+    /// </summary>
     class UWPHelper
     {
         public static DeviceFormFactorType GetDeviceFormFactorType()

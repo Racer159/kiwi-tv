@@ -1,9 +1,10 @@
-﻿
-
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Kiwi_TV.API.UStream.Models
 {
+    /// <summary>
+    /// UStream channel image information
+    /// </summary>
     [DataContract]
     class UStreamPicture
     {

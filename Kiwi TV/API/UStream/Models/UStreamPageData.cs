@@ -1,8 +1,10 @@
-﻿
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Kiwi_TV.API.UStream.Models
 {
+    /// <summary>
+    /// UStream HTML website page data
+    /// </summary>
     [DataContract]
     class UStreamPageData
     {

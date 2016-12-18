@@ -111,6 +111,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\ChannelManager.cs" />
     <Compile Include="API\Twitch\TwitchAPI.cs" />
     <Compile Include="Helpers\MailHelper.cs" />
@@ -177,6 +178,7 @@
     <Content Include="Assets\Bars.png" />
     <Content Include="Assets\Black.png" />
     <Content Include="Assets\Buttons.png" />
+    <Content Include="Assets\Categories.png" />
     <Content Include="Assets\Favorite.png" />
     <Content Include="Assets\Live.png" />
     <Content Include="Assets\Loading.gif" />
@@ -186,11 +188,12 @@
     <Content Include="Assets\Welcome.png" />
     <Content Include="Assets\X.png" />
     <Content Include="Assets\Y.png" />
+    <Content Include="Data\categories.txt" />
     <Content Include="Data\ChannelIcons\360north.png" />
+    <Content Include="Data\ChannelIcons\aljazeera.png" />
     <Content Include="Data\ChannelIcons\arirangtv.png" />
     <Content Include="Data\ChannelIcons\beatztv.png" />
     <Content Include="Data\ChannelIcons\bloomberg.png" />
-    <Content Include="Data\ChannelIcons\cartoon7tv.png" />
     <Content Include="Data\ChannelIcons\deutschewelle.png" />
     <Content Include="Data\ChannelIcons\dwamerika.png" />
     <Content Include="Data\ChannelIcons\dwarabia.png" />
@@ -213,6 +216,7 @@
     <Content Include="Data\ChannelIcons\russiatoday.png" />
     <Content Include="Data\ChannelIcons\spirittelevision.png" />
     <Content Include="Data\ChannelIcons\test.png" />
+    <Content Include="Data\ChannelIcons\toonami.png" />
     <Content Include="Data\ChannelIcons\tvshoppingnetwork.png" />
     <Content Include="Data\ChannelIcons\weathernation.png" />
     <Content Include="Data\ChannelIcons\wftv.png" />

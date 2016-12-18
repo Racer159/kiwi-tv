@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
 
 namespace Kiwi_TV.Models
 {
+    /// <summary>
+    /// Represents a category that contains many channels
+    /// </summary>
     [DataContract]
     class Category : IComparable<Category>
     {

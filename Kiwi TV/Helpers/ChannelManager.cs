@@ -9,13 +9,18 @@ using Kiwi_TV.API.UStream;
 
 namespace Kiwi_TV.Helpers
 {
+    /// <summary>
+    /// A helper to deal with the managing channel information
+    /// </summary>
     class ChannelManager
     {
+        /* Helper to load a list of channels from the channels file */
         public async static Task<List<Channel>> LoadChannels(bool favorite, bool justDefault)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             StorageFolder currentFolder;
 
+            // Determines the correct folder based on a user's sync settings
             if (localSettings.Values["syncData"] is bool && !(bool)localSettings.Values["syncData"])
             {
                 currentFolder = ApplicationData.Current.LocalFolder;
@@ -29,6 +34,7 @@ namespace Kiwi_TV.Helpers
             IStorageItem channelsItem = await currentFolder.TryGetItemAsync("channels.txt");
             StorageFile channelsFile;
 
+            // Determines if a channels file exists, and if not copies in the defaults
             if (channelsItem == null || !(channelsItem is StorageFile) || justDefault)
             {
                 channelsFile = await currentFolder.CreateFileAsync("channels.txt", CreationCollisionOption.ReplaceExisting);
@@ -43,7 +49,8 @@ namespace Kiwi_TV.Helpers
 
             return allChannels;
         }
-
+        
+        /* Helper to parse a channels file into a channels list */
         public async static Task<List<Channel>> LoadChannelFile(StorageFile channelsFile, bool favorite)
         {
             List<Channel> allChannels = new List<Channel>();
@@ -52,13 +59,16 @@ namespace Kiwi_TV.Helpers
             {
                 IList<string> lines = await FileIO.ReadLinesAsync(channelsFile);
             
+                // File starts with '#EXTM3U'
                 if (lines[0].Trim() == "#EXTM3U")
                 {
                     for (int i = 0; i < lines.Count; i++)
                     {
+                        // Channel line starts with '#EXTINF:'
                         if (lines[i].StartsWith("#EXTINF:"))
                         {
                             string[] data = lines[i].Split(',');
+                            // Kiwi TV channels have seven pieces of data
                             if (data.Length == 7 && i + 1 < lines.Count)
                             {
                                 List<String> langs = new List<String>();
@@ -69,6 +79,7 @@ namespace Kiwi_TV.Helpers
                                     allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), type, false));
                                 }
                             }
+                            // Other channels have different ammounts of data
                             else if (data.Length > 0 && i + 1 < lines.Count)
                             {
                                 Channel c = new Channel(data[1].Trim(), lines[i + 1].Trim());
@@ -89,11 +100,13 @@ namespace Kiwi_TV.Helpers
             }
         }
 
+        /* Helper to save a list of channels to the channels file */
         private async static Task SaveChannels(List<Channel> channels)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             StorageFolder currentFolder;
 
+            // Determines the correct folder based on a user's sync settings
             if (localSettings.Values["syncData"] is bool && !(bool)localSettings.Values["syncData"])
             {
                 currentFolder = ApplicationData.Current.LocalFolder;
@@ -108,37 +121,40 @@ namespace Kiwi_TV.Helpers
             await SaveChannelFile(channels, channelsFile);
         }
 
+        /* Helper to create a channels file from a channels list */
         private async static Task SaveChannelFile(List<Channel> channels, StorageFile channelsFile)
         {
             String file = "#EXTM3U\n\n";
 
             foreach (Channel c in channels)
             {
-                //Name
+                // Name
                 file += "#EXTINF:0, " + c.Name + ", ";
-                //Languages
+                // Languages
                 for (int i = 0; i < c.Languages.Count; i++)
                 {
                     file += c.Languages[i];
                     if (i < c.Languages.Count - 1) { file += "-"; }
                 }
-                //Icon
+                // Icon
                 file += ", " + c.Icon + ", ";
-                //Favorite
+                // Favorite
                 if (c.Favorite) { file += "y"; } else { file += "n"; }
-                //Genre
+                // Genre
                 file += ", " + c.Genre + ", ";
-                //Type
+                // Type
                 file += c.Type + "\n";
-                //Source
+                // Source
                 file += c.Source + "\n\n";
             }
 
-            file += "version1.3.1";
+            // Kiwi TV Version
+            file += "version1.4";
 
             await FileIO.WriteTextAsync(channelsFile, file);
         }
-
+        
+        /* Helper to return the current version of the channels file */
         private async static Task<string> GetVersionInfo()
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -172,6 +188,7 @@ namespace Kiwi_TV.Helpers
             if (lines.Count > 0) { return lines[lines.Count - 1]; } else { return ""; }
         }
 
+        /* Helper to save a channel as a favorite */
         public async static Task SaveFavorite(string channelName, bool favorited)
         {
             List<Channel> TempList = await LoadChannels(false, false);
@@ -186,7 +203,8 @@ namespace Kiwi_TV.Helpers
 
             await ChannelManager.SaveChannels(TempList);
         }
-
+        
+        /* Helper to add a single channel to the channel list */
         public async static Task AddChannel(Channel channel)
         {
             List<Channel> TempList = await LoadChannels(false, false);
@@ -196,6 +214,7 @@ namespace Kiwi_TV.Helpers
             await ChannelManager.SaveChannels(TempList);
         }
 
+        /* Helper to add multiple channels to the channel list */
         public async static Task AddChannels(List<Channel> channels)
         {
             List<Channel> TempList = await LoadChannels(false, false);
@@ -204,7 +223,8 @@ namespace Kiwi_TV.Helpers
 
             await ChannelManager.SaveChannels(TempList);
         }
-
+        
+        /* Helper to remove a single channel from the channel list */
         public async static Task RemoveChannel(Channel channel)
         {
             List<Channel> TempList = await LoadChannels(false, false);
@@ -214,6 +234,7 @@ namespace Kiwi_TV.Helpers
             await ChannelManager.SaveChannels(TempList);
         }
 
+        /* Helper to remove multiple channels from the channel list */
         public async static Task RemoveChannels(List<Channel> channels)
         {
             List<Channel> TempList = await LoadChannels(false, false);
@@ -226,6 +247,7 @@ namespace Kiwi_TV.Helpers
             await ChannelManager.SaveChannels(TempList);
         }
 
+        /* Helper to restore the default channels in case they were deleted */
         public async static Task RestoreDefaultChannels()
         {
             List<Channel> CurrList = await LoadChannels(false, false);
@@ -241,6 +263,7 @@ namespace Kiwi_TV.Helpers
             await ChannelManager.SaveChannels(CurrList);
         }
 
+        /* Helper to reset a corrupted channel list to the defaults */
         public async static Task ResetChannels()
         {
             List<Channel> DefaultList = await LoadChannels(false, true);
@@ -248,6 +271,7 @@ namespace Kiwi_TV.Helpers
             await ChannelManager.SaveChannels(DefaultList);
         }
 
+        /* Helper to parse loaded channels into a category key map object */
         public static void LoadCategories(List<Channel> channels, ObservableCollection<Category> categoryList)
         {
 
@@ -276,6 +300,7 @@ namespace Kiwi_TV.Helpers
             }
         }
 
+        /* Helper to set the live status for a given list of channels */
         public async static Task<List<Channel>> SetLive(List<Channel> channels, bool m3u8LiveCheck, IProgress<ProgressTaskAsync> progress)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -320,6 +345,7 @@ namespace Kiwi_TV.Helpers
             return channels;
         }
 
+        /* Helper to create a shareable channel list file */
         public async static Task<StorageFile> GetFileToShare(List<Channel> shareChannels)
         {
             StorageFile shareFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("share.m3u8", CreationCollisionOption.ReplaceExisting);
@@ -327,26 +353,28 @@ namespace Kiwi_TV.Helpers
             return shareFile;
         }
 
+        /* Helper to migrate the channel list between Kiwi TV versions */
         public async static void MigrateChannelList()
         {
             List<Channel> TempList = await LoadChannels(false, false);
             string version = await GetVersionInfo();
 
-            if (TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }) == null && (version != "version1.3" || version != "version1.3.1"))
+            if (version != "version1.3.1" && version != "version1.4")
             {
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NASA TV ISS") && (c.Icon == "ms-appx:///Data/ChannelIcons/nasatviss.png"); }));
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Weather Nation") && (c.Icon == "ms-appx:///Data/ChannelIcons/weathernation.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "RT Documentaries") && (c.Icon == "ms-appx:///Data/ChannelIcons/rtdocumentaries.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Russia Today") && (c.Icon == "ms-appx:///Data/ChannelIcons/russiatoday.png"); }));
 
                 StorageFile updateFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/updates.txt"));
 
                 List<Channel> updates = await LoadChannelFile(updateFile, false);
                 TempList.AddRange(updates);
             }
-
-            if (version != "version1.3.1")
+            else if (version != "version1.4")
             {
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "RT Documentaries") && (c.Icon == "ms-appx:///Data/ChannelIcons/rtdocumentaries.png"); }));
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Russia Today") && (c.Icon == "ms-appx:///Data/ChannelIcons/russiatoday.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Euro News") && (c.Icon == "ms-appx:///Data/ChannelIcons/euronews.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Beatz TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/beatztv.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Cartoon 7 TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/cartoon7tv.png"); }));
 
                 StorageFile updateFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/updates2.txt"));
 

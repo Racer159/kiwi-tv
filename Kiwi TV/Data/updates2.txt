@@ -1,10 +1,16 @@
 ﻿#EXTM3U
 
-#EXTINF:0, Russia Today, English, ms-appx:///Data/ChannelIcons/russiatoday.png, n, News, iptv
-http://rt-eng-live.hls.adaptive.level3.net/rt/eng/index1600.m3u8
+#EXTINF:0, Euro News, English, ms-appx:///Data/ChannelIcons/euronews.png, n, News, iptv
+http://fr-par-iphone-2.cdn.hexaglobe.net/streaming/euronews_ewns/ipad_en.m3u8
 
-#EXTINF:0, Russia Today Documentary, English, ms-appx:///Data/ChannelIcons/rtdocumentaries.png, n, News, iptv
-http://rt-doc-live.hls.adaptive.level3.net/rt/doc/index1600.m3u8
+#EXTINF:0, NHK World, English, ms-appx:///Data/ChannelIcons/nhkworld.png, n, News, iptv
+https://nhkworld.webcdn.stream.ne.jp/www11/nhkworld-tv/global/263941/live_wa_s.m3u8
 
-#EXTINF:0, World Fashion TV, English, ms-appx:///Data/ChannelIcons/wftv.png, n, Other, iptv
-http://cdn-01.bonus-tv.ru:9090/wfc/wfhdeu/type/none/eol/20200101T0000/hash/aabac2e34bf0820ea622974e83ae509b36cff888/playlist.m3u8
+#EXTINF:0, Aljazeera, English, ms-appx:///Data/ChannelIcons/aljazeera.png, n, News, iptv
+http://aljazeera-eng-apple-live.adaptive.level3.net/apple/aljazeera/english/800.m3u8
+
+#EXTINF:0, Beatz TV, English, ms-appx:///Data/ChannelIcons/beatztv.png, n, Entertainment, iptv
+http://rtmp.infomaniak.ch/livecast/beatz_3/playlist.m3u8
+
+#EXTINF:0, Toonami Aftermath, English, ms-appx:///Data/ChannelIcons/toonami.png, n, Entertainment, iptv
+http://iphone-streaming.ustream.tv/uhls/19964352/streams/live/playlist.m3u8

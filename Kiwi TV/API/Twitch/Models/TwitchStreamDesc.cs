@@ -2,6 +2,9 @@
 
 namespace Kiwi_TV.API.Twitch.Models
 {
+    /// <summary>
+    /// Wrapper for a Twitch.tv stream
+    /// </summary>
     [DataContract]
     class TwitchStreamDesc
     {

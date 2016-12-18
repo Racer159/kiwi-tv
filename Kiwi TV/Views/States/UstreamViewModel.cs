@@ -10,6 +10,9 @@ using Kiwi_TV.API.UStream.Models;
 
 namespace Kiwi_TV.Views.States
 {
+    /// <summary>
+    /// Represents the data backend for the UStream page
+    /// </summary>
     [DataContract]
     class UStreamViewModel : INotifyPropertyChanged
     {

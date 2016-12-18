@@ -12,12 +12,10 @@ using System.Diagnostics;
 using Windows.Media;
 using Windows.UI.Xaml.Media;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Kiwi_TV.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page that handles the playing the selected channel
     /// </summary>
     public sealed partial class Player : Page
     {
@@ -26,6 +24,7 @@ namespace Kiwi_TV.Views
         private DisplayRequest dispRequest = null;
         SystemMediaTransportControls systemControls;
 
+        /* Instantiate the page and setup device specific options */
         public Player()
         {
             this.InitializeComponent();
@@ -41,6 +40,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Initialize the system player controls for background operation */
         void InitializeTransportControls()
         {
             systemControls = SystemMediaTransportControls.GetForCurrentView();
@@ -49,6 +49,7 @@ namespace Kiwi_TV.Views
             systemControls.IsPauseEnabled = true;
         }
 
+        /* Handle the system player controls for background operation */
         void systemControls_ButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
         {
             switch (args.Button)
@@ -64,6 +65,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Tell the player to play the media */
         private async void PlayMedia()
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -72,6 +74,7 @@ namespace Kiwi_TV.Views
             });
         }
 
+        /* Tell the player to pause the media */
         private async void PauseMedia()
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -80,6 +83,7 @@ namespace Kiwi_TV.Views
             });
         }
 
+        /* Handle the channel information given when navigated to */
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is Tuple<Channel, object>)
@@ -135,6 +139,7 @@ namespace Kiwi_TV.Views
             base.OnNavigatedTo(e);
         }
 
+        /* Handle favoriting a channel when the favorite checkbox is clicked */
         private async void FavoriteCheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox)
@@ -143,12 +148,14 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Show/hide UI elements related to live status */
         private void SetLiveCheckBoxValue(bool live)
         {
             LiveCheckBox.IsChecked = live;
             if (live)
             {
                 ToolTipService.SetToolTip(LiveCheckBox, "Live Now");
+                OfflineText.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -161,6 +168,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Deal with background audio when media is opened in the player */
         private void MainPlayer_MediaOpened(object sender, RoutedEventArgs e)
         {
             if (dispRequest == null)
@@ -171,6 +179,7 @@ namespace Kiwi_TV.Views
             Debug.Write(MainPlayer.AudioCategory);
         }
 
+        /* Deal with background audio when media is ended in the player */
         private void MainPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             if (dispRequest != null)
@@ -180,11 +189,13 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Set live status to false when the media fails */
         private void MainPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             SetLiveCheckBoxValue(false);
         }
 
+        /* Update the system controls when the player state changes */
         private void MainPlayer_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
             switch (MainPlayer.CurrentState)
@@ -206,6 +217,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Fullscreen the player when on an Xbox */
         private void MainPlayer_Loaded(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox)

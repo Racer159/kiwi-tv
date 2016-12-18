@@ -4,6 +4,9 @@ using Kiwi_TV.Models;
 
 namespace Kiwi_TV.Views.States
 {
+    /// <summary>
+    /// Represents the data backend for the Custom Channel page
+    /// </summary>
     [DataContract]
     class CustomViewModel : INotifyPropertyChanged
     {

@@ -2,6 +2,9 @@
 
 namespace Kiwi_TV.API.Twitch.Models
 {
+    /// <summary>
+    /// Set of Twitch.tv streams
+    /// </summary>
     [DataContract]
     class TwitchStreamList
     {

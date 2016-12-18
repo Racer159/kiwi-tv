@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kiwi_TV.Models
+﻿namespace Kiwi_TV.Models
 {
+    /// <summary>
+    /// Represents a progress task for updating progress bars
+    /// </summary>
     class ProgressTaskAsync
     {
         public int ProgressPercentage { get; set; }

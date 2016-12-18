@@ -13,12 +13,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Kiwi_TV.Views.ChannelSources
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page for loading in a custom M3U8 file
     /// </summary>
     public sealed partial class File : Page
     {
@@ -29,29 +27,14 @@ namespace Kiwi_TV.Views.ChannelSources
         Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         List<Channel> ChannelList = new List<Channel>();
 
+        /* Instantiate the page, and setup device specific options */
         public File()
         {
             this.InitializeComponent();
             CustomCategory.ItemsSource = categories;
             CustomLanguage.ItemsSource = languages;
             DeviceType = UWPHelper.GetDeviceFormFactorType();
-
-            categories.Add("News");
-            categories.Add("Science/Technology");
-            categories.Add("Entertainment");
-            categories.Add("Sports");
-            categories.Add("Gaming");
-            categories.Add("Other");
-            CustomCategory.ItemsSource = categories;
-
-            languages.Add("English");
-            languages.Add("French");
-            languages.Add("Spanish");
-            languages.Add("German");
-            languages.Add("Russian");
-            languages.Add("Arabic");
-            CustomLanguage.ItemsSource = languages;
-
+            
             if (DeviceType == DeviceFormFactorType.Phone)
             {
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
@@ -68,8 +51,26 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        /* Handle the data context (view model) provided when navigated to */
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Load category list from category file
+            List<string> categoriesFile = await CategoryHelper.LoadCategories();
+            foreach (string category in categoriesFile)
+            {
+                categories.Add(category);
+            }
+            CustomCategory.ItemsSource = categories;
+
+            // Set languages list
+            languages.Add("English");
+            languages.Add("French");
+            languages.Add("Spanish");
+            languages.Add("German");
+            languages.Add("Russian");
+            languages.Add("Arabic");
+            CustomLanguage.ItemsSource = languages;
+
             if (e.Parameter is FileViewModel)
             {
                 _viewModel = (FileViewModel)e.Parameter;
@@ -86,6 +87,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Add the provided channel information the the channel list */
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new MessageDialog("Are you sure you want to add all of the above " + (CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString()) + 
@@ -109,6 +111,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Open a custom M3U8 file */
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             FileOpenPicker picker = new FileOpenPicker();
@@ -156,6 +159,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Delete a channel from the import list */
         private async void DeleteChannel(Channel channel)
         {
             var dialog = new MessageDialog("This will remove this channel from the channel import list.", "Delete " + channel.Name + "?");
@@ -174,6 +178,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Handle right click of channel */
         private async void Border_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             if (sender is Border && ((Border)sender).Tag is Channel)
@@ -186,6 +191,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Submit channel list as a suggestion */
         private async void SuggestButton_Click(object sender, RoutedEventArgs e)
         {
             if (_viewModel.FileChannels != null && _viewModel.FileChannels.Count > 0)
@@ -224,6 +230,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Enable multi-select in the channels grid */
         private void MultiSelectButton_Click(object sender, RoutedEventArgs e)
         {
             if ((bool)MultiSelectButton.IsChecked)
@@ -253,6 +260,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Delete multiple channels at once */
         private async void MultiDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new MessageDialog("This will remove any selected channels from the channel import list.", "Delete Channels?");
@@ -274,6 +282,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
+        /* Navigate to the player page when a channel is selected */
         private void ChannelsGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (!(bool)MultiSelectButton.IsChecked)
@@ -281,6 +290,8 @@ namespace Kiwi_TV.Views.ChannelSources
                 Frame.Navigate(typeof(Views.Player), new Tuple<Channel, object>(e.ClickedItem as Channel, ""));
             }
         }
+
+        /* Handle right-click and other options for Xbox/Keyboard users */
         private async void ChannelsGridView_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Menu || e.Key == Windows.System.VirtualKey.Application ||
@@ -316,7 +327,8 @@ namespace Kiwi_TV.Views.ChannelSources
                 }
             }
         }
-
+        
+        /* Focus on the open button when on Xbox */
         private void OpenButton_Loaded(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox)

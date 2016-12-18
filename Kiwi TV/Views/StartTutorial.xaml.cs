@@ -1,33 +1,20 @@
 ﻿using Kiwi_TV.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Kiwi_TV.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page that displays the start tutorial
     /// </summary>
     public sealed partial class StartTutorial : Page
     {
         DeviceFormFactorType DeviceType;
         int currentPage = 0;
 
+        /* Instantiate the page, and setup device specific options */
         public StartTutorial()
         {
             this.InitializeComponent();
@@ -55,11 +42,13 @@ namespace Kiwi_TV.Views
             ChannelManager.MigrateChannelList();
         }
 
+        /* Skip the start tutorial */
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Views.Channels), false);
         }
 
+        /* Go to the next page of the tutorial */
         private void Next_Click(object sender, RoutedEventArgs e)
         {
             currentPage++;
@@ -100,6 +89,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Focus on the Next button when loaded on Xbox */
         private void Next_Loaded(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox)

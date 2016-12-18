@@ -2,6 +2,9 @@
 
 namespace Kiwi_TV.API.Twitch.Models
 {
+    /// <summary>
+    /// Access token for a Twitch.tv stream
+    /// </summary>
     [DataContract]
     class TwitchAccessToken
     {

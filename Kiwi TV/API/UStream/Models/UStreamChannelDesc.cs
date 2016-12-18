@@ -2,7 +2,9 @@
 
 namespace Kiwi_TV.API.UStream.Models
 {
-
+    /// <summary>
+    /// Wrapper for a UStream channel
+    /// </summary>
     [DataContract]
     class UStreamChannelDesc
     {

@@ -2,6 +2,9 @@
 
 namespace Kiwi_TV.API.Twitch.Models
 {
+    /// <summary>
+    /// Twitch.tv channel information
+    /// </summary>
     [DataContract]
     class TwitchChannel
     {

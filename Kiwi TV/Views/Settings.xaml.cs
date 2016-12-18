@@ -1,35 +1,31 @@
 ﻿using Kiwi_TV.Helpers;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Kiwi_TV.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An page that handles setting the application settings
     /// </summary>
     public sealed partial class Settings : Page
     {
         DeviceFormFactorType DeviceType;
 
         Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        ObservableCollection<string> categories = new ObservableCollection<string>();
 
+        /* Instantiate the page, application settings, and setup device specific options */
         public Settings()
         {
             this.InitializeComponent();
+            CategoryList.ItemsSource = categories;
+
             DeviceType = UWPHelper.GetDeviceFormFactorType();
             if (DeviceType == DeviceFormFactorType.Phone)
             {
@@ -65,6 +61,18 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Load the category information when navigated to */
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            List<string> categoriesFile = await CategoryHelper.LoadCategories();
+            foreach (string category in categoriesFile)
+            {
+                categories.Add(category);
+            }
+            CategoryList.ItemsSource = categories;
+        }
+
+        /* Restore the default channels in the channel list */
         private async void RestoreDefaultChannels_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Windows.UI.Popups.MessageDialog("This will add back all of the default channels, and unfavorite any that you have favorited.", "Restore the Default Channels?");
@@ -83,6 +91,7 @@ namespace Kiwi_TV.Views
 
         }
 
+        /* Reset a corrupted channel list */
         private async void ResetChannels_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Windows.UI.Popups.MessageDialog("This will remove all of the channels you have added, and will reset your favorites.", "Reset the Channel List?");
@@ -99,20 +108,59 @@ namespace Kiwi_TV.Views
                 await new Windows.UI.Popups.MessageDialog("Successfully Reset Channel List.").ShowAsync();
             }
         }
-
+        
+        /* Toggle the sync data setting */
         private void SyncToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             localSettings.Values["syncData"] = SyncToggleSwitch.IsOn;
         }
 
+        /* Toggle the dark theme setting */
         private void DarkThemeToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             localSettings.Values["darkTheme"] = DarkThemeToggleSwitch.IsOn;
         }
 
+        /* Toggle the live check setting */
         private void M3U8LiveCheckToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             localSettings.Values["m3u8LiveCheck"] = M3U8LiveCheckToggleSwitch.IsOn;
+        }
+
+        /* Remove a category from the category list */
+        private async void RemoveCategory_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button)
+            {
+                Button btn = (Button)sender;
+                categories.Remove((string)btn.Tag);
+                await CategoryHelper.SaveCategories(categories.ToList());
+            }
+        }
+
+        /* Add a category to the category list when the add button is pressed */
+        private async void AddCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddCategoryBox.Text != "")
+            {
+                categories.Add(AddCategoryBox.Text);
+                AddCategoryBox.Text = "";
+                await CategoryHelper.SaveCategories(categories.ToList());
+            }
+        }
+
+        /* Add a category to the category list when the enter key is pressed */
+        private async void AddCategoryBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                if (AddCategoryBox.Text != "")
+                {
+                    categories.Add(AddCategoryBox.Text);
+                    AddCategoryBox.Text = "";
+                    await CategoryHelper.SaveCategories(categories.ToList());
+                }
+            }
         }
     }
 }

@@ -18,8 +18,8 @@
     <Grid Name="GreenWrap" Background="{ThemeResource HamburgerBackgroundBrush}" Margin="0,-48,0,0">
         <Grid Name="TutorialWrap" MaxWidth="600" Margin="50, 100" Background="{ThemeResource BarBackgroundBrush}">
             <Image Name="ExampleImage" Height="200" Margin="10, -150, 10, 10" Source="ms-appx:///Assets/Welcome.png"/>
-            <TextBlock Name="TitleText" Text="Welcome to the new Kiwi TV" FontSize="24" FontWeight="SemiLight" Margin="10, 150, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Name="SubText" Text="Full of new features for you to enjoy." FontWeight="SemiLight" Margin="10, 250, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+            <TextBlock Name="TitleText" Text="Welcome to Kiwi TV 1.4" FontSize="24" FontWeight="SemiLight" Margin="10, 150, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Name="SubText" Text="With a few new features for you to enjoy." FontWeight="SemiLight" Margin="10, 250, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center"/>
             <StackPanel Name="ButtonWrap" Orientation="Horizontal" Margin="10, 350, 10, 10" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Name="Skip" Content="Skip" Margin="10" Width="100" Click="Skip_Click"/>
                 <Button Name="Next" Content="Next" Margin="10" Width="100" Click="Next_Click" Background="{ThemeResource HamburgerBackgroundBrush}" Foreground="White" Loaded="Next_Loaded"/>

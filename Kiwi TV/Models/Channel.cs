@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kiwi_TV.Models
 {
+    /// <summary>
+    /// Represents a Kiwi TV channel
+    /// </summary>
     class Channel : IComparable<Channel>, INotifyPropertyChanged
     {
         public string _name;

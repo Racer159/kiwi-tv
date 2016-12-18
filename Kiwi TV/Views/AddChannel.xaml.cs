@@ -1,31 +1,18 @@
-﻿using Kiwi_TV.API.Twitch;
-using Kiwi_TV.API.Twitch.Models;
-using Kiwi_TV.Helpers;
-using Kiwi_TV.Models;
+﻿using Kiwi_TV.Helpers;
 using Kiwi_TV.Views.States;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Kiwi_TV.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page to link to individual add channel pages
     /// </summary>
     public sealed partial class AddChannel : Page
     {
         DeviceFormFactorType DeviceType;
 
+        /* Instantiate the page and setup device specific options */
         public AddChannel()
         {
             this.InitializeComponent();
@@ -45,6 +32,7 @@ namespace Kiwi_TV.Views
             }
         }
 
+        /* Navigate to a specific add channel page based on the item that was selected */
         private void SourcesGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             int index = SourcesGridView.Items.IndexOf(e.ClickedItem);
@@ -61,7 +49,8 @@ namespace Kiwi_TV.Views
                 Frame.Navigate(typeof(Views.ChannelSources.UStream), new UStreamViewModel());
             }
         }
-
+        
+        /* Focus on the sources grid view when on Xbox */
         private void SourcesGridView_Loaded(object sender, RoutedEventArgs e)
         {
             if (DeviceType == DeviceFormFactorType.Xbox)

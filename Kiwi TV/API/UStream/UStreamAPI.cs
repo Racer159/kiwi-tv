@@ -7,10 +7,15 @@ using System.Text.RegularExpressions;
 
 namespace Kiwi_TV.API.UStream
 {
+    /// <summary>
+    /// The driver for the API interactions with UStream
+    /// </summary>
     class UStreamAPI
     {
+        // A regex to find the channel id from the HTML page results
         private static Regex ustreamRegex = new Regex("data-mediaid=\\\"([0-9]+)\\\"", RegexOptions.Compiled);
 
+        /* Gets the channel description wrapper for a UStream channel */
         public async static Task<UStreamChannel> RetreiveChannelDescription(string channelId)
         {
             object response = await WebserviceHelper.MakeRequest("https://api.ustream.tv/channels/" + channelId + ".json", typeof(UStreamChannelDesc));
@@ -18,6 +23,7 @@ namespace Kiwi_TV.API.UStream
             return channelDesc.Channel;
         }
 
+        /* Gets the channel search results for a given search */
         public async static Task<UStreamChannel[]> RetrieveSearchResults(string search)
         {
             object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax/search.json?q=" + search + "&type=live&category=all&location=anywhere", typeof(UStreamPageData));
@@ -34,6 +40,7 @@ namespace Kiwi_TV.API.UStream
             }
         }
 
+        /* Gets the currently live streams on UStream */
         public async static Task<UStreamChannel[]> RetrieveLiveStreams()
         {
             object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax-alwayscache/explore/all/all.json?subCategory=&type=no-offline&location=anywhere", typeof(UStreamPageData));
@@ -50,6 +57,7 @@ namespace Kiwi_TV.API.UStream
             }
         }
 
+        /* Determines if a given channel is currently live */
         public async static Task<bool> IsLive(string channelId)
         {
             try
@@ -70,6 +78,7 @@ namespace Kiwi_TV.API.UStream
             }
         }
 
+        /* Helper to find channels on given HTML page content */
         private async static Task<UStreamChannel[]> ParsePageContent(string pageContent)
         {
             MatchCollection matches = ustreamRegex.Matches(pageContent);
@@ -85,28 +94,10 @@ namespace Kiwi_TV.API.UStream
             return channels.ToArray();
         }
 
+        /* Helper to get the channel id from a provided URL */
         public static string GetChannelIdFromURL(string videoUrl)
         {
             return videoUrl.Split('/')[2];
-        }
-
-        public static string ConvertLanguageCode(string code)
-        {
-            switch (code)
-            {
-                case "en":
-                    return "English";
-                case "fr":
-                    return "French";
-                case "ar":
-                    return "Arabic";
-                case "ru":
-                    return "Russian";
-                case "de":
-                    return "German";
-                default:
-                    return "Other";
-            }
         }
     }
 }

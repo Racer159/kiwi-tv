@@ -65,6 +65,8 @@ html, body {
 
 .vparent {
     display: inline-block;
+	height: 300px;
+	line-height: 300px;
 }
 
 .screenshot {

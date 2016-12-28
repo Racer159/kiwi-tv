@@ -56,3 +56,9 @@ html, body {
 	margin: 10px;
 	box-shadow: 2px 2px 10px #888;
 }
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}

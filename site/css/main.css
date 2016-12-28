@@ -58,19 +58,17 @@ html, body {
 }
 
 .vcenter {
-    display: inline-block;
+    display: table-cell;
     vertical-align: middle;
-    float: none;
 }
 
 .vparent {
-    display: inline-block;
-	height: 300px;
-	line-height: 300px;
+    display: table;
 }
 
 .screenshot {
 	height: 300px;
 	margin: 10px;
+    display: table-cell;
     vertical-align: middle;
 }

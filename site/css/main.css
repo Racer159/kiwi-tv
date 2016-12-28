@@ -57,8 +57,12 @@ html, body {
 	box-shadow: 2px 2px 10px #888;
 }
 
+.vcenterparent {
+	display: table;
+    table-layout: fixed;
+}
+
 .vcenter {
-    display: inline-block;
+    display: table-cell;
     vertical-align: middle;
-    float: none;
 }

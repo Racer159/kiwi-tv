@@ -68,7 +68,7 @@ html, body {
 
 .screenshot {
 	height: 300px;
-	margin: 10px;
+	margin: 20px;
     display: table-cell;
     vertical-align: middle;
 }

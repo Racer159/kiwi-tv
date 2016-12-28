@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="46641Racer159.KiwiTV" Publisher="CN=0ACADE03-8597-4AC8-B866-95CDFC3B98D2" Version="1.3.3.0" />
+  <Identity Name="46641Racer159.KiwiTV" Publisher="CN=0ACADE03-8597-4AC8-B866-95CDFC3B98D2" Version="1.4.0.0" />
   <mp:PhoneIdentity PhoneProductId="cfb68c1a-13f7-41c8-b8ed-011e1f245764" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Kiwi TV</DisplayName>

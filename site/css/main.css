@@ -62,3 +62,8 @@ html, body {
     vertical-align: middle;
     float: none;
 }
+
+.screenshot {
+	height: 500px;
+	margin:10px;
+}

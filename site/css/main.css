@@ -63,7 +63,12 @@ html, body {
     float: none;
 }
 
+.vparent {
+    display: inline-block;
+}
+
 .screenshot {
-	height: 500px;
-	margin:10px;
+	height: 300px;
+	margin: 10px;
+    vertical-align: middle;
 }

@@ -187,6 +187,7 @@
     <Content Include="Assets\Categories.png" />
     <Content Include="Assets\EPG.png" />
     <Content Include="Assets\Favorite.png" />
+    <Content Include="Assets\Feedback.png" />
     <Content Include="Assets\Live.png" />
     <Content Include="Assets\Loading.gif" />
     <Content Include="Assets\M3U8.png" />

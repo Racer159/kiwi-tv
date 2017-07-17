@@ -78,12 +78,18 @@ namespace Kiwi_TV.Views
             }
             else if (currentPage == 4)
             {
+                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/EPG.png"));
+                TitleText.Text = "Electronic Progam Guide";
+                SubText.Text = "*Experimental: Toggle it on in Settings.";
+            }
+            else if (currentPage == 5)
+            {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Welcome.png"));
                 TitleText.Text = "Lets Get Started";
                 SubText.Text = "You're all set to begin.";
                 Next.Content = "Start";
             }
-            else if (currentPage == 5)
+            else if (currentPage == 6)
             {
                 Frame.Navigate(typeof(Views.Channels), false);
             }

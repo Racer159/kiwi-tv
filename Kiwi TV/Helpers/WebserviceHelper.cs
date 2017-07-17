@@ -55,7 +55,7 @@ namespace Kiwi_TV.Helpers
                     return objResponse;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }

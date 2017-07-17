@@ -55,23 +55,29 @@ namespace Kiwi_TV.Views
             if (currentPage == 1)
             {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/EPG.png"));
-                TitleText.Text = "Experimental Electronic Progam Guide";
-                SubText.Text = "Toggle it on in Settings.";
+                TitleText.Text = "Electronic Progam Guide";
+                SubText.Text = "*Experimental: Toggle it on in Settings.";
             }
             else if (currentPage == 2)
+            {
+                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Feedback.png"));
+                TitleText.Text = "New Feedback Mechanism";
+                SubText.Text = "Now using Feedback Hub to get better Feedback.";
+            }
+            else if (currentPage == 3)
             {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Welcome.png"));
                 TitleText.Text = "Updated Channel URLs and Bug Fixes";
                 SubText.Text = "More stability for certain channels";
             }
-            else if (currentPage == 3)
+            else if (currentPage == 4)
             {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Welcome.png"));
                 TitleText.Text = "Lets Get Started";
                 SubText.Text = "You're all set to begin.";
                 Next.Content = "Start";
             }
-            else if (currentPage == 4)
+            else if (currentPage == 5)
             {
                 Frame.Navigate(typeof(Views.Channels), false);
             }

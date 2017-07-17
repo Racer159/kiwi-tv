@@ -40,11 +40,15 @@ namespace Kiwi_TV.Views
             {
                 Frame.Navigate(typeof(Views.ChannelSources.Custom), new CustomViewModel());
             }
-            else if (index ==1)
+            else if (index == 1)
+            {
+                Frame.Navigate(typeof(Views.ChannelSources.File), new FileViewModel());
+            }
+            else if (index == 2)
             {
                 Frame.Navigate(typeof(Views.ChannelSources.Twitch), new TwitchViewModel());
             }
-            else if (index == 2)
+            else if (index == 3)
             {
                 Frame.Navigate(typeof(Views.ChannelSources.UStream), new UStreamViewModel());
             }

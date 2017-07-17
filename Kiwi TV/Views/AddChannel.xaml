@@ -30,6 +30,10 @@
                         <TextBlock Foreground="Gray" Text="Custom Channel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="ms-appx:///Data/ChannelSources/custom-banner.png"/>
                     </Grid>
+                    <Grid Name="FileListGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">
+                        <TextBlock Foreground="Gray" Text="Custom Channel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="ms-appx:///Data/ChannelSources/filelist-banner.png"/>
+                    </Grid>
                     <Grid Name="TwitchGrid" Width="{Binding ElementName=GridViewIconWidth, Path=Tag}" Height="{Binding ElementName=GridViewIconHeight, Path=Tag}" Background="White" BorderThickness="1,1,2,2" BorderBrush="{ThemeResource ChannelShadowBrush}" Margin="5">
                         <TextBlock Foreground="Gray" Text="Twitch.tv" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="ms-appx:///Data/ChannelSources/twitch-banner.png"/>

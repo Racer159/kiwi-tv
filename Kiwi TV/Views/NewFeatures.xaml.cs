@@ -54,14 +54,14 @@ namespace Kiwi_TV.Views
             currentPage++;
             if (currentPage == 1)
             {
-                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Categories.png"));
-                TitleText.Text = "Custom Category Support";
-                SubText.Text = "Add new categories under settings.";
+                ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/EPG.png"));
+                TitleText.Text = "Experimental Electronic Progam Guide";
+                SubText.Text = "Toggle it on in Settings.";
             }
             else if (currentPage == 2)
             {
                 ExampleImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Welcome.png"));
-                TitleText.Text = "Updated Channel URLs";
+                TitleText.Text = "Updated Channel URLs and Bug Fixes";
                 SubText.Text = "More stability for certain channels";
             }
             else if (currentPage == 3)

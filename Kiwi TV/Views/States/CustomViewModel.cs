@@ -14,6 +14,7 @@ namespace Kiwi_TV.Views.States
         private string _customCategoryText;
         private string _customLanguageText;
         private string _customSourceURLText;
+        private string _customEPGURLText;
         private string _customImageURLText;
         private bool _editMode = false;
         private Channel _editChannel;
@@ -69,6 +70,17 @@ namespace Kiwi_TV.Views.States
             {
                 _customSourceURLText = value;
                 NotifyPropertyChanged("CustomSourceURLText");
+            }
+        }
+
+        [DataMember]
+        public string CustomEPGURLText
+        {
+            get { return _customEPGURLText; }
+            set
+            {
+                _customEPGURLText = value;
+                NotifyPropertyChanged("CustomEPGURLText");
             }
         }
 

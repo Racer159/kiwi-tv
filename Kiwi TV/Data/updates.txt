@@ -1,10 +1,29 @@
 ﻿#EXTM3U
 
-#EXTINF:0, Russia Today, English, ms-appx:///Data/ChannelIcons/russiatoday.png, n, News, iptv
-http://rt-eng-live.hls.adaptive.level3.net/rt/eng/index1600.m3u8
+#EXTINF:0, Jupiter Broadcasting, English, ms-appx:///Data/ChannelIcons/jupiterbroadcasting.png, n, Science/Technology, iptv
+http://na-us-sw23.secdn.net/jb-live/play/jblive.stream/playlist.m3u8
 
-#EXTINF:0, Russia Today Documentary, English, ms-appx:///Data/ChannelIcons/rtdocumentaries.png, n, News, iptv
-http://rt-doc-live.hls.adaptive.level3.net/rt/doc/index1600.m3u8
+#EXTINF:0, Bloomberg, English, ms-appx:///Data/ChannelIcons/bloomberg.png, n, News, iptv
+http://cdn3.videos.bloomberg.com/btv/us/master.m3u8
+http://tvprofil.net/xmltv/data/bloomberg.info/weekly_bloomberg.info_tvprofil.net.xml
 
-#EXTINF:0, World Fashion TV, English, ms-appx:///Data/ChannelIcons/wftv.png, n, Other, iptv
-http://cdn-01.bonus-tv.ru:9090/wfc/wfhdeu/type/none/eol/20200101T0000/hash/aabac2e34bf0820ea622974e83ae509b36cff888/playlist.m3u8
+#EXTINF:0, RadioU TV, English, ms-appx:///Data/ChannelIcons/radiou.png, n, Entertainment, iptv
+http://cdn-live-egress.rbmtv.com/rightbrainmedia-live-109/mp4:radioutv2/playlist.m3u8
+
+#EXTINF:0, 360 North, English, ms-appx:///Data/ChannelIcons/360north.png, n, News, iptv
+https://wowzaprod3-i.akamaihd.net/hls/live/252236/29256539/playlist.m3u8
+
+#EXTINF:0, Spirit Television, English, ms-appx:///Data/ChannelIcons/spirittelevision.png, n, Entertainment, iptv
+http://cdn-live-egress.rbmtv.com/rightbrainmedia-live-109/mp4:spirit2/playlist.m3u8
+
+#EXTINF:0, TV Shopping Network, English, ms-appx:///Data/ChannelIcons/tvshoppingnetwork.png, n, Other, iptv
+http://tvsn-i.akamaihd.net/hls/live/261837/tvsn/tvsn_750.m3u8
+
+#EXTINF:0, TSC, English, ms-appx:///Data/ChannelIcons/tsc.png, n, Other, iptv
+http://tscstreaming-lh.akamaihd.net/i/TSCLiveStreaming_1@91031/master.m3u8
+
+#EXTINF:0, RETRO TV, Czech, ms-appx:///Data/ChannelIcons/retrotv.png, n, Entertainment, iptv
+http://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8
+
+#EXTINF:0, Hit Music, English, ms-appx:///Data/ChannelIcons/hitmusic.png, n, Entertainment, iptv
+http://1mstream.digicable.hu/hitmusic/hitmusic.m3u8

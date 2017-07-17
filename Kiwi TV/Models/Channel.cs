@@ -25,6 +25,10 @@ namespace Kiwi_TV.Models
         public string Type { get { return _type; } }
         public bool _live;
         public bool Live { get { return _live; } set { _live = value; NotifyPropertyChanged("Live"); } }
+        public Uri _epgSource;
+        public Uri EPGSource { get { return _epgSource; } set { _epgSource = value; } }
+        public List<ProgramInfo> _programs;
+        public List<ProgramInfo> Programs { get { return _programs; } set { _programs = value; NotifyPropertyChanged("Programs"); } }
 
         public Channel(string name, string icon, string source, List<String> languages, bool favorite, string genre, string type, bool live)
         {
@@ -36,6 +40,7 @@ namespace Kiwi_TV.Models
             this._genre = genre;
             this._type = type;
             this._live = live;
+            this._programs = new List<ProgramInfo>();
         }
 
         public Channel(string name, string source)
@@ -48,6 +53,7 @@ namespace Kiwi_TV.Models
             this._genre = "Other";
             this._type = "iptv";
             this._live = false;
+            this._programs = new List<ProgramInfo>();
         }
 
         public Channel()
@@ -60,6 +66,7 @@ namespace Kiwi_TV.Models
             this._genre = "";
             this._type = "";
             this._live = false;
+            this._programs = new List<ProgramInfo>();
         }
 
         public int CompareTo(Channel other)

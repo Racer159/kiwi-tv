@@ -27,15 +27,17 @@
                         <ToggleSwitch Name="SyncToggleSwitch" Margin="0,5" Toggled="SyncToggleSwitch_Toggled"/>
                         <TextBlock Text="Dark Theme (Requires App Restart)" Margin="0,5"/>
                         <ToggleSwitch Name="DarkThemeToggleSwitch" Margin="0,5" Toggled="DarkThemeToggleSwitch_Toggled"/>
-                        <TextBlock Text="M3U8 File Live Check (Experimental)" Margin="0,5"/>
+                        <TextBlock Text="M3U8 List Live Check (Experimental)" Margin="0,5"/>
                         <ToggleSwitch Name="M3U8LiveCheckToggleSwitch" Margin="0,5" Toggled="M3U8LiveCheckToggleSwitch_Toggled"/>
+                        <TextBlock Text="Electronic Program Guide (Experimental)" Margin="0,5"/>
+                        <ToggleSwitch Name="EPGToggleSwitch" Margin="0,5" Toggled="EPGToggleSwitch_Toggled"/>
                         <StackPanel Name="ResetButtonStackPanel" Orientation="Horizontal">
                             <Button Name="RestoreDefaultChannels" Content="Restore Default Channels" Margin="0, 5, 10, 5" Click="RestoreDefaultChannels_Click"/>
                             <Button Name="ResetChannels" Content="Reset Channel List" Margin="0,5" Click="ResetChannels_Click"/>
                         </StackPanel>
                         <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="0,10"/>
                         <TextBlock Text="Developed By Racer159" Margin="0,5" FontWeight="SemiLight"/>
-                        <TextBlock Text="Version 1.4" Margin="0,5" FontWeight="SemiLight"/>
+                        <TextBlock Text="Version 1.5" Margin="0,5" FontWeight="SemiLight"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

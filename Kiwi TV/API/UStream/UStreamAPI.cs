@@ -18,7 +18,7 @@ namespace Kiwi_TV.API.UStream
         /* Gets the channel description wrapper for a UStream channel */
         public async static Task<UStreamChannel> RetreiveChannelDescription(string channelId)
         {
-            object response = await WebserviceHelper.MakeRequest("https://api.ustream.tv/channels/" + channelId + ".json", typeof(UStreamChannelDesc));
+            object response = await WebserviceHelper.MakeJSONRequest("https://api.ustream.tv/channels/" + channelId + ".json", typeof(UStreamChannelDesc));
             UStreamChannelDesc channelDesc = response as UStreamChannelDesc;
             return channelDesc.Channel;
         }
@@ -26,7 +26,7 @@ namespace Kiwi_TV.API.UStream
         /* Gets the channel search results for a given search */
         public async static Task<UStreamChannel[]> RetrieveSearchResults(string search)
         {
-            object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax/search.json?q=" + search + "&type=live&category=all&location=anywhere", typeof(UStreamPageData));
+            object response = await WebserviceHelper.MakeJSONRequest("https://www.ustream.tv/ajax/search.json?q=" + search + "&type=live&category=all&location=anywhere", typeof(UStreamPageData));
             UStreamPageData pageData = response as UStreamPageData;
 
             if (pageData != null)
@@ -43,7 +43,7 @@ namespace Kiwi_TV.API.UStream
         /* Gets the currently live streams on UStream */
         public async static Task<UStreamChannel[]> RetrieveLiveStreams()
         {
-            object response = await WebserviceHelper.MakeRequest("https://www.ustream.tv/ajax-alwayscache/explore/all/all.json?subCategory=&type=no-offline&location=anywhere", typeof(UStreamPageData));
+            object response = await WebserviceHelper.MakeJSONRequest("https://www.ustream.tv/ajax-alwayscache/explore/all/all.json?subCategory=&type=no-offline&location=anywhere", typeof(UStreamPageData));
             UStreamPageData pageData = response as UStreamPageData;
 
             if (pageData != null)

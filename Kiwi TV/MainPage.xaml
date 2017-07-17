@@ -39,7 +39,7 @@
                 <Grid Name="NavButtons">
                     <StackPanel VerticalAlignment="Top">
                         <!-- Favorites Button -->
-                        <RadioButton x:Name="FavoritesButton" Tag="&#xE728;" Content="Favorites" Style="{StaticResource NavPaneNavButtonStyle}" Checked="FavoritesButton_Checked" IsChecked="False" />
+                        <RadioButton x:Name="FavoritesButton" Tag="&#xE728;" Content="Favorites" Style="{StaticResource NavPaneNavButtonStyle}" Checked="FavoritesButton_Checked" IsChecked="False"/>
 
                         <!-- Channels Button -->
                         <RadioButton x:Name="ChannelsButton" Tag="&#xEA37;" Content="All Channels" Style="{StaticResource NavPaneNavButtonStyle}" Checked="ChannelsButton_Checked" IsChecked="False" />
@@ -48,7 +48,7 @@
                         <RadioButton x:Name="AddChannelButton" Tag="&#xE710;" Content="Add Channel" Style="{StaticResource NavPaneNavButtonStyle}" Checked="AddChannelButton_Checked" IsChecked="False" />
 
                         <!-- Feedback Button -->
-                        <RadioButton x:Name="FeedbackButton" Tag="&#xE76E;" Content="Feedback" Style="{StaticResource NavPaneNavButtonStyle}" Checked="FeedbackButton_Checked" IsChecked="False" Visibility="Collapsed"/>
+                        <RadioButton x:Name="FeedbackButton" Tag="&#xED15;" Content="Feedback" Style="{StaticResource NavPaneNavButtonStyle}" Checked="FeedbackButton_Checked" IsChecked="False" Visibility="Collapsed"/>
                     </StackPanel>
                     <StackPanel  VerticalAlignment="Bottom" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}">
                         <!-- Settings Button -->

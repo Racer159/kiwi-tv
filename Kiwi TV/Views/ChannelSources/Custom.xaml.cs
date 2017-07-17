@@ -77,8 +77,6 @@ namespace Kiwi_TV.Views.ChannelSources
             // Switch UI elements if editting existing channel
             if (_viewModel.EditMode)
             {
-                SuggestButton.Visibility = Visibility.Collapsed;
-                FileButton.Visibility = Visibility.Collapsed;
                 AddButton.Visibility = Visibility.Collapsed;
                 SaveButton.Visibility = Visibility.Visible;
                 TitleText.Text = "Edit Channel";
@@ -90,6 +88,9 @@ namespace Kiwi_TV.Views.ChannelSources
                     _viewModel.CustomLanguageText = _viewModel.EditChannel.Languages.ElementAtOrDefault(0);
                     _viewModel.CustomNameText = _viewModel.EditChannel.Name;
                     _viewModel.CustomSourceURLText = _viewModel.EditChannel.Source.AbsoluteUri;
+                    if (_viewModel.EditChannel.EPGSource != null) {
+                        _viewModel.CustomEPGURLText = _viewModel.EditChannel.EPGSource.AbsoluteUri;
+                    }
                 }
             }
         }
@@ -131,55 +132,13 @@ namespace Kiwi_TV.Views.ChannelSources
             List<string> languages = new List<string>();
             languages.Add(CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString());
             string category = CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString();
-            return new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, category, "iptv", true);
-        }
+            Channel channel = new Channel(CustomName.Text, CustomImageURL.Text, CustomSourceURL.Text, languages, false, category, "iptv", true);
 
-        /* Send the provided channel information as a suggestion */
-        private async void SuggestButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (CustomSourceURL.Text != "")
-            {
-                MessageDialog dialog;
-                if (CustomName.Text != "")
-                {
-                    dialog = new MessageDialog("Are you sure you want to suggest " + CustomName.Text + " to be added as a default channel?", "Suggest Channel?");
-                }
-                else
-                {
-                    dialog = new MessageDialog("Are you sure you want to suggest this to be added as a default channel?", "Suggest Channel?");
-                }
+            Uri epgUri;
+            Uri.TryCreate(CustomEPGURL.Text, UriKind.RelativeOrAbsolute, out epgUri);
+            if (epgUri.IsAbsoluteUri) { channel.EPGSource = epgUri; }
 
-                dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
-                dialog.Commands.Add(new UICommand("No") { Id = 1 });
-
-                dialog.DefaultCommandIndex = 0;
-                dialog.CancelCommandIndex = 1;
-
-                if (await dialog.ShowAsync() == dialog.Commands[0])
-                {
-                    object output = await MailHelper.SendFeedbackEmail("", "Suggestion", "Hi, I want to suggest you add '" + CustomName.Text +
-                    "' as a default channel.  Below are the sources I used:\n\nImage: " + CustomImageURL.Text + "\nVideo: " + CustomSourceURL.Text + "\n\nThank you!");
-
-                    if (!(output is Exception))
-                    {
-                        await new MessageDialog("Successfully received your suggestion to add this channel as a default. Thank you!").ShowAsync();
-                    }
-                    else
-                    {
-                        await new MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
-                    }
-                }
-            }
-            else
-            {
-                await new MessageDialog("Please enter a valid source, and then try your suggestion again.").ShowAsync();
-            }
-        }
-
-        /* Navigate to the Custom File page */
-        private void FileButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(Views.ChannelSources.File), new FileViewModel());
+            return channel;
         }
 
         /* Save the provided channel information to the channel list */
@@ -202,6 +161,11 @@ namespace Kiwi_TV.Views.ChannelSources
                     await ChannelManager.RemoveChannel(_viewModel.EditChannel);
                     Channel c = GenerateCustomChannel();
                     c.Favorite = _viewModel.EditChannel.Favorite;
+
+                    Uri epgUri;
+                    Uri.TryCreate(CustomEPGURL.Text, UriKind.RelativeOrAbsolute, out epgUri);
+                    if (epgUri.IsAbsoluteUri) { c.EPGSource = epgUri; }
+
                     await ChannelManager.AddChannel(c);
                     await new Windows.UI.Popups.MessageDialog("Successfully saved " + CustomName.Text).ShowAsync();
                 }

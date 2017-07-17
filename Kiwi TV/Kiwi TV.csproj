@@ -100,6 +100,11 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\EPG\EPGAPI.cs" />
+    <Compile Include="API\EPG\Models\EPGChannel.cs" />
+    <Compile Include="API\EPG\Models\EPGProgramme.cs" />
+    <Compile Include="API\EPG\Models\EPGTitle.cs" />
+    <Compile Include="API\EPG\Models\EPGTV.cs" />
     <Compile Include="API\Twitch\Models\TwitchSearchResults.cs" />
     <Compile Include="API\Twitch\Models\TwitchStreamList.cs" />
     <Compile Include="API\UStream\Models\UStreamChannelDesc.cs" />
@@ -114,7 +119,7 @@
     <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\ChannelManager.cs" />
     <Compile Include="API\Twitch\TwitchAPI.cs" />
-    <Compile Include="Helpers\MailHelper.cs" />
+    <Compile Include="Helpers\EPGManager.cs" />
     <Compile Include="Helpers\UWPHelper.cs" />
     <Compile Include="Helpers\WebserviceHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -127,10 +132,14 @@
     <Compile Include="API\Twitch\Models\TwitchPreview.cs" />
     <Compile Include="API\Twitch\Models\TwitchStream.cs" />
     <Compile Include="API\Twitch\Models\TwitchStreamDesc.cs" />
+    <Compile Include="Models\ProgramInfo.cs" />
     <Compile Include="Models\ProgressTaskAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\AddChannel.xaml.cs">
       <DependentUpon>AddChannel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guide.xaml.cs">
+      <DependentUpon>Guide.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Channels.xaml.cs">
       <DependentUpon>Channels.xaml</DependentUpon>
@@ -146,9 +155,6 @@
     </Compile>
     <Compile Include="Views\ChannelSources\Twitch.xaml.cs">
       <DependentUpon>Twitch.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Feedback.xaml.cs">
-      <DependentUpon>Feedback.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Player.xaml.cs">
       <DependentUpon>Player.xaml</DependentUpon>
@@ -179,6 +185,7 @@
     <Content Include="Assets\Black.png" />
     <Content Include="Assets\Buttons.png" />
     <Content Include="Assets\Categories.png" />
+    <Content Include="Assets\EPG.png" />
     <Content Include="Assets\Favorite.png" />
     <Content Include="Assets\Live.png" />
     <Content Include="Assets\Loading.gif" />
@@ -192,16 +199,15 @@
     <Content Include="Data\ChannelIcons\360north.png" />
     <Content Include="Data\ChannelIcons\aljazeera.png" />
     <Content Include="Data\ChannelIcons\arirangtv.png" />
-    <Content Include="Data\ChannelIcons\beatztv.png" />
     <Content Include="Data\ChannelIcons\bloomberg.png" />
     <Content Include="Data\ChannelIcons\deutschewelle.png" />
     <Content Include="Data\ChannelIcons\dwamerika.png" />
     <Content Include="Data\ChannelIcons\dwarabia.png" />
     <Content Include="Data\ChannelIcons\dwdeutsch.png" />
     <Content Include="Data\ChannelIcons\dwlatinoamerica.png" />
-    <Content Include="Data\ChannelIcons\euronews.png" />
     <Content Include="Data\ChannelIcons\evinetv.png" />
     <Content Include="Data\ChannelIcons\france24.png" />
+    <Content Include="Data\ChannelIcons\hitmusic.png" />
     <Content Include="Data\ChannelIcons\infowars.png" />
     <Content Include="Data\ChannelIcons\jupiterbroadcasting.png" />
     <Content Include="Data\ChannelIcons\londonlive.png" />
@@ -211,25 +217,25 @@
     <Content Include="Data\ChannelIcons\nasatvmedia.png" />
     <Content Include="Data\ChannelIcons\nhkworld.png" />
     <Content Include="Data\ChannelIcons\radiou.png" />
+    <Content Include="Data\ChannelIcons\retrotv.png" />
     <Content Include="Data\ChannelIcons\rtdocumentaries.png" />
     <Content Include="Data\ChannelIcons\russianmusicbox.png" />
     <Content Include="Data\ChannelIcons\russiatoday.png" />
     <Content Include="Data\ChannelIcons\spirittelevision.png" />
     <Content Include="Data\ChannelIcons\test.png" />
-    <Content Include="Data\ChannelIcons\toonami.png" />
+    <Content Include="Data\ChannelIcons\tsc.png" />
     <Content Include="Data\ChannelIcons\tvshoppingnetwork.png" />
-    <Content Include="Data\ChannelIcons\weathernation.png" />
     <Content Include="Data\ChannelIcons\wftv.png" />
     <Content Include="Data\channels.txt" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Data\ChannelSources\custom-banner.png" />
+    <Content Include="Data\ChannelSources\filelist-banner.png" />
     <Content Include="Data\ChannelSources\twitch-banner.png" />
     <Content Include="Data\ChannelSources\twitch-logo.png" />
     <Content Include="Data\ChannelSources\ustream-banner.png" />
     <Content Include="Data\ChannelSources\ustream-logo-dark.png" />
     <Content Include="Data\ChannelSources\ustream-logo-light.png" />
     <Content Include="Data\updates.txt" />
-    <Content Include="Data\updates2.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -257,6 +263,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Guide.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Channels.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -274,10 +284,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ChannelSources\Twitch.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Feedback.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -19,6 +19,7 @@ namespace Kiwi_TV.Views
 
         Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         ObservableCollection<string> categories = new ObservableCollection<string>();
+        bool showEPGWarning = true;
 
         /* Instantiate the page, application settings, and setup device specific options */
         public Settings()
@@ -58,6 +59,16 @@ namespace Kiwi_TV.Views
             else
             {
                 M3U8LiveCheckToggleSwitch.IsOn = false;
+            }
+
+            if (localSettings.Values["electronicProgramGuide"] is bool)
+            {
+                showEPGWarning = false;
+                EPGToggleSwitch.IsOn = (bool)localSettings.Values["electronicProgramGuide"];
+            }
+            else
+            {
+                EPGToggleSwitch.IsOn = false;
             }
         }
 
@@ -161,6 +172,16 @@ namespace Kiwi_TV.Views
                     await CategoryHelper.SaveCategories(categories.ToList());
                 }
             }
+        }
+
+        private async void EPGToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (EPGToggleSwitch.IsOn && showEPGWarning)
+            {
+                await new Windows.UI.Popups.MessageDialog("This feature will replace the favorites page with an Electronic Program Guide.  Please note that this feature is EXPERIMENTAL and will only work out of the box on Bloomberg and in a limited way for Twitch.tv channels. EPG XML links must be added to channels before program information can be pulled.").ShowAsync();
+            }
+            localSettings.Values["electronicProgramGuide"] = EPGToggleSwitch.IsOn;
+            showEPGWarning = true;
         }
     }
 }

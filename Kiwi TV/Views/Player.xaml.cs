@@ -98,20 +98,27 @@ namespace Kiwi_TV.Views
                 {
                     string channelName = TwitchAPI.GetChannelNameFromURL(nowPlaying.Source.AbsolutePath);
                     TwitchAccessToken token = await TwitchAPI.RetireveAccessToken(channelName);
-                    if (await TwitchAPI.IsLive(channelName))
+                    if (await TwitchAPI.IsLive(channelName) && token != null)
                     {
                         MainPlayer.Source = new Uri(nowPlaying.Source, "?allow_source=true&token=" + Uri.EscapeDataString(token.Token.Replace("\\", "")) + "&sig=" + Uri.EscapeDataString(token.Signature));
                         SetLiveCheckBoxValue(true);
                     }
-                    else if (token != null)
+                    else
                     {
                         TwitchChannel channelDesc = await TwitchAPI.RetreiveChannelDescription(channelName);
-
-                        Uri source;
-                        Uri.TryCreate(channelDesc.VideoBanner, UriKind.RelativeOrAbsolute, out source);
-                        if (source != null)
+                        
+                        if (channelDesc != null)
                         {
-                            MainPlayer.PosterSource = new BitmapImage(source);
+                            Uri source;
+                            Uri.TryCreate(channelDesc.VideoBanner, UriKind.RelativeOrAbsolute, out source);
+                            if (source != null)
+                            {
+                                MainPlayer.PosterSource = new BitmapImage(source);
+                            }
+                            else
+                            {
+                                MainPlayer.PosterSource = new BitmapImage(new Uri("ms-appx:///Assets/Bars.png"));
+                            }
                         }
                         else
                         {

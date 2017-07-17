@@ -191,45 +191,6 @@ namespace Kiwi_TV.Views.ChannelSources
             }
         }
 
-        /* Submit channel list as a suggestion */
-        private async void SuggestButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel.FileChannels != null && _viewModel.FileChannels.Count > 0)
-            {
-                var dialog = new MessageDialog("Are you sure you want to suggest the above channels to be added as a default channels?", "Suggest Channels?");
-
-                dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
-                dialog.Commands.Add(new UICommand("No") { Id = 1 });
-
-                dialog.DefaultCommandIndex = 0;
-                dialog.CancelCommandIndex = 1;
-
-                if (await dialog.ShowAsync() == dialog.Commands[0])
-                {
-                    string body = "Hi, I want to suggest you add the following channels as defaults:\n\nName\t\tSource\n";
-                    foreach (Channel c in _viewModel.FileChannels)
-                    {
-                        body += c.Name + "\t" + c.Source.AbsoluteUri + "\n";
-                    }
-
-                    object output = await MailHelper.SendFeedbackEmail("", "Suggestion", body);
-
-                    if (!(output is Exception))
-                    {
-                        await new MessageDialog("Successfully received your suggestion to add these channel as a default. Thank you!").ShowAsync();
-                    }
-                    else
-                    {
-                        await new MessageDialog("I'm sorry, but I encoutered an error.  Please try to send your suggestion later.").ShowAsync();
-                    }
-                }
-            }
-            else
-            {
-                await new MessageDialog("Please load channels from a file, and try your suggestion again.").ShowAsync();
-            }
-        }
-
         /* Enable multi-select in the channels grid */
         private void MultiSelectButton_Click(object sender, RoutedEventArgs e)
         {

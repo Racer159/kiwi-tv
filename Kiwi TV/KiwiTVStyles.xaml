@@ -29,6 +29,27 @@
         <Setter Property="FontSize" Value="{ThemeResource NavPaneSmallFontSize}" />
     </Style>
 
+    <Style TargetType="ListViewHeaderItem" x:Key="GuideGroupHeader">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewHeaderItem">
+                    <Grid>
+                        <ContentControl x:Name="HeaderContent" 
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" 
+                                    Content="{TemplateBinding Content}" 
+                                    IsTabStop="False" 
+                                    Margin="{TemplateBinding Padding}" 
+                                    TabIndex="0"
+                                    HorizontalContentAlignment="Stretch"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="GridViewHeaderItem" x:Key="ChannelGroupHeader">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">

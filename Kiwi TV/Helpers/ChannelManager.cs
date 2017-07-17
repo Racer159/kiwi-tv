@@ -76,7 +76,15 @@ namespace Kiwi_TV.Helpers
                                 if (!favorite || data[4].Trim() == "y")
                                 {
                                     string type = data[6].Trim();
-                                    allChannels.Add(new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), type, false));
+                                    Channel c = new Channel(data[1].Trim(), data[3].Trim(), lines[i + 1].Trim(), langs, data[4].Trim() == "y", data[5].Trim(), type, false);
+
+                                    // See if there is an EPG XML URI below the source URL
+                                    if (i+2 < lines.Count && Uri.IsWellFormedUriString(lines[i + 2].Trim(), UriKind.Absolute))
+                                    {
+                                        c.EPGSource = new Uri(lines[i + 2].Trim());
+                                    }
+
+                                    allChannels.Add(c);
                                 }
                             }
                             // Other channels have different ammounts of data
@@ -145,11 +153,16 @@ namespace Kiwi_TV.Helpers
                 // Type
                 file += c.Type + "\n";
                 // Source
-                file += c.Source + "\n\n";
+                file += c.Source + "\n";
+                if (c.EPGSource != null)
+                {
+                    file += c.EPGSource + "\n";
+                }
+                file += "\n";
             }
 
             // Kiwi TV Version
-            file += "version1.4";
+            file += "version1.5";
 
             await FileIO.WriteTextAsync(channelsFile, file);
         }
@@ -359,24 +372,24 @@ namespace Kiwi_TV.Helpers
             List<Channel> TempList = await LoadChannels(false, false);
             string version = await GetVersionInfo();
 
-            if (version != "version1.3.1" && version != "version1.4")
+            if (version != "version1.5")
             {
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "RT Documentaries") && (c.Icon == "ms-appx:///Data/ChannelIcons/rtdocumentaries.png"); }));
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Russia Today") && (c.Icon == "ms-appx:///Data/ChannelIcons/russiatoday.png"); }));
+                // Removed to slim channel lineup
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Euro News") && (c.Icon == "ms-appx:///Data/ChannelIcons/euronews.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Beatz TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/beatztv.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Weather Nation") && (c.Icon == "ms-appx:///Data/ChannelIcons/weathernation.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Toonami Aftermath") && (c.Icon == "ms-appx:///Data/ChannelIcons/toonami.png"); }));
+
+                // Upgraded / Replaced
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Bloomberg") && (c.Icon == "ms-appx:///Data/ChannelIcons/bloomberg.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "TV Shopping Network") && (c.Icon == "ms-appx:///Data/ChannelIcons/tvshoppingnetwork.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "360 North") && (c.Icon == "ms-appx:///Data/ChannelIcons/360north.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Jupiter Broadcasting") && (c.Icon == "ms-appx:///Data/ChannelIcons/jupiterbroadcasting.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "RadioU TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/radiou.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Spirit Television") && (c.Icon == "ms-appx:///Data/ChannelIcons/spirittelevision.png"); }));
+                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NASA TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/nasatv.png"); }));
 
                 StorageFile updateFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/updates.txt"));
-
-                List<Channel> updates = await LoadChannelFile(updateFile, false);
-                TempList.AddRange(updates);
-            }
-            else if (version != "version1.4")
-            {
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Euro News") && (c.Icon == "ms-appx:///Data/ChannelIcons/euronews.png"); }));
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "NHK World") && (c.Icon == "ms-appx:///Data/ChannelIcons/nhkworld.png"); }));
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Beatz TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/beatztv.png"); }));
-                TempList.Remove(TempList.Find(delegate (Channel c) { return (c.Name == "Cartoon 7 TV") && (c.Icon == "ms-appx:///Data/ChannelIcons/cartoon7tv.png"); }));
-
-                StorageFile updateFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Data/updates2.txt"));
 
                 List<Channel> updates = await LoadChannelFile(updateFile, false);
                 TempList.AddRange(updates);

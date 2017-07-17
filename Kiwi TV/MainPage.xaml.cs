@@ -1,4 +1,5 @@
 ﻿using Kiwi_TV.Helpers;
+using System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -53,20 +54,21 @@ namespace Kiwi_TV
             else
             {
                 localSettings.Values["freshInstall"] = false;
-                localSettings.Values["version14"] = false;
+                localSettings.Values["version15"] = false;
                 ContentView.Navigate(typeof(Views.StartTutorial), true);
             }
 
-            if (!(localSettings.Values["version14"] is bool))
+            if (!(localSettings.Values["version15"] is bool))
             {
-                localSettings.Values["version14"] = false;
+                localSettings.Values["version15"] = false;
                 ContentView.Navigate(typeof(Views.NewFeatures), true);
             }
 
-            //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
-            //{
-            FeedbackButton.Visibility = Visibility.Visible;
-            //}
+            // Enable the Feedback button if Feedback is supported on the device
+            if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported())
+            {
+                FeedbackButton.Visibility = Visibility.Visible;
+            }
 
             // Setup the title bar based off of the theme
             Windows.UI.ViewManagement.ApplicationView appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
@@ -110,10 +112,17 @@ namespace Kiwi_TV
             NavPane.IsPaneOpen = !NavPane.IsPaneOpen;
         }
 
-        /* Navigate to the favorites page when the favorites button is checked */
+        /* Navigate to the favorites page or guide when the favorites button is checked */
         private void FavoritesButton_Checked(object sender, RoutedEventArgs e)
         {
-            ContentView.Navigate(typeof(Views.Channels), true);
+            if (localSettings.Values["electronicProgramGuide"] is bool && (bool)localSettings.Values["electronicProgramGuide"])
+            {
+                ContentView.Navigate(typeof(Views.Guide), true);
+            }
+            else
+            {
+                ContentView.Navigate(typeof(Views.Channels), true);
+            }
         }
 
         /* Navigate to the all channels page when the channels button is checked */
@@ -129,10 +138,10 @@ namespace Kiwi_TV
         }
 
         /* Navigate to the feedback page when the feedback button is checked */
-        private void FeedbackButton_Checked(object sender, RoutedEventArgs e)
+        private async void FeedbackButton_Checked(object sender, RoutedEventArgs e)
         {
-            ContentView.Navigate(typeof(Views.Feedback));
-            //await Microsoft.Services.Store.Engagement.Feedback.LaunchFeedbackAsync();
+            var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            await launcher.LaunchAsync();
         }
 
         /* Navigate to the settings page when the settings button is checked */
@@ -171,7 +180,7 @@ namespace Kiwi_TV
                 FeedbackButton.IsChecked = false;
                 SettingsButton.IsChecked = false;
             }
-            else if (e.SourcePageType == typeof(Views.Channels))
+            else if (e.SourcePageType == typeof(Views.Channels) || e.SourcePageType == typeof(Views.Guide))
             {
                 if (e.Parameter is bool && (bool)e.Parameter)
                 {
@@ -181,10 +190,6 @@ namespace Kiwi_TV
                 {
                     ChannelsButton.IsChecked = true;
                 }
-            }
-            else if (e.SourcePageType == typeof(Views.Feedback))
-            {
-                FeedbackButton.IsChecked = true;
             }
             else if (e.SourcePageType == typeof(Views.Settings))
             {

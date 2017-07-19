@@ -24,6 +24,7 @@
             <AppBarButton x:Name="MultiDeleteButton" Click="MultiDeleteButton_Click" Icon="Delete" Visibility="Collapsed" Label="Delete" Width="48"/>
             <AppBarSeparator Name="MultiSelectSeparator" Visibility="Collapsed"/>
             <AppBarToggleButton x:Name="MultiSelectButton" Label="Multi-Select" Click="MultiSelectButton_Click" Icon="AllApps" Width="48"/>
+            <AppBarButton Name="DownloadButton" Label="Download File" Click="DownloadButton_Click" Icon="Download" Width="48" Loaded="OpenButton_Loaded"/>
             <AppBarButton Name="OpenButton" Label="Open File" Click="OpenButton_Click" Icon="OpenFile" Background="{StaticResource HamburgerBackgroundBrush}" Foreground="White" Width="48" Loaded="OpenButton_Loaded"/>
         </CommandBar>
         <Grid Name="GridViewIconSize" Tag="150" />
@@ -45,7 +46,7 @@
                     </Grid>
                 </Grid>
                 <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,1,0,0" Margin="20,10,20,10" MaxWidth="1200"/>
-                <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Collapsed" MaxWidth="1200"/>
+                <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" MaxWidth="1200"/>
                 <GridView Name="ChannelsGridView" ItemsSource="{Binding FileChannels, Mode=TwoWay}" ScrollViewer.VerticalScrollMode="Disabled" ItemClick="ChannelsGridView_ItemClick" IsItemClickEnabled="True" Margin="20,0,20,20" MaxWidth="1200" KeyDown="ChannelsGridView_KeyDown">
                     <GridView.ItemTemplate>
                         <DataTemplate>
@@ -60,7 +61,7 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <TextBlock Name="NoChannels" Text="No Channels" TextWrapping="WrapWholeWords" Margin="0,-10,0,10" HorizontalAlignment="Center"/>
+                <TextBlock Name="NoChannels" Text="No Channels" TextWrapping="WrapWholeWords" Margin="0,-10,0,10" HorizontalAlignment="Center" Visibility="Collapsed"/>
             </StackPanel>
         </ScrollViewer>
 

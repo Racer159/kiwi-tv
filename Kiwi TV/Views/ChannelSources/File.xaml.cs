@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media;
+using Kiwi_TV.Views.Components;
 
 namespace Kiwi_TV.Views.ChannelSources
 {
@@ -76,22 +77,27 @@ namespace Kiwi_TV.Views.ChannelSources
                 _viewModel = (FileViewModel)e.Parameter;
                 this.DataContext = _viewModel;
 
-                if (_viewModel.FileChannels != null && _viewModel.FileChannels.Count > 0)
+                LoadingSpinner.Visibility = Visibility.Collapsed;
+
+                if (_viewModel.FileChannels == null || _viewModel.FileChannels.Count == 0)
                 {
-                    NoChannels.Visibility = Visibility.Collapsed;
+                    NoChannels.Visibility = Visibility.Visible;
                 }
             }
             else
             {
                 _viewModel = new FileViewModel();
+
+                LoadingSpinner.Visibility = Visibility.Collapsed;
+                NoChannels.Visibility = Visibility.Visible;
             }
         }
 
         /* Add the provided channel information the the channel list */
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new MessageDialog("Are you sure you want to add all of the above " + (CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString()) + 
-                " channels to the " + (CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString()) + " category?", "Add Channels?");
+            var dialog = new MessageDialog("Are you sure you want to add all of the channels? The default category will be " + 
+                (CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString()) + ".", "Add Channels?");
 
             dialog.Commands.Add(new UICommand("Yes") { Id = 0 });
             dialog.Commands.Add(new UICommand("No") { Id = 1 });
@@ -104,10 +110,13 @@ namespace Kiwi_TV.Views.ChannelSources
                 for (int i = 0; i < _viewModel.FileChannels.Count; i++)
                 {
                     _viewModel.FileChannels[i].Languages.Add(CustomLanguage.SelectedItem == null ? "None" : CustomLanguage.SelectedItem.ToString());
-                    _viewModel.FileChannels[i].Genre = CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString();
+                    if (_viewModel.FileChannels[i].Genre == "Other")
+                    {
+                        _viewModel.FileChannels[i].Genre = CustomCategory.SelectedItem == null ? "None" : CustomCategory.SelectedItem.ToString();
+                    }
                 }
                 await ChannelManager.AddChannels(_viewModel.FileChannels.ToList());
-                await new Windows.UI.Popups.MessageDialog("Successfully added the above channels to your channel list.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("Successfully added the channels to your channel list.").ShowAsync();
             }
         }
 
@@ -121,19 +130,19 @@ namespace Kiwi_TV.Views.ChannelSources
             picker.FileTypeFilter.Add(".m3u8");
             picker.FileTypeFilter.Add(".txt");
 
+            LoadingSpinner.Visibility = Visibility.Visible;
+            NoChannels.Visibility = Visibility.Collapsed;
             StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)
             {
-                NoChannels.Visibility = Visibility.Collapsed;
-                LoadingSpinner.Visibility = Visibility.Visible;
                 ChannelList = await ChannelManager.LoadChannelFile(file, false);
                 _viewModel.FileChannels = new ObservableCollection<Channel>(ChannelList);
-                LoadingSpinner.Visibility = Visibility.Collapsed;
+            }
+            LoadingSpinner.Visibility = Visibility.Collapsed;
 
-                if (_viewModel.FileChannels.Count == 0)
-                {
-                    NoChannels.Visibility = Visibility.Visible;
-                }
+            if (_viewModel.FileChannels.Count == 0)
+            {
+                NoChannels.Visibility = Visibility.Visible;
             }
 
             if (localSettings.Values["m3u8LiveCheck"] is bool && (bool)localSettings.Values["m3u8LiveCheck"])
@@ -295,6 +304,53 @@ namespace Kiwi_TV.Views.ChannelSources
             if (DeviceType == DeviceFormFactorType.Xbox)
             {
                 OpenButton.Focus(FocusState.Keyboard);
+            }
+        }
+        
+        /* Download M3U8 file from URL */
+        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputDialog dialog = new InputDialog();
+            await dialog.ShowAsync();
+            if (dialog.Result != null)
+            {
+                LoadingSpinner.Visibility = Visibility.Visible;
+                NoChannels.Visibility = Visibility.Collapsed;
+                
+                StorageFile file = await WebserviceHelper.Download(dialog.Result);
+                if (file != null)
+                {
+                    ChannelList = await ChannelManager.LoadChannelFile(file, false);
+                    _viewModel.FileChannels = new ObservableCollection<Channel>(ChannelList);
+                }
+                LoadingSpinner.Visibility = Visibility.Collapsed;
+
+                if (_viewModel.FileChannels.Count == 0)
+                {
+                    NoChannels.Visibility = Visibility.Visible;
+                }
+
+                if (localSettings.Values["m3u8LiveCheck"] is bool && (bool)localSettings.Values["m3u8LiveCheck"])
+                {
+                    ProgressWrap.Visibility = Visibility.Visible;
+                    ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 104);
+                }
+
+                Progress<ProgressTaskAsync> progress = new Progress<ProgressTaskAsync>();
+
+                progress.ProgressChanged += (s, p) =>
+                {
+                    LiveStatusProgressBar.Value = p.ProgressPercentage;
+                    ProgressFraction.Text = p.Text;
+                };
+
+                ChannelList = await ChannelManager.SetLive(ChannelList, true, progress);
+
+                if (localSettings.Values["m3u8LiveCheck"] is bool && (bool)localSettings.Values["m3u8LiveCheck"])
+                {
+                    ProgressWrap.Visibility = Visibility.Collapsed;
+                    ChannelsScrollViewer.Margin = new Thickness(0, 0, 0, 48);
+                }
             }
         }
     }

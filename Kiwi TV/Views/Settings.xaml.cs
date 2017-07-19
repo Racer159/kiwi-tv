@@ -183,5 +183,19 @@ namespace Kiwi_TV.Views
             localSettings.Values["electronicProgramGuide"] = EPGToggleSwitch.IsOn;
             showEPGWarning = true;
         }
+
+        private void MainSettingsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (MainSettingsGrid.ActualWidth < 750 && MainPanel.Orientation == Orientation.Horizontal)
+            {
+                MainPanel.Orientation = Orientation.Vertical;
+                InfoPanel.Margin = new Thickness(0);
+            }
+            else if (MainSettingsGrid.ActualWidth > 750 && MainPanel.Orientation == Orientation.Vertical)
+            {
+                MainPanel.Orientation = Orientation.Horizontal;
+                InfoPanel.Margin = new Thickness(10, 0, 0, 0);
+            }
+        }
     }
 }

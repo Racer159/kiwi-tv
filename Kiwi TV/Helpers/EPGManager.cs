@@ -103,8 +103,11 @@ namespace Kiwi_TV.Helpers
                 BasicProperties properties = await existing.GetBasicPropertiesAsync();
                 if (properties.DateModified.AddDays(1) > start)
                 {
-                    EPGTV existingData = xmlSerializer.Deserialize(await existing.OpenStreamForReadAsync()) as EPGTV;
-                    return existingData;
+                    try
+                    {
+                        EPGTV existingData = xmlSerializer.Deserialize(await existing.OpenStreamForReadAsync()) as EPGTV;
+                        return existingData;
+                    } catch { } //do nothing (try download again) 
                 }
             }
 

@@ -425,7 +425,7 @@ namespace Kiwi_TV.Views
             {
                 foreach (Channel channel in ChannelList)
                 {
-                    GridViewItem g = (GridViewItem)ChannelsGridView.ContainerFromItem(channel);
+                    ListViewItem g = (ListViewItem)ChannelsGridView.ContainerFromItem(channel);
                     FocusState f = g.FocusState;
                     if (f == FocusState.Keyboard)
                     {
@@ -459,7 +459,7 @@ namespace Kiwi_TV.Views
             {
                 foreach (Channel channel in ChannelList)
                 {
-                    GridViewItem g = (GridViewItem)ChannelsGridView.ContainerFromItem(channel);
+                    ListViewItem g = (ListViewItem)ChannelsGridView.ContainerFromItem(channel);
                     FocusState f = g.FocusState;
                     if (f == FocusState.Keyboard)
                     {
@@ -471,7 +471,7 @@ namespace Kiwi_TV.Views
             {
                 foreach (Channel channel in ChannelList)
                 {
-                    GridViewItem g = (GridViewItem)ChannelsGridView.ContainerFromItem(channel);
+                    ListViewItem g = (ListViewItem)ChannelsGridView.ContainerFromItem(channel);
                     FocusState f = g.FocusState;
                     if (f == FocusState.Keyboard)
                     {
@@ -486,7 +486,7 @@ namespace Kiwi_TV.Views
         {
             if (DeviceType == DeviceFormFactorType.Xbox && ChannelList.Count > 0)
             {
-                ((GridViewItem)ChannelsGridView.ContainerFromItem(ChannelList[0])).Focus(FocusState.Keyboard);
+                ((ListViewItem)ChannelsGridView.ContainerFromItem(ChannelList[0])).Focus(FocusState.Keyboard);
             }
         }
 

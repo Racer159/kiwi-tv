@@ -12,7 +12,7 @@ namespace Kiwi_TV.Models
         public string _name;
         public string Name { get { return _name; } }
         public string _icon;
-        public string Icon { get { return _icon; } }
+        public string Icon { get { return _icon; } set { _icon = value; } }
         public Uri _source;
         public Uri Source { get { return _source; } }
         public List<String> _languages;

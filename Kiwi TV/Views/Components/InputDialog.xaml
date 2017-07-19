@@ -1,0 +1,21 @@
+﻿<ContentDialog
+    x:Class="Kiwi_TV.Views.Components.InputDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kiwi_TV.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="URL Download">
+
+    <Grid Margin="0,24,0,0" MinWidth="350" MinHeight="120">
+        <StackPanel VerticalAlignment="Top">
+            <TextBox Name="URLTextBox" Margin="5" Background="#ffcdcdcd" Height="40" TextAlignment="Left" BorderThickness="0" Padding="9" KeyDown="URLTextBox_KeyDown" VerticalAlignment="Top"/>
+            <TextBlock Name="InvalidURLText" Text="The inputted URL was invalid.  Please try again." Foreground="Red" HorizontalAlignment="Right" Visibility="Collapsed"/>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Content="Cancel" x:Name="CancelButton" Click="CancelButton_Click" Margin="5" Width="100" />
+            <Button Content="Load" x:Name="LoadButton" Click="LoadButton_Click" Margin="5" Width="100" />
+        </StackPanel>
+    </Grid>
+</ContentDialog>

@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
 
 namespace Kiwi_TV.Helpers
 {
@@ -76,6 +78,24 @@ namespace Kiwi_TV.Helpers
             catch
             {
                 return false;
+            }
+        }
+
+        public async static Task<StorageFile> Download(Uri requestUrl)
+        {
+            try
+            {
+                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("download" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+
+                BackgroundDownloader downloader = new BackgroundDownloader();
+                DownloadOperation download = downloader.CreateDownload(requestUrl, file);
+                await download.StartAsync();
+
+                return file;
+            }
+            catch
+            {
+                return null;
             }
         }
     }

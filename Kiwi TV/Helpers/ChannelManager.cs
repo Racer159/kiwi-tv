@@ -6,6 +6,9 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Kiwi_TV.API.UStream;
+using System.Text.RegularExpressions;
+using Windows.Storage.Streams;
+using System.Text;
 
 namespace Kiwi_TV.Helpers
 {
@@ -14,6 +17,8 @@ namespace Kiwi_TV.Helpers
     /// </summary>
     class ChannelManager
     {
+        private static Regex attributeRegex = new Regex("([a-z-]+)=\"([^\"]*)\"", RegexOptions.IgnoreCase);
+
         /* Helper to load a list of channels from the channels file */
         public async static Task<List<Channel>> LoadChannels(bool favorite, bool justDefault)
         {
@@ -57,10 +62,17 @@ namespace Kiwi_TV.Helpers
 
             try
             {
-                IList<string> lines = await FileIO.ReadLinesAsync(channelsFile);
-            
-                // File starts with '#EXTM3U'
-                if (lines[0].Trim() == "#EXTM3U")
+                // Load file with UTF-8 to deal with those nasty Unicode chars
+                IBuffer buffer = await FileIO.ReadBufferAsync(channelsFile);
+                DataReader reader = DataReader.FromBuffer(buffer);
+                byte[] fileContent = new byte[reader.UnconsumedBufferLength];
+                reader.ReadBytes(fileContent);
+                string text = Encoding.UTF8.GetString(fileContent, 0, fileContent.Length);
+                IList<string> lines = text.Split('\n');
+
+                // File starts with '#EXTM3U' on the first or second line
+                if (lines[0].Trim() == "#EXTM3U" || lines[0].Trim() == "#EXT:M3U8" ||
+                    lines[1].Trim() == "#EXTM3U" || lines[1].Trim() == "#EXT:M3U8")
                 {
                     for (int i = 0; i < lines.Count; i++)
                     {
@@ -88,9 +100,25 @@ namespace Kiwi_TV.Helpers
                                 }
                             }
                             // Other channels have different ammounts of data
-                            else if (data.Length > 0 && i + 1 < lines.Count)
+                            else if (data.Length > 1 && i + 1 < lines.Count)
                             {
                                 Channel c = new Channel(data[1].Trim(), lines[i + 1].Trim());
+                                // See if any attributes are present in the data.
+                                Match m = attributeRegex.Match(data[0]);
+                                while (m.Success)
+                                {
+                                    string key = m.Groups[1].Value;
+                                    string value = m.Groups[2].Value;
+                                    if (key == "tvg-logo")
+                                    {
+                                        c.Icon = value;
+                                    }
+                                    else if (key == "group-title")
+                                    {
+                                        c.Genre = value;
+                                    }
+                                    m = m.NextMatch();
+                                }
                                 if (c.Source != null)
                                 {
                                     allChannels.Add(c);
@@ -102,7 +130,7 @@ namespace Kiwi_TV.Helpers
 
                 return allChannels;
             }
-            catch
+            catch (Exception e)
             {
                 return new List<Channel>();
             }

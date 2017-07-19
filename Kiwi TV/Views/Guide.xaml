@@ -92,7 +92,10 @@
                                     <Grid Height="{Binding ElementName=ListViewHeight, Path=Tag}" Margin="-10,0,-10,-1">
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-40,0,-40,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding}" IsTabStop="False"></CheckBox>
-                                            <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Name}" />
+                                            <Grid  ToolTipService.ToolTip="{Binding Name}" Height="{Binding ElementName=ListViewHeight, Path=Tag}" Width="{Binding ElementName=ListViewHeight, Path=Tag}" BorderThickness="1" BorderBrush="{ThemeResource GuideShadowBrush}" Background="White">
+                                                <TextBlock Text="{Binding Name}" Foreground="Gray" VerticalAlignment="Center" Margin="5" TextTrimming="CharacterEllipsis" FontSize="10" TextWrapping="WrapWholeWords"/>
+                                                <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Grid>
                                             <ListView Name="ProgramInfoListView" ItemsSource="{Binding Programs}" ScrollViewer.VerticalScrollMode="Disabled" Margin="0" Padding="0" SelectionMode="None" IsTabStop="False" IsItemClickEnabled="True" ItemClick="ProgramInfoListView_ItemClick" Tag="{Binding}">
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>

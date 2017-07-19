@@ -34,8 +34,8 @@ namespace Kiwi_TV
                 ContentView.Margin = new Thickness(0, 0, 48, 27);
                 NavButtons.Margin = new Thickness(0, 0, 0, 27);
                 FavoritesButton.XYFocusUp = HamburgerButton;
-                FeedbackButton.XYFocusDown = SettingsButton;
-                SettingsButton.XYFocusUp = FeedbackButton;
+                AddChannelButton.XYFocusDown = SettingsButton;
+                SettingsButton.XYFocusUp = AddChannelButton;
                 XboxNavBarPadding.Visibility = Visibility.Visible;
 
                 HamburgerButton.UseSystemFocusVisuals = false;

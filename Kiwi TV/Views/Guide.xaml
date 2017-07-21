@@ -13,11 +13,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../KiwiTVStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
             <CollectionViewSource x:Name="CategoryGroupList" Source="{x:Bind CategoryList}" IsSourceGrouped="True" ItemsPath="Channels"/>
 
         </ResourceDictionary>
     </Page.Resources>
+    
 
     <Grid x:Name="MainChannelsGrid" SizeChanged="MainChannelsGrid_SizeChanged">
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
@@ -48,7 +49,7 @@
         </StackPanel>
         
         <Grid Name="ListViewHeight" Tag="48" />
-        <Grid Height="32" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
+        <Grid Name="TimeBarGrid" Height="32" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="88"/>
                 <ColumnDefinition Width="*"/>
@@ -72,6 +73,7 @@
                             <Setter Property="VerticalContentAlignment" Value="Top"/>
                             <Setter Property="MinWidth" Value="0"/>
                             <Setter Property="MinHeight" Value="0"/>
+                            <Setter Property="IsTabStop" Value="False"/>
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
@@ -85,7 +87,7 @@
                     <TextBlock Name="NoContentHeader" Text="You currently don't have any favorites, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
                     <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
 
-                    <ListView Name="ChannelsGridView" ItemsSource="{Binding Source={StaticResource CategoryGroupList}}" ScrollViewer.VerticalScrollMode="Disabled" Margin="0" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ChannelsGridView_ItemClick" IsTabStop="False" KeyDown="ChannelsGridView_KeyDown" Loaded="ChannelsGridView_Loaded" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource GuideShadowBrush}" SizeChanged="ChannelsGridView_SizeChanged">
+                    <ListView Name="ChannelsListView" ItemsSource="{Binding Source={StaticResource CategoryGroupList}}" ScrollViewer.VerticalScrollMode="Disabled" Margin="0" SelectionMode="None" IsTabStop="False" KeyDown="ChannelsListView_KeyDown" Loaded="ChannelsListView_Loaded" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource GuideShadowBrush}" SizeChanged="ChannelsListView_SizeChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border RightTapped="Border_RightTapped" Tag="{Binding}">
@@ -96,7 +98,7 @@
                                                 <TextBlock Text="{Binding Name}" Foreground="Gray" VerticalAlignment="Center" Margin="5" TextTrimming="CharacterEllipsis" FontSize="10" TextWrapping="WrapWholeWords"/>
                                                 <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             </Grid>
-                                            <ListView Name="ProgramInfoListView" ItemsSource="{Binding Programs}" ScrollViewer.VerticalScrollMode="Disabled" Margin="0" Padding="0" SelectionMode="None" IsTabStop="False" IsItemClickEnabled="True" ItemClick="ProgramInfoListView_ItemClick" Tag="{Binding}">
+                                            <ListView Name="ProgramInfoListView" ItemsSource="{Binding Programs}" ScrollViewer.VerticalScrollMode="Disabled" Margin="0" Padding="0" SelectionMode="None" IsTabStop="False" KeyDown="ProgramInfoListView_KeyDown" IsItemClickEnabled="True" ItemClick="ProgramInfoListView_ItemClick" Tag="{Binding}">
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid Width="{Binding Width}" BorderThickness="1,1,1,1" BorderBrush="{ThemeResource GuideShadowBrush}" Height="{Binding ElementName=ListViewHeight, Path=Tag}" Padding="8" ToolTipService.ToolTip="{Binding Title}" >
@@ -127,6 +129,7 @@
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="IsTabStop" Value="False" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.GroupStyle>
@@ -144,8 +147,8 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        <Line Name="CurrentTimeLine" Stroke="{ThemeResource HamburgerBackgroundBrush}" X1="0" Y1="0" X2="0" Y2="0" Margin="0,32,0,0"/>
-        <StackPanel Name="GamepadButtons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Height="32" Visibility="Collapsed">
+        <Line Name="CurrentTimeLine" Stroke="{ThemeResource HamburgerBackgroundBrush}" X1="0" Y1="0" X2="0" Y2="0" Margin="0,32,0,0" IsHitTestVisible="False" />
+        <StackPanel Name="GamepadButtons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Height="32" Visibility="Collapsed" IsHitTestVisible="False">
             <Image Source="ms-appx:///Assets/Buttons.png" Margin="5"/>
         </StackPanel>
     </Grid>

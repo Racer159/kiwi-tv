@@ -83,7 +83,7 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        <StackPanel Name="GamepadButtons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Height="32" Visibility="Collapsed">
+        <StackPanel Name="GamepadButtons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Height="32" Visibility="Collapsed" IsHitTestVisible="False">
             <Image Source="ms-appx:///Assets/Buttons.png" Margin="5"/>
         </StackPanel>
     </Grid>

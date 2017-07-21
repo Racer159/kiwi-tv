@@ -178,7 +178,11 @@ namespace Kiwi_TV.Views
         {
             if (EPGToggleSwitch.IsOn && showEPGWarning)
             {
-                await new Windows.UI.Popups.MessageDialog("This feature will replace the favorites page with an Electronic Program Guide.  Please note that this feature is EXPERIMENTAL and will only work out of the box on Bloomberg and in a limited way for Twitch.tv channels. EPG XML links must be added to channels before program information can be pulled.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog(
+                    "This feature will replace the favorites page with an Electronic Program Guide.  " +
+                    "Please note that this feature is EXPERIMENTAL and will only work out of the box " + 
+                    "on Bloomberg and in a limited way for Twitch.tv channels. EPG XML links must be " +
+                    "added to channels before program information can be pulled.", "Electronic Program Guide Notice").ShowAsync();
             }
             localSettings.Values["electronicProgramGuide"] = EPGToggleSwitch.IsOn;
             showEPGWarning = true;

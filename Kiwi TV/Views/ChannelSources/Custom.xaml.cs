@@ -103,11 +103,11 @@ namespace Kiwi_TV.Views.ChannelSources
             if (source.IsAbsoluteUri)
             {
                 await ChannelManager.AddChannel(GenerateCustomChannel());
-                await new Windows.UI.Popups.MessageDialog("Successfully added " + CustomName.Text).ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("Successfully added " + CustomName.Text, "Added").ShowAsync();
             }
             else
             {
-                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot add that channel because the specified video URL is invalid.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot add that channel because the specified video URL is invalid.", "Invalid Source URL").ShowAsync();
             }
         }
 
@@ -122,7 +122,7 @@ namespace Kiwi_TV.Views.ChannelSources
             }
             else
             {
-                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot load that channel because the specified video URL is invalid.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot load that channel because the specified video URL is invalid.", "Invalid Source URL").ShowAsync();
             }
         }
 
@@ -167,11 +167,11 @@ namespace Kiwi_TV.Views.ChannelSources
                     if (epgUri.IsAbsoluteUri) { c.EPGSource = epgUri; }
 
                     await ChannelManager.AddChannel(c);
-                    await new Windows.UI.Popups.MessageDialog("Successfully saved " + CustomName.Text).ShowAsync();
+                    await new Windows.UI.Popups.MessageDialog("Successfully saved " + CustomName.Text, "Saved").ShowAsync();
                 }
                 else
                 {
-                    await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot save that channel because the specified video URL is invalid.").ShowAsync();
+                    await new Windows.UI.Popups.MessageDialog("I'm sorry, but I cannot save that channel because the specified video URL is invalid.", "Invalid Source URL").ShowAsync();
                 }
             }
         }

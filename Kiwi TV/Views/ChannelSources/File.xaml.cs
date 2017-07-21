@@ -116,7 +116,7 @@ namespace Kiwi_TV.Views.ChannelSources
                     }
                 }
                 await ChannelManager.AddChannels(_viewModel.FileChannels.ToList());
-                await new Windows.UI.Popups.MessageDialog("Successfully added the channels to your channel list.").ShowAsync();
+                await new Windows.UI.Popups.MessageDialog("Successfully added the channels to your channel list.", "Added Channels").ShowAsync();
             }
         }
 

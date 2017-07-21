@@ -42,6 +42,7 @@ namespace Kiwi_TV.Views.Components
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
+                e.Handled = true;
                 ProcessEnteredURL();
             }
         }

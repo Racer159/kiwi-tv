@@ -1,1 +1,1 @@
-C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\AppPackages\Kiwi TV_1.4.0.0\Kiwi TV_1.4.0.0_x86_x64_arm.appxbundle
+C:\Users\Wes\Documents\Visual Studio 2015\Projects\Kiwi-TV\Kiwi TV\AppPackages\Kiwi TV_1.5.2.0\Kiwi TV_1.5.2.0_x86_x64_arm.appxbundle

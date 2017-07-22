@@ -71,8 +71,8 @@ namespace Kiwi_TV.Helpers
                 IList<string> lines = text.Split('\n');
 
                 // File starts with '#EXTM3U' on the first or second line
-                if (lines[0].Trim() == "#EXTM3U" || lines[0].Trim() == "#EXT:M3U8" ||
-                    lines[1].Trim() == "#EXTM3U" || lines[1].Trim() == "#EXT:M3U8")
+                if (lines[0].Trim().StartsWith("#EXTM3U") || lines[0].Trim().StartsWith("#EXT:M3U8") ||
+                    lines[1].Trim().StartsWith("#EXTM3U") || lines[1].Trim().StartsWith("#EXT:M3U8"))
                 {
                     for (int i = 0; i < lines.Count; i++)
                     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kiwi_TV.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,11 +21,20 @@ namespace Kiwi_TV.Views.Components
     /// </summary>
     public sealed partial class InputDialog : ContentDialog
     {
+        DeviceFormFactorType DeviceType;
         public Uri Result { get; set; }
 
         public InputDialog()
         {
             this.InitializeComponent();
+            DeviceType = UWPHelper.GetDeviceFormFactorType();
+
+            if (DeviceType == DeviceFormFactorType.Phone)
+            {
+                CancelButton.Width = 75;
+                LoadButton.Width = 75;
+                MainGrid.MinWidth = 250;
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

@@ -18,7 +18,7 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0" Height="48" VerticalAlignment="Top">
-            <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Load M3U File"/>
+            <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="File"/>
         </StackPanel>
         <CommandBar HorizontalAlignment="Right" ClosedDisplayMode="Compact" Margin="0,-48,0,0" VerticalAlignment="Top" Background="{ThemeResource BarBackgroundBrush}">
             <AppBarButton x:Name="MultiDeleteButton" Click="MultiDeleteButton_Click" Icon="Delete" Visibility="Collapsed" Label="Delete" Width="48"/>

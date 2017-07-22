@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Title="URL Download">
 
-    <Grid Margin="0,24,0,0" MinWidth="350" MinHeight="120">
+    <Grid Name="MainGrid" Margin="0,24,0,0" MinWidth="350" MinHeight="120">
         <StackPanel VerticalAlignment="Top">
             <TextBox Name="URLTextBox" Margin="5" Background="#ffcdcdcd" Height="40" TextAlignment="Left" BorderThickness="0" Padding="9" KeyDown="URLTextBox_KeyDown" VerticalAlignment="Top"/>
             <TextBlock Name="InvalidURLText" Text="The inputted URL was invalid.  Please try again." Foreground="Red" HorizontalAlignment="Right" Visibility="Collapsed"/>

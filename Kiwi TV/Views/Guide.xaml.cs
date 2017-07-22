@@ -38,12 +38,10 @@ namespace Kiwi_TV.Views
                 TitleText.Margin = new Thickness(48, 0, 0, 0);
                 ChannelFilters.Visibility = Visibility.Collapsed;
                 ShortSearchButton.Visibility = Visibility.Visible;
-                ListViewHeight.Tag = 42;
             }
             else if (DeviceType == DeviceFormFactorType.Xbox)
             {
                 ChannelsListView.SingleSelectionFollowsFocus = false;
-                ListViewHeight.Tag = 42;
                 MainScrollViewer.Margin = new Thickness(0, 32, -48, -27);
                 ChannelsListView.Margin = new Thickness(0, 0, 0, 27);
                 TimeBarGrid.Margin = new Thickness(0, 0, -48, 0);

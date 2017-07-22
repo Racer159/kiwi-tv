@@ -19,10 +19,10 @@
         <StackPanel Orientation="Horizontal" Margin="0,-48,0,0">
             <TextBlock Name="TitleText" Padding="14,14,0,0" FontWeight="Bold" Text="Settings"/>
         </StackPanel>
-        <Pivot Margin="10">
+        <Pivot>
             <PivotItem Header="Options">
-                <ScrollViewer Padding="10" BorderThickness="0" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Name="MainPanel" HorizontalAlignment="Left" Orientation="Horizontal">
+                <ScrollViewer BorderThickness="0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="MainPanel" HorizontalAlignment="Left" Orientation="Horizontal" Margin="16">
                         <StackPanel Name="TogglesPanel" HorizontalAlignment="Left">
                             <TextBlock Text="Sync Channels across Devices" Margin="0,0,0,5"/>
                             <ToggleSwitch Name="SyncToggleSwitch" Margin="0,5" Toggled="SyncToggleSwitch_Toggled"/>

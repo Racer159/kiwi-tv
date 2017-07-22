@@ -43,8 +43,11 @@ namespace Kiwi_TV.Helpers
                 // Parse EPG File creating program infos along the way
                 if (data != null)
                 {
-                    foreach (EPGProgramme programme in data.Programmes)
+                    DateTime stop = time.AddHours(12);
+                    for (int i = 0; i < data.Programmes.Length && time < stop; i ++)
                     {
+                        // Load only each program in the future up to 12 hours of programs
+                        EPGProgramme programme = data.Programmes[i];
                         DateTime programmeStop = programme.getStop();
                         if (programmeStop != null && programmeStop > time)
                         {
@@ -57,35 +60,21 @@ namespace Kiwi_TV.Helpers
                 }
                 else
                 {
-                    // Create 12 hours of Unable to Load EPG Programming
-                    for (int i = 0; i < 12; i++)
-                    {
-                        ProgramInfo unset = new ProgramInfo("Unable to Load EPG", 180);
-                        programs.Add(unset);
-                    }
+                    ProgramInfo unset = new ProgramInfo("Unable to Load EPG", 540);
                 }
             }
             else if (c.Type == "twitch")
             {
-                // Load current game as 1 hour block then unkown 1 hour blocks following
+                // Load current game as 2 hour block
                 string currentGameTitle = await TwitchAPI.GetCurrentGame(TwitchAPI.GetChannelNameFromURL(c.Source.AbsolutePath));
                 ProgramInfo currentGame = new ProgramInfo(currentGameTitle, 360);
                 programs.Add(currentGame);
-
-                for (int i = 0; i < 5; i++)
-                {
-                    ProgramInfo unknown = new ProgramInfo("Unknown", 360);
-                    programs.Add(unknown);
-                }
             }
             else
             {
-                // Create 12 hours of Unset EPG Programming
-                for (int i = 0; i < 12; i++)
-                {
-                    ProgramInfo unset = new ProgramInfo("Channel EPG Not Set", 180);
-                    programs.Add(unset);
-                }
+                // Set an unset one hour block
+                ProgramInfo unset = new ProgramInfo("Channel EPG Not Set", 540);
+                programs.Add(unset);
             }
 
             return programs;

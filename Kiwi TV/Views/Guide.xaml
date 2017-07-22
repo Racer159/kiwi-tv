@@ -83,7 +83,7 @@
         <ScrollViewer Name="MainScrollViewer" Grid.Row="1" BorderThickness="0" VerticalScrollBarVisibility="Auto" Margin="0,32,0,0">
             <Grid>
                 <Image Name="LoadingSpinner" gif:AnimationBehavior.SourceUri="ms-appx:///Assets/Loading.gif" Height="64" Width="64" Margin="10" Visibility="Visible" VerticalAlignment="Center"/>
-                <StackPanel Margin="0,0,0,15">
+                <StackPanel>
                     <TextBlock Name="NoContentHeader" Text="You currently don't have any favorites, try adding some from the channel list to get started." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
                     <TextBlock Name="NoSearchHeader" Text="No channels found for your search." Visibility="Collapsed" TextWrapping="WrapWholeWords" Margin="20,20,20,10"/>
 
@@ -92,36 +92,39 @@
                             <DataTemplate>
                                 <Border RightTapped="Border_RightTapped" Tag="{Binding}">
                                     <Grid Height="{Binding ElementName=ListViewHeight, Path=Tag}" Margin="-10,0,-10,-1">
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox x:Name="FavoriteCheckBox" IsChecked="{Binding Favorite, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-40,0,-40,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding}" IsTabStop="False"></CheckBox>
-                                            <Grid  ToolTipService.ToolTip="{Binding Name}" Height="{Binding ElementName=ListViewHeight, Path=Tag}" Width="{Binding ElementName=ListViewHeight, Path=Tag}" BorderThickness="1" BorderBrush="{ThemeResource GuideShadowBrush}" Background="White">
-                                                <TextBlock Text="{Binding Name}" Foreground="Gray" VerticalAlignment="Center" Margin="5" TextTrimming="CharacterEllipsis" FontSize="10" TextWrapping="WrapWholeWords"/>
-                                                <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                            </Grid>
-                                            <ListView Name="ProgramInfoListView" ItemsSource="{Binding Programs}" ScrollViewer.VerticalScrollMode="Disabled" Margin="0" Padding="0" SelectionMode="None" IsTabStop="False" KeyDown="ProgramInfoListView_KeyDown" IsItemClickEnabled="True" ItemClick="ProgramInfoListView_ItemClick" Tag="{Binding}">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Width="{Binding Width}" BorderThickness="1,1,1,1" BorderBrush="{ThemeResource GuideShadowBrush}" Height="{Binding ElementName=ListViewHeight, Path=Tag}" Padding="8" ToolTipService.ToolTip="{Binding Title}" >
-                                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                                <ListView.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Background="Transparent" Orientation="Horizontal" />
-                                                    </ItemsPanelTemplate>
-                                                </ListView.ItemsPanel>
-                                                <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem">
-                                                        <Setter Property="Padding" Value="0"/>
-                                                        <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
-                                                        <Setter Property="MinWidth" Value="0"/>
-                                                        <Setter Property="MinHeight" Value="0"/>
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                            </ListView>
-                                        </StackPanel>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="{Binding ElementName=ListViewHeight, Path=Tag}"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox x:Name="FavoriteCheckBox" Grid.Column="0" IsChecked="{Binding Favorite, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-40,0,-40,0" Height="32" Width="32" Click="FavoriteCheckBox_Checked" Style="{StaticResource FavoriteCheckBox}" Tag="{Binding}" IsTabStop="False"></CheckBox>
+                                        <Grid Grid.Column="1" ToolTipService.ToolTip="{Binding Name}" Height="{Binding ElementName=ListViewHeight, Path=Tag}" Width="{Binding ElementName=ListViewHeight, Path=Tag}" BorderThickness="1" BorderBrush="{ThemeResource GuideShadowBrush}" Background="White">
+                                            <TextBlock Text="{Binding Name}" Foreground="Gray" VerticalAlignment="Center" Margin="5" TextTrimming="CharacterEllipsis" FontSize="10" TextWrapping="WrapWholeWords"/>
+                                            <Image Source="{Binding Icon}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Grid>
+                                        <ListView Name="ProgramInfoListView" Grid.Column="2" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource GuideShadowBrush}" ItemsSource="{Binding Programs}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0" Padding="0" SelectionMode="None" IsTabStop="False" KeyDown="ProgramInfoListView_KeyDown" IsItemClickEnabled="True" ItemClick="ProgramInfoListView_ItemClick" Tag="{Binding}" Loaded="ChannelsListView_Loaded">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Width="{Binding Width}" BorderThickness="1" BorderBrush="{ThemeResource GuideShadowBrush}" Height="{Binding ElementName=ListViewHeight, Path=Tag}" Padding="8" ToolTipService.ToolTip="{Binding Title}" >
+                                                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+                                                    <Setter Property="MinWidth" Value="0"/>
+                                                    <Setter Property="MinHeight" Value="0"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </ListView>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

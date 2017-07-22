@@ -130,7 +130,7 @@ namespace Kiwi_TV.Helpers
 
                 return allChannels;
             }
-            catch (Exception e)
+            catch
             {
                 return new List<Channel>();
             }
